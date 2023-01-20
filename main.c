@@ -8,19 +8,19 @@
  * @param num number representing a board state or list of positions to get bit from
  * @return 1 or 0
  */
-int getBit(int bit, int num)
+long long int getBit(int bit, long long int num)
 {
     return (num >> bit) & 1;
 }
 
-int flipBit(int bit, int num)
+long long int flipBit(int bit, long long int num)
 {
     return num ^ (1 << bit);
 }
 
-const int fullBoard = (1 << (width * height)) - 1;
+const long long int fullBoard = ( 1LL << (width * height + 1)) - 2;
 
-int isBoardFull(int board)
+int isBoardFull(long long int board)
 {
     return board == fullBoard;
 }
@@ -40,9 +40,11 @@ int getY(int num)
     return (num - 1) / width;
 }
 
-//need to save pathways later but not now cuz they take up so much time and space
-int recursive(int board, int last)
+int recursive(long long int board, int last);
+
+int recursive(long long int board, int last)
 {
+    board = flipBit(last, board);
     if (isBoardFull(board))
         return 1;
     int sum = 0, i;
@@ -55,20 +57,17 @@ int recursive(int board, int last)
         int next = xyToBoard(nextX, nextY);
         if (nextX >= 0 && nextX < width)
             if (nextY >= 0 && nextY < height)
-                if (!getBit(board, next))
-                {
-                    int newBoard = flipBit(board, next);
-                    sum += recursive(newBoard, next);
-                }
+                if (!getBit(next, board))
+                    sum += recursive(board, next);
     }
     return sum;
 }
 
 int main()
 {
-    int i = 1, sum = 0;
+    int i, sum = 0;
 
-    for (i = 0; i < width * height; i++)
+    for (i = 1; i <= width * height; i++)
         sum += recursive(0, i);
 
     printf("%d\n", sum);
