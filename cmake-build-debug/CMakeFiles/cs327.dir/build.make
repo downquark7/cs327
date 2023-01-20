@@ -69,28 +69,28 @@ include CMakeFiles/cs327.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/cs327.dir/flags.make
 
-CMakeFiles/cs327.dir/main.c.o: CMakeFiles/cs327.dir/flags.make
-CMakeFiles/cs327.dir/main.c.o: ../main.c
-CMakeFiles/cs327.dir/main.c.o: CMakeFiles/cs327.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/downq/CLionProjects/cs327/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/cs327.dir/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cs327.dir/main.c.o -MF CMakeFiles/cs327.dir/main.c.o.d -o CMakeFiles/cs327.dir/main.c.o -c /mnt/c/Users/downq/CLionProjects/cs327/main.c
+CMakeFiles/cs327.dir/listKnights.c.o: CMakeFiles/cs327.dir/flags.make
+CMakeFiles/cs327.dir/listKnights.c.o: ../listKnights.c
+CMakeFiles/cs327.dir/listKnights.c.o: CMakeFiles/cs327.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/downq/CLionProjects/cs327/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/cs327.dir/listKnights.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cs327.dir/listKnights.c.o -MF CMakeFiles/cs327.dir/listKnights.c.o.d -o CMakeFiles/cs327.dir/listKnights.c.o -c /mnt/c/Users/downq/CLionProjects/cs327/listKnights.c
 
-CMakeFiles/cs327.dir/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cs327.dir/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/c/Users/downq/CLionProjects/cs327/main.c > CMakeFiles/cs327.dir/main.c.i
+CMakeFiles/cs327.dir/listKnights.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cs327.dir/listKnights.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/c/Users/downq/CLionProjects/cs327/listKnights.c > CMakeFiles/cs327.dir/listKnights.c.i
 
-CMakeFiles/cs327.dir/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cs327.dir/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/c/Users/downq/CLionProjects/cs327/main.c -o CMakeFiles/cs327.dir/main.c.s
+CMakeFiles/cs327.dir/listKnights.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cs327.dir/listKnights.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/c/Users/downq/CLionProjects/cs327/listKnights.c -o CMakeFiles/cs327.dir/listKnights.c.s
 
 # Object files for target cs327
 cs327_OBJECTS = \
-"CMakeFiles/cs327.dir/main.c.o"
+"CMakeFiles/cs327.dir/listKnights.c.o"
 
 # External object files for target cs327
 cs327_EXTERNAL_OBJECTS =
 
-cs327: CMakeFiles/cs327.dir/main.c.o
+cs327: CMakeFiles/cs327.dir/listKnights.c.o
 cs327: CMakeFiles/cs327.dir/build.make
 cs327: CMakeFiles/cs327.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/downq/CLionProjects/cs327/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable cs327"

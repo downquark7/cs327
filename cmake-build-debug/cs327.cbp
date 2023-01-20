@@ -76,7 +76,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/main.c">
+		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/listKnights.c">
 			<Option target="cs327"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/CMakeLists.txt">

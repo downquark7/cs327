@@ -129,29 +129,29 @@ cs327/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cs327.dir/build.make CMakeFiles/cs327.dir/build
 .PHONY : cs327/fast
 
-main.o: main.c.o
-.PHONY : main.o
+listKnights.o: listKnights.c.o
+.PHONY : listKnights.o
 
 # target to build an object file
-main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cs327.dir/build.make CMakeFiles/cs327.dir/main.c.o
-.PHONY : main.c.o
+listKnights.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cs327.dir/build.make CMakeFiles/cs327.dir/listKnights.c.o
+.PHONY : listKnights.c.o
 
-main.i: main.c.i
-.PHONY : main.i
+listKnights.i: listKnights.c.i
+.PHONY : listKnights.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cs327.dir/build.make CMakeFiles/cs327.dir/main.c.i
-.PHONY : main.c.i
+listKnights.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cs327.dir/build.make CMakeFiles/cs327.dir/listKnights.c.i
+.PHONY : listKnights.c.i
 
-main.s: main.c.s
-.PHONY : main.s
+listKnights.s: listKnights.c.s
+.PHONY : listKnights.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cs327.dir/build.make CMakeFiles/cs327.dir/main.c.s
-.PHONY : main.c.s
+listKnights.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cs327.dir/build.make CMakeFiles/cs327.dir/listKnights.c.s
+.PHONY : listKnights.c.s
 
 # Help Target
 help:
@@ -162,9 +162,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... cs327"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... listKnights.o"
+	@echo "... listKnights.i"
+	@echo "... listKnights.s"
 .PHONY : help
 
 

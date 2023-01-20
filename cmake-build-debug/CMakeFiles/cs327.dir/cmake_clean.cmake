@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/cs327.dir/main.c.o"
-  "CMakeFiles/cs327.dir/main.c.o.d"
+  "CMakeFiles/cs327.dir/listKnights.c.o"
+  "CMakeFiles/cs327.dir/listKnights.c.o.d"
   "cs327"
   "cs327.pdb"
 )
