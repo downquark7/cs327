@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#define width 5
-#define height 5
+int width = 5;
+int height = 5;
 
 /***
  * @param bit (0-(length-1))th bit of number
@@ -18,7 +19,7 @@ long long int flipBit(int bit, long long int num)
     return num ^ (1 << bit);
 }
 
-const long long int fullBoard = ( 1LL << (width * height + 1)) - 2;
+long long int fullBoard;
 
 int isBoardFull(long long int board)
 {
@@ -63,13 +64,22 @@ int recursive(long long int board, int last)
     return sum;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    int i, sum = 0;
+    if(argc == 3)
+    {
+        width = height = atoi(argv[1]);
+        fullBoard = ( 1LL << (width * height + 1)) - 2;
+        printf("%d\n", recursive(0, atoi(argv[2])));
+    } else
+    {
+        fullBoard = ( 1LL << (width * height + 1)) - 2;
+        int i, sum = 0;
 
-    for (i = 1; i <= width * height; i++)
-        sum += recursive(0, i);
+        for (i = 1; i <= width * height; i++)
+            sum += recursive(0, i);
 
-    printf("%d\n", sum);
+        printf("%d\n", sum);
+    }
     return 0;
 }
