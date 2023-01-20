@@ -66,14 +66,15 @@ int recursive(long long int board, int last)
 
 int main(int argc, char *argv[])
 {
-    if(argc == 3)
+    if (argc == 3)
     {
-        width = height = atoi(argv[1]);
-        fullBoard = ( 1LL << (width * height + 1)) - 2;
+        width = atoi(argv[1]);
+        height = atoi(argv[1]);
+        fullBoard = (1LL << (width * height + 1)) - 2;
         printf("%d\n", recursive(0, atoi(argv[2])));
     } else
     {
-        fullBoard = ( 1LL << (width * height + 1)) - 2;
+        fullBoard = (1LL << (width * height + 1)) - 2;
         int i, sum = 0;
 
         for (i = 1; i <= width * height; i++)
