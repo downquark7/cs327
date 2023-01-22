@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define customint int
+#define customint long long int
 
-int width = 5;
-int height = 5;
+int width = 6;
+int height = 6;
 
 /***
  * @param bit (0-(length-1))th bit of number
@@ -25,7 +25,7 @@ customint fullBoard;
 
 int isBoardFull(customint board)
 {
-    return board == fullBoard;
+    return (board == fullBoard);
 }
 
 int xyToBoard(int x, int y)
@@ -43,11 +43,11 @@ int getY(int num)
     return (num - 1) / width;
 }
 
-int recursive(customint board, int last, int *prevhist, int length)
+int recursive(customint board, int last, const int *prevhist, int length)
 {
     int i;
     int *hist;
-    hist = malloc(4 * length + 4);
+    hist = malloc(length * 4 + 4);
     for (i = 0; i < length; i++)
         hist[i] = prevhist[i];
     hist[length] = last;
@@ -55,8 +55,7 @@ int recursive(customint board, int last, int *prevhist, int length)
     if (isBoardFull(board))
     {
         for (i = 0; i < length; i++)
-            printf("%d, ", hist[i]);
-        i++;
+            printf("%2d, ", hist[i]);
         printf("%d\n", hist[i]);
         return 1;
     }
@@ -78,10 +77,11 @@ int recursive(customint board, int last, int *prevhist, int length)
     return sum;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     fullBoard = ((customint) 1 << (width * height + 1)) - 2;
-    int i, sum = 0;
+    int i;
+    int sum = 0;
 
     for (i = 1; i <= width * height; i++)
         sum += recursive(0, i, 0, 0);
