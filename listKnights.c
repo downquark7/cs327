@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define customint long long int
+#define customint int
 
-int width = 6;
-int height = 6;
+int width = 5;
+int height = 5;
 
 /***
  * @param bit (0-(length-1))th bit of number
