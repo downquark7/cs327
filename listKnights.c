@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define customint long long int
+#define customint int
 
 int width = 5;
 int height = 5;
@@ -43,14 +43,25 @@ int getY(int num)
     return (num - 1) / width;
 }
 
-int recursive(customint board, int last);
-
-int recursive(customint board, int last)
+int recursive(customint board, int last, int *prevhist, int length)
 {
+    int i;
+    int *hist;
+    hist = malloc(4 * length + 4);
+    for (i = 0; i < length; i++)
+        hist[i] = prevhist[i];
+    hist[length] = last;
     board = flipBit(last, board);
     if (isBoardFull(board))
+    {
+        for (i = 0; i < length; i++)
+            printf("%d, ", hist[i]);
+        i++;
+        printf("%d\n", hist[i]);
         return 1;
-    int sum = 0, i;
+    }
+    length++;
+    int sum = 0;
     int xOffsets[] = {-2, -2, -1, -1, 1, 1, 2, 2};
     int yOffsets[] = {-1, 1, 2, -2, 2, -2, 1, -1};
     for (i = 0; i < 8; i++)
@@ -61,28 +72,20 @@ int recursive(customint board, int last)
         if (nextX >= 0 && nextX < width)
             if (nextY >= 0 && nextY < height)
                 if (!getBit(next, board))
-                    sum += recursive(board, next);
+                    sum += recursive(board, next, hist, length);
     }
+    free(hist);
     return sum;
 }
 
 int main(int argc, char *argv[])
 {
-    if (argc == 3)
-    {
-        width = atoi(argv[1]);
-        height = atoi(argv[1]);
-        fullBoard = (1LL << (width * height + 1)) - 2;
-        printf("%d\n", recursive(0, atoi(argv[2])));
-    } else
-    {
-        fullBoard = (1LL << (width * height + 1)) - 2;
-        int i, sum = 0;
+    fullBoard = ((customint) 1 << (width * height + 1)) - 2;
+    int i, sum = 0;
 
-        for (i = 1; i <= width * height; i++)
-            sum += recursive(0, i);
+    for (i = 1; i <= width * height; i++)
+        sum += recursive(0, i, 0, 0);
 
-        printf("%d\n", sum);
-    }
+    printf("%d\n", sum);
     return 0;
 }
