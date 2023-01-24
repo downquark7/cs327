@@ -55,7 +55,7 @@ int recursive(customint board, int last, const int *prevhist, int length)
     if (isBoardFull(board))
     {
         for (i = 0; i < length; i++)
-            printf("%2d, ", hist[i]);
+            printf("%d,", hist[i]);
         printf("%d\n", hist[i]);
         return 1;
     }
@@ -86,6 +86,6 @@ int main()
     for (i = 1; i <= width * height; i++)
         sum += recursive(0, i, 0, 0);
 
-    printf("%d\n", sum);
+//    printf("%d\n", sum);
     return 0;
 }
