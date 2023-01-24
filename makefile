@@ -1,13 +1,7 @@
-CC=gcc
-CFLAGS=-g
-
 all: listKnights
 
-listKnights: listKnights.o
-	$(CC) listKnights.o -o listKnights
-
-listKnights.o: listKnights.c
-	$(CC) $(CFLAGS) listKnights.c
+listKnights: listKnights.c
+	gcc listKnights.c -o listKnights
 
 clean:
-	rm -rf *o listKnights
+	rm -rf listKnights
