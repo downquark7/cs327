@@ -1,5 +1,5 @@
 //
-// kinda stolen code don't give me credit
+// kinda stolen code don't give me credit https://github.com/nadeemhussain/UVA/blob/master/knight%27s%20tour%20problem.cpp
 //
 #include <stdio.h>
 
