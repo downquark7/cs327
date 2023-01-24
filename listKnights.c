@@ -61,8 +61,8 @@ int recursive(customint board, int last, const int *prevhist, int length)
     }
     length++;
     int sum = 0;
-    int xOffsets[] = {-2, -2, -1, -1, 1, 1, 2, 2};
-    int yOffsets[] = {-1, 1, 2, -2, 2, -2, 1, -1};
+    int yOffsets[] = {-2, -2, -1, -1, 1, 1, 2, 2};
+    int xOffsets[] = {-1, 1, -2, 2, -2, 2, -1, 1};
     for (i = 0; i < 8; i++)
     {
         int nextX = getX(last) + xOffsets[i];
