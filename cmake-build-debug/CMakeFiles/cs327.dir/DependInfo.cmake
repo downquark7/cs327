@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/mnt/c/Users/downq/CLionProjects/cs327/listKnights.c" "CMakeFiles/cs327.dir/listKnights.c.o" "gcc" "CMakeFiles/cs327.dir/listKnights.c.o.d"
+  "/mnt/c/Users/downq/CLionProjects/cs327/knightsTour/listKnights.c" "CMakeFiles/cs327.dir/knightsTour/listKnights.c.o" "gcc" "CMakeFiles/cs327.dir/knightsTour/listKnights.c.o.d"
   )
 
 # Targets to which this target links.
