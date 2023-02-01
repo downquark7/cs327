@@ -19,7 +19,7 @@ void fillBoarder(struct map *m)
         for (x = 0; x < MAP_WIDTH; x++)
             if (x == 0 || x == (MAP_WIDTH - 1) ||
                 y == 0 || y == (MAP_HEIGHT - 1))
-                if (m->cells[y][x].c != WATER)
+//                if (m->cells[y][x].c != WATER)
                     m->cells[y][x].c = ROCK;
 }
 
