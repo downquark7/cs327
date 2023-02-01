@@ -7,15 +7,29 @@
 
 #define MAP_WIDTH 80
 #define MAP_HEIGHT 24
+#define ROCK '%'
+#define TREE '^'
+#define ROAD '#'
+#define TALL_GRASS ':'
+#define SHORT_GRASS '.'
+#define WATER '~'
+#define PC '@'
+
+struct p {
+    int x;
+    int y;
+};
 
 struct cell {
     char c;
+    struct p p;
 //    void (*update)(struct cell *);
 //    int (*can_player_cross)(struct cell *);
 };
 
 struct map {
     struct cell cells[MAP_HEIGHT][MAP_WIDTH];
+    struct cell exits[4];
     void (*generate)(struct map *);
     void (*display)(struct map *);
 };

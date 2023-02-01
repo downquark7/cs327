@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
     srand(seed);
 //    printf("seed: %d\n", seed);
     struct map m;
+    setMapFunctions(&m);
     m.generate(&m);
     m.display(&m);
 }
