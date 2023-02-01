@@ -6,7 +6,7 @@
 #define CS327_MAP_H
 
 #define MAP_WIDTH 80
-#define MAP_HEIGHT 24
+#define MAP_HEIGHT 21
 #define ROCK '%'
 #define TREE '^'
 #define ROAD '#'
