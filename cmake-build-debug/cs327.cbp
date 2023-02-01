@@ -85,6 +85,18 @@
 		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/map/map.h">
 			<Option target="main"/>
 		</Unit>
+		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/map/roads_and_border.c">
+			<Option target="main"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/map/roads_and_border.h">
+			<Option target="main"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/map/terrain.c">
+			<Option target="main"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/map/terrain.h">
+			<Option target="main"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

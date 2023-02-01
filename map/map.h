@@ -2,11 +2,11 @@
 // Created by downq on 1/30/2023.
 //
 
-#ifndef MAPDATA_H
-#define MAPDATA_H
+#ifndef CS327_MAP_H
+#define CS327_MAP_H
 
-#define mapwidth 80
-#define mapheight 24
+#define MAP_WIDTH 80
+#define MAP_HEIGHT 24
 
 struct cell {
     char c;
@@ -15,7 +15,7 @@ struct cell {
 };
 
 struct map {
-    struct cell cells[mapheight][mapwidth];
+    struct cell cells[MAP_HEIGHT][MAP_WIDTH];
     void (*generate)(struct map *);
     void (*display)(struct map *);
 };
@@ -23,4 +23,4 @@ struct map {
 void setMapFunctions(struct map *m);
 void displayToPrintf(struct map *m);
 void generateV0(struct map *m);
-#endif //MAPDATA_H
+#endif //CS327_MAP_H

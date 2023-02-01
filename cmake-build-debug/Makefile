@@ -177,6 +177,54 @@ map/map.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/map.c.s
 .PHONY : map/map.c.s
 
+map/roads_and_border.o: map/roads_and_border.c.o
+.PHONY : map/roads_and_border.o
+
+# target to build an object file
+map/roads_and_border.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/roads_and_border.c.o
+.PHONY : map/roads_and_border.c.o
+
+map/roads_and_border.i: map/roads_and_border.c.i
+.PHONY : map/roads_and_border.i
+
+# target to preprocess a source file
+map/roads_and_border.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/roads_and_border.c.i
+.PHONY : map/roads_and_border.c.i
+
+map/roads_and_border.s: map/roads_and_border.c.s
+.PHONY : map/roads_and_border.s
+
+# target to generate assembly for a file
+map/roads_and_border.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/roads_and_border.c.s
+.PHONY : map/roads_and_border.c.s
+
+map/terrain.o: map/terrain.c.o
+.PHONY : map/terrain.o
+
+# target to build an object file
+map/terrain.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/terrain.c.o
+.PHONY : map/terrain.c.o
+
+map/terrain.i: map/terrain.c.i
+.PHONY : map/terrain.i
+
+# target to preprocess a source file
+map/terrain.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/terrain.c.i
+.PHONY : map/terrain.c.i
+
+map/terrain.s: map/terrain.c.s
+.PHONY : map/terrain.s
+
+# target to generate assembly for a file
+map/terrain.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/terrain.c.s
+.PHONY : map/terrain.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +240,12 @@ help:
 	@echo "... map/map.o"
 	@echo "... map/map.i"
 	@echo "... map/map.s"
+	@echo "... map/roads_and_border.o"
+	@echo "... map/roads_and_border.i"
+	@echo "... map/roads_and_border.s"
+	@echo "... map/terrain.o"
+	@echo "... map/terrain.i"
+	@echo "... map/terrain.s"
 .PHONY : help
 
 
