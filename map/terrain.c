@@ -22,9 +22,9 @@ void clearMap(struct map *m)
 char pickTerrainV0()
 {
     int num = rand() % 100;
-    if (num < 35)
+    if (num < 30)
         return SHORT_GRASS;
-    if (num < 70)
+    if (num < 60)
         return TALL_GRASS;
     if (num < 80)
         return TREE;
@@ -53,14 +53,16 @@ char mostPopularNeighbor(char neighbors[8])
 
 void setSeeds(struct map *m)
 {
-    int i;
     int y, x;
-    for (i = 0; i < MAP_HEIGHT * MAP_WIDTH / 32; i++)
-    {
-        x = 2 + (rand() % (MAP_WIDTH - 4));
-        y = 2 + (rand() % (MAP_HEIGHT - 4));
-        m->cells[y][x].c = pickTerrainV0();
-    }
+//    int i;
+//    for (i = 0; i < MAP_HEIGHT * MAP_WIDTH / 8; i++)
+//    {
+//        x = 2 + (rand() % (MAP_WIDTH - 4));
+//        y = 2 + (rand() % (MAP_HEIGHT - 4));
+//    }
+    for (y = 1; y < MAP_HEIGHT - 1; y++)
+        for (x = 1; x < MAP_WIDTH - 1; x++)
+            m->cells[y][x].c = pickTerrainV0();
 }
 
 void growSeedsIteration(struct map *m, int overwriteExisting)
@@ -106,16 +108,9 @@ void growSeedsIteration(struct map *m, int overwriteExisting)
 
 void growSeeds(struct map *m)
 {
-    int i;
-    growSeedsIteration(m, 0);
-    m->display(m);
-    growSeedsIteration(m, 0);
-    m->display(m);
-    growSeedsIteration(m, 0);
-    m->display(m);
-    growSeedsIteration(m, 0);
-    m->display(m);
     growSeedsIteration(m, 1);
-    m->display(m);
     growSeedsIteration(m, 1);
+    growSeedsIteration(m, 1);
+//    growSeedsIteration(m, 1);
+//    growSeedsIteration(m, 1);
 }
