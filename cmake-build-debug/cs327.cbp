@@ -79,6 +79,12 @@
 		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/main.c">
 			<Option target="main"/>
 		</Unit>
+		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/map/buildings.c">
+			<Option target="main"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/map/buildings.h">
+			<Option target="main"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/downq/CLionProjects/cs327/map/map.c">
 			<Option target="main"/>
 		</Unit>

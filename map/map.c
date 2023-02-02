@@ -4,6 +4,7 @@
 #include "map.h"
 #include "terrain.h"
 #include "roads_and_border.h"
+#include "buildings.h"
 #include <stdio.h>
 
 void setMapFunctions(struct map *m)
@@ -27,4 +28,5 @@ void generateV0(struct map *m)
 {
     generateTerrainV0(m);
     generateRoadsAndBorderV0(m);
+    placeBuildingsV0(m);
 }

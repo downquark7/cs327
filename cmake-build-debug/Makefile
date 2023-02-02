@@ -153,6 +153,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.c.s
 .PHONY : main.c.s
 
+map/buildings.o: map/buildings.c.o
+.PHONY : map/buildings.o
+
+# target to build an object file
+map/buildings.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/buildings.c.o
+.PHONY : map/buildings.c.o
+
+map/buildings.i: map/buildings.c.i
+.PHONY : map/buildings.i
+
+# target to preprocess a source file
+map/buildings.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/buildings.c.i
+.PHONY : map/buildings.c.i
+
+map/buildings.s: map/buildings.c.s
+.PHONY : map/buildings.s
+
+# target to generate assembly for a file
+map/buildings.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/map/buildings.c.s
+.PHONY : map/buildings.c.s
+
 map/map.o: map/map.c.o
 .PHONY : map/map.o
 
@@ -237,6 +261,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... map/buildings.o"
+	@echo "... map/buildings.i"
+	@echo "... map/buildings.s"
 	@echo "... map/map.o"
 	@echo "... map/map.i"
 	@echo "... map/map.s"
