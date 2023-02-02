@@ -34,10 +34,10 @@ int randY()
 void seedsMethod(struct map *m)
 {
     struct seed seeds[] = {
-            {randY(), randX(), 1,  SHORT_GRASS},
-            {randY(), randX(), 1,  SHORT_GRASS},
-            {randY(), randX(), 1,  SHORT_GRASS},
-            {randY(), randX(), 1,  SHORT_GRASS},
+            {randY(), randX(), 2,  SHORT_GRASS},
+            {randY(), randX(), 2,  SHORT_GRASS},
+            {randY(), randX(), 2,  SHORT_GRASS},
+            {randY(), randX(), 2,  SHORT_GRASS},
             {randY(), randX(), 3,  TALL_GRASS},
             {randY(), randX(), 3,  TALL_GRASS},
             {randY(), randX(), 3,  TALL_GRASS},
