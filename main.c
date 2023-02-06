@@ -5,9 +5,9 @@
 
 int main(int argc, char *argv[])
 {
-    int seed = time(NULL);
+//    int seed = time(NULL);
+    int seed = 1675714840;
     printf("seed: %d\n", seed);
-//    int seed = 1675295982;
     srand(seed);
     struct map m;
     setMapFunctions(&m);
