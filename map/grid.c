@@ -28,6 +28,8 @@ struct map *getMap(struct grid *g, int y, int x)
     //TODO: replace this with "infinite" option
     if (g->maps[y][x] != NULL)
         return g->maps[y][x];
+    y = y - (GRID_HEIGHT / 2);
+    x = x - (GRID_HEIGHT / 2);
     m = malloc(sizeof(struct map));
     g->maps[y][x] = m;
     m->g = g;
