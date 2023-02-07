@@ -23,8 +23,6 @@ struct p {
 struct cell {
     char c;
     struct p p;
-//    void (*update)(struct cell *);
-//    int (*can_player_cross)(struct cell *);
 };
 
 struct map {

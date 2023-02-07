@@ -1,4 +1,11 @@
 #!/usr/bin/sh
-git --no-pager log > changelog
+git --no-pager log > CHANGELOG
 make clean
-tar -czvf nicely-evan-cs327-01.tar.gz makefile changelog main.c map/*
+rm -rf nicely_evan.assignment-1.02/
+mkdir nicely_evan.assignment-1.02
+cp Makefile nicely_evan.assignment-1.02/
+cp README nicely_evan.assignment-1.02/
+cp CHANGELOG nicely_evan.assignment-1.02/
+cp main.c nicely_evan.assignment-1.02/
+cp -r map/ nicely_evan.assignment-1.02/map/
+tar -czvf nicely_evan.assignment-1.02.tar.gz nicely_evan.assignment-1.02

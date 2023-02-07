@@ -18,26 +18,8 @@ void fillBoarder(struct map *m)
         for (x = 0; x < MAP_WIDTH; x++)
             if (x == 0 || x == (MAP_WIDTH - 1) ||
                 y == 0 || y == (MAP_HEIGHT - 1))
-//                if (m->cells[y][x].c != WATER)
                 m->cells[y][x].c = ROCK;
 }
-
-//void placeExits(struct map *m)
-//{
-//    int i;
-//    m->exits[0].p.x = 0;
-//    m->exits[0].p.y = 4 + (rand() % (MAP_HEIGHT - 8));
-//
-//    m->exits[1].p.x = MAP_WIDTH - 1;
-//    m->exits[1].p.y = 4 + (rand() % (MAP_HEIGHT - 8));
-//
-//    m->exits[2].p.x = 4 + (rand() % (MAP_WIDTH - 8));
-//    m->exits[2].p.y = 0;
-//
-//    m->exits[3].p.x = 4 + (rand() % (MAP_WIDTH - 8));
-//    m->exits[3].p.y = MAP_HEIGHT - 1;
-//}
-
 int min(int a, int b)
 {
     return a < b ? a : b;

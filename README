@@ -1,0 +1,7 @@
+everything probably works perfectly unless if it runs out of memory
+main.c is main
+grid.c/h manages map pointers and exits
+map.c/h manages printing maps and calling the generators
+terrain.c/h generates terrain
+buildings.c/h generates buildings
+roads_and_boarder.c/h generates roads and the boarder

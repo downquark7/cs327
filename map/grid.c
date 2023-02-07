@@ -18,12 +18,18 @@ void setMapExits(struct map *m);
 
 struct map *getMap(struct grid *g, int y, int x)
 {
+    struct map *m;
+    y = y + (GRID_HEIGHT / 2);
+    x = x + (GRID_HEIGHT / 2);
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x >= GRID_WIDTH) x = GRID_WIDTH - 1;
+    if (y >= GRID_HEIGHT) y = GRID_HEIGHT - 1;
     //TODO: replace this with "infinite" option
-    if (g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)] != NULL)
-        return g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)];
-    struct map *m = g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)] = malloc(sizeof(struct map));
-    if (m == NULL)
-        abort();
+    if (g->maps[y][x] != NULL)
+        return g->maps[y][x];
+    m = malloc(sizeof(struct map));
+    g->maps[y][x] = m;
     m->g = g;
     m->p.y = y;
     m->p.x = x;
@@ -47,28 +53,28 @@ int getNum(int seed, int exit, int y, int x)
 {
     switch (exit)
     {
-        case 1://x-
+        case 1:
             if (x < 0)
             {
                 x++;
                 exit = 0;
             }
             break;
-        case 0://x+
+        case 0:
             if (x > 0)
             {
                 x--;
                 exit = 1;
             }
             break;
-        case 3://y-
+        case 3:
             if (y < 0)
             {
                 y++;
                 exit = 2;
             }
             break;
-        case 2://y+
+        case 2:
             if (y > 0)
             {
                 y--;

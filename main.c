@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "map/map.h"
 #include "map/grid.h"
-#include <stdlib.h>
 #include <time.h>
 
 int main(int argc, char *argv[])
