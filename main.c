@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
             x++;
         if (buf[0] == 'w')
             x--;
+        //TODO: handle incorrect inputs
         if (buf[0] == 'f')
             sscanf(buf, "%c%d%d", &c, &x, &y);
     }

@@ -18,6 +18,7 @@ void setMapExits(struct map *m);
 
 struct map *getMap(struct grid *g, int y, int x)
 {
+    //TODO: replace this with "infinite" option
     if (g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)] != NULL)
         return g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)];
     struct map *m = g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)] = malloc(sizeof(struct map));

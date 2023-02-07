@@ -8,6 +8,7 @@
 #define GRID_HEIGHT 401
 #define GRID_WIDTH 401
 struct grid {
+    //TODO: make "infinite"
     struct map *maps[GRID_HEIGHT][GRID_WIDTH];
     int seed;
 };
