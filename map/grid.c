@@ -7,6 +7,7 @@
 
 void initGrid(struct grid *g, int seed)
 {
+    g->seed = seed;
     int y, x;
     for (y = 0; y < GRID_HEIGHT; y++)
         for (x = 0; x < GRID_WIDTH; x++)
@@ -17,9 +18,9 @@ void setMapExits(struct map *m);
 
 struct map *getMap(struct grid *g, int y, int x)
 {
-    if (g->maps[y][x] != NULL)
-        return g->maps[y][x];
-    struct map *m = g->maps[y][x] = malloc(sizeof(struct map));
+    if (g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)] != NULL)
+        return g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)];
+    struct map *m = g->maps[y + (GRID_HEIGHT / 2)][x + (GRID_WIDTH / 2)] = malloc(sizeof(struct map));
     if (m == NULL)
         abort();
     m->g = g;
@@ -45,21 +46,33 @@ int getNum(int seed, int exit, int y, int x)
 {
     switch (exit)
     {
-        case 0://x-
+        case 1://x-
             if (x < 0)
+            {
                 x++;
+                exit = 0;
+            }
             break;
-        case 1://x+
+        case 0://x+
             if (x > 0)
+            {
                 x--;
+                exit = 1;
+            }
             break;
-        case 2://y-
+        case 3://y-
             if (y < 0)
+            {
                 y++;
+                exit = 2;
+            }
             break;
-        case 3://y+
+        case 2://y+
             if (y > 0)
+            {
                 y--;
+                exit = 3;
+            }
             break;
         default:
             abort();

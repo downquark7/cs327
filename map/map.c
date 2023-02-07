@@ -10,7 +10,7 @@
 
 void displayToPrintf(struct map *m)
 {
-    printf("seed %d\n", m->seed);
+    printf("y:%d x:%d seed: %d\n", m->p.y, m->p.x, m->seed);
     int y, x;
     for (y = 0; y < MAP_HEIGHT; y++)
     {
