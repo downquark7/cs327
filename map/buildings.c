@@ -7,7 +7,7 @@
 void placeBuildings(struct map *m)
 {
     int x;
-    for (x = 5; x < MAP_WIDTH - 6; x += 2)
+    for (x = 2; x <= MAP_WIDTH - 4; x++)
     {
         if (m->cells[m->exits[1].p.y + 1][x].c != ROAD &&
             m->cells[m->exits[1].p.y + 1][x + 1].c != ROAD &&
@@ -25,7 +25,7 @@ void placeBuildings(struct map *m)
             break;
         }
     }
-    for (x = MAP_WIDTH - 7; x > 4; x -= 2)
+    for (x = MAP_WIDTH - 4; x >= 2; x--)
     {
         if (m->cells[m->exits[0].p.y - 1][x].c != ROAD &&
             m->cells[m->exits[0].p.y - 1][x + 1].c != ROAD &&
