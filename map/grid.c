@@ -25,7 +25,6 @@ struct map *getMap(struct grid *g, int y, int x)
     if (y < 0) y = 0;
     if (x >= GRID_WIDTH) x = GRID_WIDTH - 1;
     if (y >= GRID_HEIGHT) y = GRID_HEIGHT - 1;
-    //TODO: replace this with "infinite" option
     if (g->maps[y][x] != NULL)
         return g->maps[y][x];
     y = y - (GRID_HEIGHT / 2);

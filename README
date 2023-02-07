@@ -1,4 +1,7 @@
 everything probably works perfectly unless if it runs out of memory
+incorrect inputs are either partially interpreted or just ignored
+all maps print with x+y location on grid and seed for recreating
+it doesn't matter if it generates new maps every time or if it saves them
 main.c is main
 grid.c/h manages map pointers and exits
 map.c/h manages printing maps and calling the generators
