@@ -5,10 +5,9 @@
 #include "roads_and_border.h"
 #include <stdlib.h>
 
-void generateRoadsAndBorderV0(struct map *m)
+void generateRoadsAndBorder(struct map *m)
 {
     fillBoarder(m);
-    placeExits(m);
     fillRoads(m);
 }
 
@@ -23,24 +22,21 @@ void fillBoarder(struct map *m)
                 m->cells[y][x].c = ROCK;
 }
 
-void placeExits(struct map *m)
-{
-    int i;
-    m->exits[0].p.x = 0;
-    m->exits[0].p.y = 4 + (rand() % (MAP_HEIGHT - 8));
-
-    m->exits[1].p.x = MAP_WIDTH - 1;
-    m->exits[1].p.y = 4 + (rand() % (MAP_HEIGHT - 8));
-
-    m->exits[2].p.x = 4 + (rand() % (MAP_WIDTH - 8));
-    m->exits[2].p.y = 0;
-
-    m->exits[3].p.x = 4 + (rand() % (MAP_WIDTH - 8));
-    m->exits[3].p.y = MAP_HEIGHT - 1;
-
-//    for (i = 0; i < 4; i++)
-//        m->cells[m->exits[i].p.y][m->exits[i].p.x].c = ROAD;
-}
+//void placeExits(struct map *m)
+//{
+//    int i;
+//    m->exits[0].p.x = 0;
+//    m->exits[0].p.y = 4 + (rand() % (MAP_HEIGHT - 8));
+//
+//    m->exits[1].p.x = MAP_WIDTH - 1;
+//    m->exits[1].p.y = 4 + (rand() % (MAP_HEIGHT - 8));
+//
+//    m->exits[2].p.x = 4 + (rand() % (MAP_WIDTH - 8));
+//    m->exits[2].p.y = 0;
+//
+//    m->exits[3].p.x = 4 + (rand() % (MAP_WIDTH - 8));
+//    m->exits[3].p.y = MAP_HEIGHT - 1;
+//}
 
 int min(int a, int b)
 {

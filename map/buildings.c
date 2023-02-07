@@ -4,7 +4,7 @@
 
 #include "buildings.h"
 
-void placeBuildingsV0(struct map *m)
+void placeBuildings(struct map *m)
 {
     int x;
     for (x = 5; x < MAP_WIDTH - 6; x += 2)

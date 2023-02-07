@@ -5,7 +5,7 @@
 #include "terrain.h"
 #include <limits.h>
 
-void generateTerrainV0(struct map *m)
+void generateTerrain(struct map *m)
 {
     clearMap(m);
     seedsMethod(m);
@@ -18,8 +18,6 @@ void clearMap(struct map *m)
         for (x = 0; x < MAP_WIDTH; x++)
             m->cells[y][x].c = ' ';
 }
-
-int cheatRandX;
 
 int randX()
 {

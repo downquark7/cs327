@@ -5,5 +5,5 @@
 #ifndef CS327_BUILDINGS_H
 #define CS327_BUILDINGS_H
 #include "map.h"
-void placeBuildingsV0(struct map *m);
+void placeBuildings(struct map *m);
 #endif //CS327_BUILDINGS_H

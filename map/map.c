@@ -6,15 +6,11 @@
 #include "roads_and_border.h"
 #include "buildings.h"
 #include <stdio.h>
-
-void setMapFunctions(struct map *m)
-{
-    m->display = displayToPrintf;
-    m->generate = generateV0;
-}
+#include <stdlib.h>
 
 void displayToPrintf(struct map *m)
 {
+    printf("seed %d\n", m->seed);
     int y, x;
     for (y = 0; y < MAP_HEIGHT; y++)
     {
@@ -24,9 +20,15 @@ void displayToPrintf(struct map *m)
     }
 }
 
-void generateV0(struct map *m)
+void display(struct map *m)
 {
-    generateTerrainV0(m);
-    generateRoadsAndBorderV0(m);
-    placeBuildingsV0(m);
+    displayToPrintf(m);
+}
+
+void generate(struct map *m)
+{
+    srand(m->seed);
+    generateTerrain(m);
+    generateRoadsAndBorder(m);
+    placeBuildings(m);
 }

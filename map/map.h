@@ -16,8 +16,8 @@
 #define PC '@'
 
 struct p {
-    int x;
     int y;
+    int x;
 };
 
 struct cell {
@@ -30,11 +30,13 @@ struct cell {
 struct map {
     struct cell cells[MAP_HEIGHT][MAP_WIDTH];
     struct cell exits[4];
-    void (*generate)(struct map *);
-    void (*display)(struct map *);
+    int seed;
+    struct grid *g;
+    struct p p;
 };
 
-void setMapFunctions(struct map *m);
 void displayToPrintf(struct map *m);
-void generateV0(struct map *m);
+void generate(struct map *m);
+void display(struct map *m);
+
 #endif //CS327_MAP_H
