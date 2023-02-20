@@ -9,4 +9,4 @@ else ()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ggdb")
 endif ()
 
-add_executable(main main.c map/map.c map/map.h map/terrain.c map/terrain.h map/roads_and_border.c map/roads_and_border.h map/buildings.c map/buildings.h map/grid.c map/grid.h)
+add_executable(main main.c map/map.c map/map.h map/terrain.c map/terrain.h map/roads_and_border.c map/roads_and_border.h map/buildings.c map/buildings.h map/grid.c map/grid.h entity/entity.c entity/entity.h entity/costs.c entity/costs.h)

@@ -5,6 +5,7 @@
 #include "terrain.h"
 #include "roads_and_border.h"
 #include "buildings.h"
+#include "../entity/entity.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -27,6 +28,7 @@ void display(struct map *m)
 
 void generate(struct map *m)
 {
+    clearMapEntities(m);
     srand(m->seed);
     generateTerrain(m);
     generateRoadsAndBorder(m);

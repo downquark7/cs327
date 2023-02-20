@@ -13,7 +13,6 @@
 #define TALL_GRASS ':'
 #define SHORT_GRASS '.'
 #define WATER '~'
-#define PC '@'
 
 struct p {
     int y;
@@ -28,9 +27,10 @@ struct cell {
 struct map {
     struct cell cells[MAP_HEIGHT][MAP_WIDTH];
     struct cell exits[4];
+    struct p p;
     int seed;
     struct grid *g;
-    struct p p;
+    struct entity *e;
 };
 
 void displayToPrintf(struct map *m);
