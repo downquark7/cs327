@@ -16,7 +16,7 @@ void clearMap(struct map *m)
     int y, x;
     for (y = 0; y < MAP_HEIGHT; y++)
         for (x = 0; x < MAP_WIDTH; x++)
-            m->cells[y][x].c = ' ';
+            m->cells[y][x] = ' ';
 }
 
 int randX()
@@ -71,6 +71,6 @@ void seedsMethod(struct map *m)
                     min = d2;
                 }
             }
-            m->cells[y][x].c = c;
+            m->cells[y][x] = c;
         }
 }

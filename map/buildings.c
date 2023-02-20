@@ -21,37 +21,37 @@ void placeBuildings(struct map *m)
     {
         for (x = 2; x <= MAP_WIDTH - 4; x++)
         {
-            if (m->cells[m->exits[1].p.y + 1][x].c != ROAD &&
-                m->cells[m->exits[1].p.y + 1][x + 1].c != ROAD &&
-                m->cells[m->exits[1].p.y + 2][x].c != ROAD &&
-                m->cells[m->exits[1].p.y + 2][x + 1].c != ROAD &&
-                m->cells[m->exits[1].p.y][x].c == ROAD &&
-                m->cells[m->exits[1].p.y][x + 1].c == ROAD &&
-                m->cells[m->exits[1].p.y][x + 2].c == ROAD &&
-                m->cells[m->exits[1].p.y][x - 1].c == ROAD)
+            if (m->cells[m->exits[1].p.y + 1][x] != ROAD &&
+                m->cells[m->exits[1].p.y + 1][x + 1] != ROAD &&
+                m->cells[m->exits[1].p.y + 2][x] != ROAD &&
+                m->cells[m->exits[1].p.y + 2][x + 1] != ROAD &&
+                m->cells[m->exits[1].p.y][x] == ROAD &&
+                m->cells[m->exits[1].p.y][x + 1] == ROAD &&
+                m->cells[m->exits[1].p.y][x + 2] == ROAD &&
+                m->cells[m->exits[1].p.y][x - 1] == ROAD)
             {
-                m->cells[m->exits[1].p.y + 1][x].c = 'C';
-                m->cells[m->exits[1].p.y + 1][x + 1].c = 'C';
-                m->cells[m->exits[1].p.y + 2][x].c = 'C';
-                m->cells[m->exits[1].p.y + 2][x + 1].c = 'C';
+                m->cells[m->exits[1].p.y + 1][x] = 'C';
+                m->cells[m->exits[1].p.y + 1][x + 1] = 'C';
+                m->cells[m->exits[1].p.y + 2][x] = 'C';
+                m->cells[m->exits[1].p.y + 2][x + 1] = 'C';
                 break;
             }
         }
         for (x = MAP_WIDTH - 4; x >= 2; x--)
         {
-            if (m->cells[m->exits[0].p.y - 1][x].c != ROAD &&
-                m->cells[m->exits[0].p.y - 1][x + 1].c != ROAD &&
-                m->cells[m->exits[0].p.y - 2][x].c != ROAD &&
-                m->cells[m->exits[0].p.y - 2][x + 1].c != ROAD &&
-                m->cells[m->exits[0].p.y][x].c == ROAD &&
-                m->cells[m->exits[0].p.y][x + 1].c == ROAD &&
-                m->cells[m->exits[0].p.y][x + 2].c == ROAD &&
-                m->cells[m->exits[0].p.y][x - 1].c == ROAD)
+            if (m->cells[m->exits[0].p.y - 1][x] != ROAD &&
+                m->cells[m->exits[0].p.y - 1][x + 1] != ROAD &&
+                m->cells[m->exits[0].p.y - 2][x] != ROAD &&
+                m->cells[m->exits[0].p.y - 2][x + 1] != ROAD &&
+                m->cells[m->exits[0].p.y][x] == ROAD &&
+                m->cells[m->exits[0].p.y][x + 1] == ROAD &&
+                m->cells[m->exits[0].p.y][x + 2] == ROAD &&
+                m->cells[m->exits[0].p.y][x - 1] == ROAD)
             {
-                m->cells[m->exits[0].p.y - 1][x].c = 'M';
-                m->cells[m->exits[0].p.y - 1][x + 1].c = 'M';
-                m->cells[m->exits[0].p.y - 2][x].c = 'M';
-                m->cells[m->exits[0].p.y - 2][x + 1].c = 'M';
+                m->cells[m->exits[0].p.y - 1][x] = 'M';
+                m->cells[m->exits[0].p.y - 1][x + 1] = 'M';
+                m->cells[m->exits[0].p.y - 2][x] = 'M';
+                m->cells[m->exits[0].p.y - 2][x + 1] = 'M';
                 break;
             }
         }

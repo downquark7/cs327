@@ -18,7 +18,7 @@ void fillBoarder(struct map *m)
         for (x = 0; x < MAP_WIDTH; x++)
             if (x == 0 || x == (MAP_WIDTH - 1) ||
                 y == 0 || y == (MAP_HEIGHT - 1))
-                m->cells[y][x].c = ROCK;
+                m->cells[y][x] = ROCK;
 }
 int min(int a, int b)
 {
@@ -37,12 +37,12 @@ void drawLine(struct map *m, int y1, int x1, int y2, int x2, char c)
     {
         y = y2;
         for (x = min(x2, x1); x <= max(x2, x1); x++)
-            m->cells[y][x].c = c;
+            m->cells[y][x] = c;
     } else if (x2 == x1)
     {
         x = x2;
         for (y = min(y2, y1); y <= max(y2, y1); y++)
-            m->cells[y][x].c = c;
+            m->cells[y][x] = c;
     }
 }
 

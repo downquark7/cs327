@@ -25,12 +25,13 @@ struct cell {
 };
 
 struct map {
-    struct cell cells[MAP_HEIGHT][MAP_WIDTH];
+    char cells[MAP_HEIGHT][MAP_WIDTH];
     struct cell exits[4];
     struct p p;
     int seed;
     struct grid *g;
     struct entity *e;
+    int eCount;
 };
 
 void displayToPrintf(struct map *m);

@@ -16,7 +16,7 @@ void displayToPrintf(struct map *m)
     for (y = 0; y < MAP_HEIGHT; y++)
     {
         for (x = 0; x < MAP_WIDTH; x++)
-            printf("%c", m->cells[y][x].c);
+            printf("%c", m->cells[y][x]);
         printf("\n");
     }
 }

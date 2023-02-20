@@ -12,7 +12,7 @@ int getCost(char entity, char terrain)
     {
         case ROAD:
             return entity == SWIMMER ? INT_MAX : 10;
-        case 'C':
+        case 'C': // NOLINT(bugprone-branch-clone)
             if (entity == PC)
                 return 10;
             return entity == SWIMMER ? INT_MAX : 50;
@@ -32,7 +32,7 @@ int getCost(char entity, char terrain)
             }
         case SHORT_GRASS:
             return entity == SWIMMER ? INT_MAX : 10;
-        case TREE:
+        case TREE: // NOLINT(bugprone-branch-clone)
             return entity == HIKER ? 15 : INT_MAX;
         case ROCK:
             return entity == HIKER ? 15 : INT_MAX;
