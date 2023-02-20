@@ -3,7 +3,7 @@ rm -rf nicely_evan.assignment-1.03/
 mkdir nicely_evan.assignment-1.03
 cp -rfv * nicely_evan.assignment-1.03/
 cd nicely_evan.assignment-1.03/
-git --no-pager log >CHANGELOG
+git --no-pager log > CHANGELOG
 cmake CMakeLists.txt
 rm -rfv cmake-build-debug/
 rm -rfv knightsTour/
