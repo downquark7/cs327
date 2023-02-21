@@ -21,7 +21,7 @@ struct entity
 {
     char c;
     enum direction nextMove;
-
+    struct p p;
     void (*move)(struct entity *e);
 };
 
