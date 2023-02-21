@@ -15,8 +15,8 @@ void clearMap(struct map *m)
 {
     int y, x;
     for (y = 0; y < MAP_HEIGHT; y++)
-        for (x = 0; x < MAP_WIDTH; x++)
-            m->cells[y][x] = ' ';
+        for (x = 0; x < MAP_WIDTH + 1; x++)
+            m->cells[y][x] = x == MAP_WIDTH ? 0 : ' ';
 }
 
 int randX()

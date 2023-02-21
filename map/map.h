@@ -25,7 +25,7 @@ struct cell {
 };
 
 struct map {
-    char cells[MAP_HEIGHT][MAP_WIDTH];
+    char cells[MAP_HEIGHT][MAP_WIDTH + 1];
     struct cell exits[4];
     struct p p;
     int seed;

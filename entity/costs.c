@@ -2,9 +2,30 @@
 // Created by downq on 2/20/2023.
 //
 
-#include "costs.h"
 #include "entity.h"
+#include "costs.h"
 #include <stdlib.h>
+#include <limits.h>
+
+struct data
+{
+    int c;
+    int v;
+};
+
+int getPathCost(struct p p, struct entity *e, struct map *m)
+{
+    struct data d[MAP_HEIGHT][MAP_WIDTH];
+    int y, x;
+
+    for (y = 0; y < MAP_HEIGHT; y++)
+        for (x = 0; x < MAP_WIDTH; x++)
+        {
+            d[y][x].c = -1;
+            d[y][x].v = 0;
+        }
+
+}
 
 int getCost(char entity, char terrain)
 {

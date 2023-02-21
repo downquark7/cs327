@@ -12,13 +12,9 @@
 void displayToPrintf(struct map *m)
 {
     printf("y:%d x:%d seed: %d\n", m->p.y, m->p.x, m->seed);
-    int y, x;
+    int y;
     for (y = 0; y < MAP_HEIGHT; y++)
-    {
-        for (x = 0; x < MAP_WIDTH; x++)
-            printf("%c", m->cells[y][x]);
-        printf("\n");
-    }
+        printf("%s\n", m->cells[y]);
 }
 
 void display(struct map *m)
@@ -28,8 +24,8 @@ void display(struct map *m)
 
 void generate(struct map *m)
 {
-    clearMapEntities(m);
     srand(m->seed);
+    clearMapEntities(m);
     generateTerrain(m);
     generateRoadsAndBorder(m);
     placeBuildings(m);
