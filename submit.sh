@@ -9,7 +9,6 @@ rm -rfv cmake-build-debug/
 rm -rfv knightsTour/
 rm -rfv Testing/
 rm -rfv .*
-rm -rfv
 rm -rfv *.tar.gz
 make
 ./main
