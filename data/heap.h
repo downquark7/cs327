@@ -14,20 +14,20 @@ typedef struct node
     void *data;
 } node;
 
-node *create_node(int key, void *data);
+node *createNode(int key, void *data);
 
 node *merge(node *first, node *second);
 
-node *merge_pairs(node *first);
+node *mergePairs(node *first);
 
 node *merge(node *first, node *second);
 
 node *insert(node *root, int key, void *data);
 
-node *delete_min(node *root);
+node *deleteMin(node *root);
 
 void traverse(node *root);
 
-void delete_all(node *root);
+void deleteAll(node *root);
 
 #endif //CS327_HEAP_H

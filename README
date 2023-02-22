@@ -1,10 +1,4 @@
-everything probably works perfectly unless if it runs out of memory
-incorrect inputs are either partially interpreted or just ignored
-all maps print with x+y location on grid and seed for recreating
-it doesn't matter if it generates new maps every time or if it saves them
-main.c is main
-grid.c/h manages map pointers and exits
-map.c/h manages printing maps and calling the generators
-terrain.c/h generates terrain
-buildings.c/h generates buildings
-roads_and_boarder.c/h generates roads and the boarder
+look at main.c and entity/costs.c and data/heap.c
+uses a* with distance heuristic that takes into account the difference between the height and width of characters compared to squares
+switch heuristic in costs.c to zeroDistance to use dijkstra's instead of a*
+heap is pairing heap

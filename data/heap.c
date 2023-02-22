@@ -7,18 +7,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-node *create_node(int key, void *data)
+node *createNode(int key, void *data)
 {
-    node *new_node = (node *) malloc(sizeof(node));
-    new_node->key = key;
-    new_node->child = NULL;
-    new_node->sibling = NULL;
-    new_node->prev = NULL;
-    new_node->data = data;
-    return new_node;
+    node *newNode = (node *) malloc(sizeof(node));
+    newNode->key = key;
+    newNode->child = NULL;
+    newNode->sibling = NULL;
+    newNode->prev = NULL;
+    newNode->data = data;
+    return newNode;
 }
 
-node *merge_pairs(node *first)
+node *mergePairs(node *first)
 {
     if (first == NULL || first->sibling == NULL)
     {
@@ -28,7 +28,7 @@ node *merge_pairs(node *first)
     node *rest = second->sibling;
     first->sibling = NULL;
     second->sibling = NULL;
-    return merge(merge(first, second), merge_pairs(rest));
+    return merge(merge(first, second), mergePairs(rest));
 }
 
 node *merge(node *first, node *second)
@@ -44,14 +44,14 @@ node *merge(node *first, node *second)
     if (first->key < second->key)
     {
         second->prev = first;
-        first->sibling = merge_pairs(first->sibling);
+        first->sibling = mergePairs(first->sibling);
         second->sibling = NULL;
         first->child = merge(second, first->child);
         return first;
     } else
     {
         first->prev = second;
-        second->sibling = merge_pairs(second->sibling);
+        second->sibling = mergePairs(second->sibling);
         first->sibling = NULL;
         second->child = merge(first, second->child);
         return second;
@@ -60,27 +60,27 @@ node *merge(node *first, node *second)
 
 node *insert(node *root, int key, void *data)
 {
-    node *new_node = create_node(key, data);
-    return merge(root, new_node);
+    node *newNode = createNode(key, data);
+    return merge(root, newNode);
 }
 
-node *delete_min(node *root)
+node *deleteMin(node *root)
 {
     if (root == NULL)
     {
         return NULL;
     }
-    node *min_node = root;
-    node *child = min_node->child;
+    node *minNode = root;
+    node *child = minNode->child;
     while (child != NULL)
     {
         child->prev = NULL;
         child = child->sibling;
     }
-    node *new_root = merge_pairs(min_node->child);
-    free(min_node->data);
-    free(min_node);
-    return new_root;
+    node *newRoot = mergePairs(minNode->child);
+    free(minNode->data);
+    free(minNode);
+    return newRoot;
 }
 
 void traverse(node *root)
@@ -94,7 +94,7 @@ void traverse(node *root)
     traverse(root->sibling);
 }
 
-void delete_all(node *root)
+void deleteAll(node *root)
 {
-    while (NULL != (root = delete_min(root)));
+    while (NULL != (root = deleteMin(root)));
 }

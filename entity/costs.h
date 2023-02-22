@@ -7,7 +7,7 @@
 
 #include "../map/map.h"
 
-int getPathCost(struct p p, struct entity *e, struct map *m);
+enum direction getDirection(struct p target, struct entity *e, struct map *m);
 
 int getCost(char entity, char terrain);
 
