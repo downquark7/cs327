@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
         pc->p.x = (rand() % (MAP_WIDTH - 4)) + 2;
     } while (m->cells[pc->p.y][pc->p.x] != ROAD);
     display(m);
-    printf("N, S, E, W, H, NW, NE, SW, SE\n");
 
     struct p start = {3, 3};
     struct entity hiker = {HIKER, H, start, NULL};
