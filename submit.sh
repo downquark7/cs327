@@ -1,8 +1,8 @@
 #!/usr/bin/sh
-rm -rf nicely_evan.assignment-1.03/
-mkdir nicely_evan.assignment-1.03
-cp -rfv * nicely_evan.assignment-1.03/
-cd nicely_evan.assignment-1.03/
+rm -rf nicely_evan.assignment-1.04/
+mkdir nicely_evan.assignment-1.04
+cp -rfv * nicely_evan.assignment-1.04/
+cd nicely_evan.assignment-1.04/
 git --no-pager log > CHANGELOG
 cmake CMakeLists.txt
 rm -rfv cmake-build-debug/
@@ -14,4 +14,9 @@ make
 ./main
 make clean
 cd ..
-tar -czvf nicely_evan.assignment-1.03.tar.gz nicely_evan.assignment-1.03
+tar -czvf nicely_evan.assignment-1.04.tar.gz nicely_evan.assignment-1.04
+mkdir /tmp/out
+tar -xzf nicely_evan.assignment-1.04.tar.gz -C /tmp
+cd /tmp/nicely_evan.assignment-1.04
+make
+./main && rm -rf /tmp/nicely_evan.assignment-1.04
