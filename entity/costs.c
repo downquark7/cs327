@@ -50,6 +50,7 @@ int heuristic(int x1, int y1, int x2, int y2)
 
 void getDirection(struct p target, struct entity *e, struct map *m)
 {
+    char cellAtE = m->cells[e->p.y][e->p.x];
     char saved[m->eCount];
     for (int i = 0; i < m->eCount; i++)
     {
@@ -81,125 +82,109 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if ((min->x == e->p.x && min->y == e->p.y))
             {
-                deleteAll(root);
                 break;
             }
 
-            if (costs[min->y - 1][min->x - 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y - 1][min->x - 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x - 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x - 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y - 1;
-                    p->x = min->x - 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y - 1;
+                p->x = min->x - 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y - 1][min->x] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y - 1][min->x] < 0 &&
+                (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y - 1;
-                    p->x = min->x;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y - 1;
+                p->x = min->x;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y - 1][min->x + 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y - 1][min->x + 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x + 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x + 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y - 1;
-                    p->x = min->x + 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y - 1;
+                p->x = min->x + 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y][min->x - 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y][min->x - 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->cells[min->y][min->x - 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->cells[min->y][min->x - 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y;
-                    p->x = min->x - 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y;
+                p->x = min->x - 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y][min->x + 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y][min->x + 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->cells[min->y][min->x + 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->cells[min->y][min->x + 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y;
-                    p->x = min->x + 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y;
+                p->x = min->x + 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y + 1][min->x - 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y + 1][min->x - 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x - 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x - 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y + 1;
-                    p->x = min->x - 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y + 1;
+                p->x = min->x - 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y + 1][min->x] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y + 1][min->x] < 0 &&
+                (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y + 1;
-                    p->x = min->x;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y + 1;
+                p->x = min->x;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y + 1][min->x + 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y + 1][min->x + 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x + 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x + 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y + 1;
-                    p->x = min->x + 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y + 1;
+                p->x = min->x + 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
         }
-
+        free(root->data);
         root = deleteMin(root);
     }
+    deleteAllData(root);
 
     //print all costs
 //    if (e->c == RIVAL)
@@ -287,6 +272,69 @@ void getDirection(struct p target, struct entity *e, struct map *m)
         d = SE;
     }
     e->nextMove = d;
+    e->thisMoveCost = getCost(e->c, m->cells[ny][nx]);
+    char cellAtNewE = m->cells[ny][nx];
+    m->cells[ny][nx] = PLACEHOLDER;
+    m->cells[e->p.y][e->p.x] = cellAtE;
+    y = ny;
+    x = nx;
+    if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
+    {
+        min = costs[y - 1][x - 1];
+        ny = y - 1;
+        nx = x - 1;
+        d = NW;
+    }
+    if (costs[y - 1][x] < min && costs[y - 1][x] != -1)
+    {
+        min = costs[y - 1][x];
+        ny = y - 1;
+        nx = x;
+        d = N;
+    }
+    if (costs[y - 1][x + 1] < min && costs[y - 1][x + 1] != -1)
+    {
+        min = costs[y - 1][x + 1];
+        ny = y - 1;
+        nx = x + 1;
+        d = NE;
+    }
+    if (costs[y][x - 1] < min && costs[y][x - 1] != -1)
+    {
+        min = costs[y][x - 1];
+        ny = y;
+        nx = x - 1;
+        d = W;
+    }
+    if (costs[y][x + 1] < min && costs[y][x + 1] != -1)
+    {
+        min = costs[y][x + 1];
+        ny = y;
+        nx = x + 1;
+        d = E;
+    }
+    if (costs[y + 1][x - 1] < min && costs[y + 1][x - 1] != -1)
+    {
+        min = costs[y + 1][x - 1];
+        ny = y + 1;
+        nx = x - 1;
+        d = SW;
+    }
+    if (costs[y + 1][x] < min && costs[y + 1][x] != -1)
+    {
+        min = costs[y + 1][x];
+        ny = y + 1;
+        nx = x;
+        d = S;
+    }
+    if (costs[y + 1][x + 1] < min && costs[y + 1][x + 1] != -1)
+    {
+        min = costs[y + 1][x + 1];
+        ny = y + 1;
+        nx = x + 1;
+        d = SE;
+    }
+    m->cells[y][x] = cellAtNewE;
     e->nextMoveCost = getCost(e->c, m->cells[ny][nx]);
     for (int i = 0; i < m->eCount; i++)
     {
@@ -296,11 +344,12 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
 void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 {
+    char cellAtE = m->swimmerCells[e->p.y][e->p.x];
     char saved[m->eCount];
     for (int i = 0; i < m->eCount; i++)
     {
-        saved[i] = m->cells[m->e[i].p.y][m->e[i].p.x];
-        m->cells[m->e[i].p.y][m->e[i].p.x] = PLACEHOLDER;
+        saved[i] = m->swimmerCells[m->e[i].p.y][m->e[i].p.x];
+        m->swimmerCells[m->e[i].p.y][m->e[i].p.x] = PLACEHOLDER;
     }
 
     int y, x;
@@ -327,125 +376,110 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if ((min->x == e->p.x && min->y == e->p.y))
             {
-                deleteAll(root);
                 break;
             }
 
-            if (costs[min->y - 1][min->x - 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y - 1][min->x - 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x - 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x - 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y - 1;
-                    p->x = min->x - 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y - 1;
+                p->x = min->x - 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y - 1][min->x] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y - 1][min->x] < 0 &&
+                (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y - 1;
-                    p->x = min->x;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y - 1;
+                p->x = min->x;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y - 1][min->x + 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y - 1][min->x + 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x + 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x + 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y - 1;
-                    p->x = min->x + 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y - 1;
+                p->x = min->x + 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y][min->x - 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y][min->x - 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->swimmerCells[min->y][min->x - 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->swimmerCells[min->y][min->x - 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y;
-                    p->x = min->x - 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y;
+                p->x = min->x - 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y][min->x + 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y][min->x + 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->swimmerCells[min->y][min->x + 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->swimmerCells[min->y][min->x + 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y;
-                    p->x = min->x + 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y;
+                p->x = min->x + 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y + 1][min->x - 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y + 1][min->x - 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x - 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x - 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y + 1;
-                    p->x = min->x - 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y + 1;
+                p->x = min->x - 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y + 1][min->x] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y + 1][min->x] < 0 &&
+                (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y + 1;
-                    p->x = min->x;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y + 1;
+                p->x = min->x;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
 
-            if (costs[min->y + 1][min->x + 1] < 0)
+            if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
+                costs[min->y + 1][min->x + 1] < 0 &&
+                (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x + 1])) > 0 &&
+                cost != INT_MAX)
             {
-                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                    (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x + 1])) > 0 &&
-                    cost != INT_MAX)
-                {
-                    p = malloc(sizeof(struct p));
-                    p->y = min->y + 1;
-                    p->x = min->x + 1;
-                    cost += heuristic(p->x, p->y, e->p.x, e->p.y);
-                    root = insert(root, cost, p);
-                }
+                p = malloc(sizeof(struct p));
+                p->y = min->y + 1;
+                p->x = min->x + 1;
+                cost += heuristic(p->x, p->y, e->p.x, e->p.y);
+                root = insert(root, cost, p);
             }
         }
-
+        free(root->data);
+        root->data = NULL;
         root = deleteMin(root);
     }
+    deleteAllData(root);
 
     if (getCost(e->c, m->swimmerCells[target.y][target.x]) == INT_MAX)
         costs[target.y][target.x] = INT_MAX;
@@ -459,7 +493,9 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
     int nx, ny;
     enum direction d = H;
     y = e->p.y;
+    ny = y;
     x = e->p.x;
+    nx = x;
     if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
     {
         min = costs[y - 1][x - 1];
@@ -517,10 +553,73 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
         d = SE;
     }
     e->nextMove = d;
-    e->nextMoveCost = getCost(e->c, m->cells[ny][nx]);
+    e->thisMoveCost = getCost(e->c, m->swimmerCells[ny][nx]);
+    char cellAtNewE = m->swimmerCells[ny][nx];
+    m->swimmerCells[ny][nx] = PLACEHOLDER;
+    m->swimmerCells[e->p.y][e->p.x] = cellAtE;
+    y = ny;
+    x = nx;
+    if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
+    {
+        min = costs[y - 1][x - 1];
+        ny = y - 1;
+        nx = x - 1;
+        d = NW;
+    }
+    if (costs[y - 1][x] < min && costs[y - 1][x] != -1)
+    {
+        min = costs[y - 1][x];
+        ny = y - 1;
+        nx = x;
+        d = N;
+    }
+    if (costs[y - 1][x + 1] < min && costs[y - 1][x + 1] != -1)
+    {
+        min = costs[y - 1][x + 1];
+        ny = y - 1;
+        nx = x + 1;
+        d = NE;
+    }
+    if (costs[y][x - 1] < min && costs[y][x - 1] != -1)
+    {
+        min = costs[y][x - 1];
+        ny = y;
+        nx = x - 1;
+        d = W;
+    }
+    if (costs[y][x + 1] < min && costs[y][x + 1] != -1)
+    {
+        min = costs[y][x + 1];
+        ny = y;
+        nx = x + 1;
+        d = E;
+    }
+    if (costs[y + 1][x - 1] < min && costs[y + 1][x - 1] != -1)
+    {
+        min = costs[y + 1][x - 1];
+        ny = y + 1;
+        nx = x - 1;
+        d = SW;
+    }
+    if (costs[y + 1][x] < min && costs[y + 1][x] != -1)
+    {
+        min = costs[y + 1][x];
+        ny = y + 1;
+        nx = x;
+        d = S;
+    }
+    if (costs[y + 1][x + 1] < min && costs[y + 1][x + 1] != -1)
+    {
+        min = costs[y + 1][x + 1];
+        ny = y + 1;
+        nx = x + 1;
+        d = SE;
+    }
+    m->swimmerCells[y][x] = cellAtNewE;
+    e->nextMoveCost = getCost(e->c, m->swimmerCells[ny][nx]);
     for (int i = 0; i < m->eCount; i++)
     {
-        m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
+        m->swimmerCells[m->e[i].p.y][m->e[i].p.x] = saved[i];
     }
 }
 

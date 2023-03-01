@@ -78,7 +78,6 @@ node *deleteMin(node *root)
         child = child->sibling;
     }
     node *newRoot = mergePairs(minNode->child);
-    free(minNode->data);
     free(minNode);
     return newRoot;
 }
@@ -94,7 +93,20 @@ void traverse(node *root)
     traverse(root->sibling);
 }
 
+void deleteAllData(node *root)
+{
+    if (root == NULL)
+        return;
+    free(root->data);
+    while (NULL != (root = deleteMin(root)))
+    {
+        free(root->data);
+    }
+}
+
 void deleteAll(node *root)
 {
+    if (root == NULL)
+        return;
     while (NULL != (root = deleteMin(root)));
 }

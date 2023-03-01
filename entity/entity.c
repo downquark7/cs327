@@ -23,7 +23,8 @@ void addEntity(struct map *m, char entity)
     m->e = realloc(m->e, sizeof(struct entity) * ++m->eCount);
     m->e[m->eCount - 1].nextMove = H;
     m->e[m->eCount - 1].c = entity;
-    m->e[m->eCount - 1].nextMoveCost = 0;
+    m->e[m->eCount - 1].thisMoveCost = 10;
+    m->e[m->eCount - 1].nextMoveCost = 10;
     m->e[m->eCount - 1].nextMoveTime = 0;
     setGetMove(m, entity);
     setMove(m, entity);
@@ -53,7 +54,8 @@ void place(struct map *m, char entity)
             {
                 m->e[m->eCount - 1].p.y = (rand() % (MAP_HEIGHT - 4)) + 2;
                 m->e[m->eCount - 1].p.x = (rand() % (MAP_WIDTH - 4)) + 2;
-            } while (getCost(entity, m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x]) > 1000 ||
+            } while (getCost(entity, m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x]) >=
+                     getCost(entity, PLACEHOLDER) ||
                      m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x] == 'P' ||
                      m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x] == 'M');
             break;

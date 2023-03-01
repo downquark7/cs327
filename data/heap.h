@@ -28,6 +28,8 @@ node *deleteMin(node *root);
 
 void traverse(node *root);
 
+void deleteAllData(node *root);
+
 void deleteAll(node *root);
 
 #endif //CS327_HEAP_H

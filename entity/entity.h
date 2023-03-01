@@ -6,11 +6,12 @@
 #define CS327_ENTITY_H
 
 #include "../map/map.h"
+#include <stdint.h>
 
 #define PC '@'
 #define HIKER 'H'
 #define RIVAL 'R'
-#define SWIMMER 'S'
+#define SWIMMER 'M'
 #define PLACEHOLDER '`'
 
 enum direction
@@ -22,13 +23,15 @@ struct entity
 {
     char c;
     enum direction nextMove;
+    int thisMoveCost;
     int nextMoveCost;
-    int nextMoveTime;
-    struct p p;
 
     void (*getMove)(struct entity *e, struct map *m);
 
     void (*move)(struct entity *e, struct map *m);
+
+    struct p p;
+    uint64_t nextMoveTime;
 };
 
 void clearMapEntities(struct map *m);
