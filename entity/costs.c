@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <math.h>
 #include "../data/heap.h"
 
 int chebyshevDistance(int x1, int y1, int x2, int y2)
@@ -39,22 +40,21 @@ int visuallyCorrectedDistance(int x1, int y1, int x2, int y2)
 {
     int dx = x2 - x1;
     int dy = y2 - y1;
-    return 106 * (dy * dy) + 15 * (dx * dx);
+    return sqrt(106 * (dy * dy) + 15 * (dx * dx));
 }
 
 int heuristic(int x1, int y1, int x2, int y2)
 {
-    return zeroDistance(x1, y1, x2, y2);
+    return visuallyCorrectedDistance(x1, y1, x2, y2);
 }
 
 void getDirection(struct p target, struct entity *e, struct map *m)
 {
     char saved[m->eCount];
-    int i;
-    for (i = 0; i < m->eCount; i++)
+    for (int i = 0; i < m->eCount; i++)
     {
         saved[i] = m->cells[m->e[i].p.y][m->e[i].p.x];
-        m->cells[m->e[i].p.y][m->e[i].p.x] = m->e[i].c;
+        m->cells[m->e[i].p.y][m->e[i].p.x] = PLACEHOLDER;
     }
 
     int y, x;
@@ -87,7 +87,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y - 1][min->x - 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x - 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -101,7 +101,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y - 1][min->x] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -115,7 +115,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y - 1][min->x + 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x + 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -129,7 +129,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y][min->x - 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->cells[min->y][min->x - 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -143,7 +143,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y][min->x + 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->cells[min->y][min->x + 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -157,7 +157,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y + 1][min->x - 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x - 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -171,7 +171,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y + 1][min->x] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -185,7 +185,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y + 1][min->x + 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x + 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -202,30 +202,34 @@ void getDirection(struct p target, struct entity *e, struct map *m)
     }
 
     //print all costs
-//    for (y = 0; y < MAP_HEIGHT; y++)
-//    {
-//        for (x = 0; x < MAP_WIDTH; x++)
+//    if (e->c == RIVAL)
+//        for (y = 0; y < MAP_HEIGHT; y++)
 //        {
-//            if (costs[y][x] == -1)
-//                printf("   ");
-//            else
-//                printf("%2d ", costs[y][x] % 100);
+//            for (x = 0; x < MAP_WIDTH; x++)
+//            {
+//                if (costs[y][x] == -1)
+//                    printf("     ");
+//                else
+//                    printf("%4d ", costs[y][x]);
+//            }
+//            printf("\n");
 //        }
-//        printf("\n");
-//    }
 
     if (getCost(e->c, m->cells[target.y][target.x]) == INT_MAX)
         costs[target.y][target.x] = INT_MAX;
+    for (int i = 0; i < m->eCount; i++)
+    {
+        costs[m->e[i].p.y][m->e[i].p.x] = INT_MAX;
+    }
 
     //return direction
     int min = INT_MAX - 10;
     int nx, ny;
     enum direction d = H;
     y = e->p.y;
+    ny = y;
     x = e->p.x;
-
-//    while (costs[y][x] > 0)
-//    {
+    nx = x;
     if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
     {
         min = costs[y - 1][x - 1];
@@ -282,28 +286,21 @@ void getDirection(struct p target, struct entity *e, struct map *m)
         nx = x + 1;
         d = SE;
     }
-//        m->cells[y][x] = '*';
-//        break;//was supposed to print path but this is better for later
-//        y = ny;
-//        x = nx;
-//    }
-
-    for (i = 0; i < m->eCount; i++)
+    e->nextMove = d;
+    e->nextMoveCost = getCost(e->c, m->cells[ny][nx]);
+    for (int i = 0; i < m->eCount; i++)
     {
         m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
     }
-    e->nextMove = d;
-    e->nextMoveCost = getCost(e->c, m->cells[ny][nx]);
 }
 
 void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 {
     char saved[m->eCount];
-    int i;
-    for (i = 0; i < m->eCount; i++)
+    for (int i = 0; i < m->eCount; i++)
     {
-        saved[i] = m->swimmerCells[m->e[i].p.y][m->e[i].p.x];
-        m->swimmerCells[m->e[i].p.y][m->e[i].p.x] = m->e[i].c;
+        saved[i] = m->cells[m->e[i].p.y][m->e[i].p.x];
+        m->cells[m->e[i].p.y][m->e[i].p.x] = PLACEHOLDER;
     }
 
     int y, x;
@@ -336,7 +333,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y - 1][min->x - 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x - 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -350,7 +347,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y - 1][min->x] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -364,7 +361,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y - 1][min->x + 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x + 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -378,7 +375,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y][min->x - 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->swimmerCells[min->y][min->x - 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -392,7 +389,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y][min->x + 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->swimmerCells[min->y][min->x + 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -406,7 +403,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y + 1][min->x - 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x - 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -420,7 +417,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y + 1][min->x] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -434,7 +431,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 
             if (costs[min->y + 1][min->x + 1] < 0)
             {
-                if (min->x >= 2 && min->x < MAP_WIDTH - 2 && min->y >= 2 && min->y < MAP_HEIGHT - 2 &&
+                if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
                     (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x + 1])) > 0 &&
                     cost != INT_MAX)
                 {
@@ -450,21 +447,12 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
         root = deleteMin(root);
     }
 
-    //print all costs
-//    for (y = 0; y < MAP_HEIGHT; y++)
-//    {
-//        for (x = 0; x < MAP_WIDTH; x++)
-//        {
-//            if (costs[y][x] == -1)
-//                printf("   ");
-//            else
-//                printf("%2d ", costs[y][x] % 100);
-//        }
-//        printf("\n");
-//    }
-
     if (getCost(e->c, m->swimmerCells[target.y][target.x]) == INT_MAX)
         costs[target.y][target.x] = INT_MAX;
+    for (int i = 0; i < m->eCount; i++)
+    {
+        costs[m->e[i].p.y][m->e[i].p.x] = INT_MAX;
+    }
 
     //return direction
     int min = INT_MAX - 10;
@@ -472,78 +460,68 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
     enum direction d = H;
     y = e->p.y;
     x = e->p.x;
-
-    while (costs[y][x] > 0)
+    if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
     {
-        if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
-        {
-            min = costs[y - 1][x - 1];
-            ny = y - 1;
-            nx = x - 1;
-            d = NW;
-        }
-        if (costs[y - 1][x] < min && costs[y - 1][x] != -1)
-        {
-            min = costs[y - 1][x];
-            ny = y - 1;
-            nx = x;
-            d = N;
-        }
-        if (costs[y - 1][x + 1] < min && costs[y - 1][x + 1] != -1)
-        {
-            min = costs[y - 1][x + 1];
-            ny = y - 1;
-            nx = x + 1;
-            d = NE;
-        }
-        if (costs[y][x - 1] < min && costs[y][x - 1] != -1)
-        {
-            min = costs[y][x - 1];
-            ny = y;
-            nx = x - 1;
-            d = W;
-        }
-        if (costs[y][x + 1] < min && costs[y][x + 1] != -1)
-        {
-            min = costs[y][x + 1];
-            ny = y;
-            nx = x + 1;
-            d = E;
-        }
-        if (costs[y + 1][x - 1] < min && costs[y + 1][x - 1] != -1)
-        {
-            min = costs[y + 1][x - 1];
-            ny = y + 1;
-            nx = x - 1;
-            d = SW;
-        }
-        if (costs[y + 1][x] < min && costs[y + 1][x] != -1)
-        {
-            min = costs[y + 1][x];
-            ny = y + 1;
-            nx = x;
-            d = S;
-        }
-        if (costs[y + 1][x + 1] < min && costs[y + 1][x + 1] != -1)
-        {
-            min = costs[y + 1][x + 1];
-            ny = y + 1;
-            nx = x + 1;
-            d = SE;
-        }
-//        m->swimmerCells[y][x] = '*';
-        break;//was supposed to print path but this is better for later
-        y = ny;
-        x = nx;
+        min = costs[y - 1][x - 1];
+        ny = y - 1;
+        nx = x - 1;
+        d = NW;
     }
-
-    for (i = 0; i < m->eCount; i++)
+    if (costs[y - 1][x] < min && costs[y - 1][x] != -1)
     {
-        m->swimmerCells[m->e[i].p.y][m->e[i].p.x] = saved[i];
+        min = costs[y - 1][x];
+        ny = y - 1;
+        nx = x;
+        d = N;
     }
-
+    if (costs[y - 1][x + 1] < min && costs[y - 1][x + 1] != -1)
+    {
+        min = costs[y - 1][x + 1];
+        ny = y - 1;
+        nx = x + 1;
+        d = NE;
+    }
+    if (costs[y][x - 1] < min && costs[y][x - 1] != -1)
+    {
+        min = costs[y][x - 1];
+        ny = y;
+        nx = x - 1;
+        d = W;
+    }
+    if (costs[y][x + 1] < min && costs[y][x + 1] != -1)
+    {
+        min = costs[y][x + 1];
+        ny = y;
+        nx = x + 1;
+        d = E;
+    }
+    if (costs[y + 1][x - 1] < min && costs[y + 1][x - 1] != -1)
+    {
+        min = costs[y + 1][x - 1];
+        ny = y + 1;
+        nx = x - 1;
+        d = SW;
+    }
+    if (costs[y + 1][x] < min && costs[y + 1][x] != -1)
+    {
+        min = costs[y + 1][x];
+        ny = y + 1;
+        nx = x;
+        d = S;
+    }
+    if (costs[y + 1][x + 1] < min && costs[y + 1][x + 1] != -1)
+    {
+        min = costs[y + 1][x + 1];
+        ny = y + 1;
+        nx = x + 1;
+        d = SE;
+    }
     e->nextMove = d;
     e->nextMoveCost = getCost(e->c, m->cells[ny][nx]);
+    for (int i = 0; i < m->eCount; i++)
+    {
+        m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
+    }
 }
 
 int getCost(char entity, char terrain)
@@ -578,6 +556,8 @@ int getCost(char entity, char terrain)
             return entity == HIKER ? 15 : INT_MAX;
         case WATER:
             return entity == SWIMMER ? 7 : INT_MAX;
+        case PLACEHOLDER:
+            return 100;
         default:
             return INT_MAX;
     }

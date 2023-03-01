@@ -129,6 +129,7 @@ void doMove(struct entity *e)
             break;
         case NE:
             e->p.y = e->p.y - 1;
+            e->p.x = e->p.x + 1;
             break;
         case SW:
             e->p.y = e->p.y + 1;

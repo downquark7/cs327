@@ -11,6 +11,7 @@
 #define HIKER 'H'
 #define RIVAL 'R'
 #define SWIMMER 'S'
+#define PLACEHOLDER '`'
 
 enum direction
 {
