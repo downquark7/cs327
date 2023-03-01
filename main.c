@@ -27,12 +27,12 @@ int main(int argc, char *argv[])
 
     node *root = NULL;
     const int fps = 1;
-    const int timescale = 1000000 / (fps * m->e[0].thisMoveCost);
+    const int timescale = 1000 / (fps * m->e[0].thisMoveCost);
     struct timeval tv;
-    uint64_t startTime;
-    uint64_t time;
+    int startTime;
+    int time;
     gettimeofday(&tv, NULL);
-    startTime = 1000000 * tv.tv_sec + tv.tv_usec;
+    startTime = (1000 * tv.tv_sec) + (tv.tv_usec / 1000);
 
     //set initial
     for (int i = 0; i < m->eCount; i++)
@@ -48,17 +48,17 @@ int main(int argc, char *argv[])
     {
         struct entity *e = (struct entity *) root->data;
         gettimeofday(&tv, NULL);
-        time = 1000000 * tv.tv_sec + tv.tv_usec - startTime;
+        time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
         uint64_t wait = e->nextMoveTime - time;
         if (e->nextMoveTime > time)
-            usleep(wait);
+            usleep(wait * 1000);
         e->move(e, m);
         if (e->nextMove == H)
             e->thisMoveCost = m->e[0].thisMoveCost;
         e->nextMoveTime += e->nextMoveCost * timescale;
         if (e->c == PC)
         {
-            printf(" updated\ttime: %.2f\n", time / 1000000.0);
+            printf(" updated\ttime: %d ms\n", time);
             display(m);
         }
         printf("%c", e->c);

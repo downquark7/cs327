@@ -25,13 +25,13 @@ struct entity
     enum direction nextMove;
     int thisMoveCost;
     int nextMoveCost;
+    int nextMoveTime;
 
     void (*getMove)(struct entity *e, struct map *m);
 
     void (*move)(struct entity *e, struct map *m);
 
     struct p p;
-    uint64_t nextMoveTime;
 };
 
 void clearMapEntities(struct map *m);
