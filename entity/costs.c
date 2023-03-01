@@ -44,7 +44,7 @@ int visuallyCorrectedDistance(int x1, int y1, int x2, int y2)
 
 int heuristic(int x1, int y1, int x2, int y2)
 {
-    return visuallyCorrectedDistance(x1, y1, x2, y2);
+    return zeroDistance(x1, y1, x2, y2);
 }
 
 void getDirection(struct p target, struct entity *e, struct map *m)
@@ -214,76 +214,79 @@ void getDirection(struct p target, struct entity *e, struct map *m)
 //        printf("\n");
 //    }
 
+    if (getCost(e->c, m->cells[target.y][target.x]) == INT_MAX)
+        costs[target.y][target.x] = INT_MAX;
+
     //return direction
-    int min = INT_MAX;
+    int min = INT_MAX - 10;
     int nx, ny;
     enum direction d = H;
     y = e->p.y;
     x = e->p.x;
 
-    while (costs[y][x] > 0)
+//    while (costs[y][x] > 0)
+//    {
+    if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
     {
-        if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
-        {
-            min = costs[y - 1][x - 1];
-            ny = y - 1;
-            nx = x - 1;
-            d = NW;
-        }
-        if (costs[y - 1][x] < min && costs[y - 1][x] != -1)
-        {
-            min = costs[y - 1][x];
-            ny = y - 1;
-            nx = x;
-            d = N;
-        }
-        if (costs[y - 1][x + 1] < min && costs[y - 1][x + 1] != -1)
-        {
-            min = costs[y - 1][x + 1];
-            ny = y - 1;
-            nx = x + 1;
-            d = NE;
-        }
-        if (costs[y][x - 1] < min && costs[y][x - 1] != -1)
-        {
-            min = costs[y][x - 1];
-            ny = y;
-            nx = x - 1;
-            d = W;
-        }
-        if (costs[y][x + 1] < min && costs[y][x + 1] != -1)
-        {
-            min = costs[y][x + 1];
-            ny = y;
-            nx = x + 1;
-            d = E;
-        }
-        if (costs[y + 1][x - 1] < min && costs[y + 1][x - 1] != -1)
-        {
-            min = costs[y + 1][x - 1];
-            ny = y + 1;
-            nx = x - 1;
-            d = SW;
-        }
-        if (costs[y + 1][x] < min && costs[y + 1][x] != -1)
-        {
-            min = costs[y + 1][x];
-            ny = y + 1;
-            nx = x;
-            d = S;
-        }
-        if (costs[y + 1][x + 1] < min && costs[y + 1][x + 1] != -1)
-        {
-            min = costs[y + 1][x + 1];
-            ny = y + 1;
-            nx = x + 1;
-            d = SE;
-        }
-//        m->cells[y][x] = '*';
-        break;//was supposed to print path but this is better for later
-        y = ny;
-        x = nx;
+        min = costs[y - 1][x - 1];
+        ny = y - 1;
+        nx = x - 1;
+        d = NW;
     }
+    if (costs[y - 1][x] < min && costs[y - 1][x] != -1)
+    {
+        min = costs[y - 1][x];
+        ny = y - 1;
+        nx = x;
+        d = N;
+    }
+    if (costs[y - 1][x + 1] < min && costs[y - 1][x + 1] != -1)
+    {
+        min = costs[y - 1][x + 1];
+        ny = y - 1;
+        nx = x + 1;
+        d = NE;
+    }
+    if (costs[y][x - 1] < min && costs[y][x - 1] != -1)
+    {
+        min = costs[y][x - 1];
+        ny = y;
+        nx = x - 1;
+        d = W;
+    }
+    if (costs[y][x + 1] < min && costs[y][x + 1] != -1)
+    {
+        min = costs[y][x + 1];
+        ny = y;
+        nx = x + 1;
+        d = E;
+    }
+    if (costs[y + 1][x - 1] < min && costs[y + 1][x - 1] != -1)
+    {
+        min = costs[y + 1][x - 1];
+        ny = y + 1;
+        nx = x - 1;
+        d = SW;
+    }
+    if (costs[y + 1][x] < min && costs[y + 1][x] != -1)
+    {
+        min = costs[y + 1][x];
+        ny = y + 1;
+        nx = x;
+        d = S;
+    }
+    if (costs[y + 1][x + 1] < min && costs[y + 1][x + 1] != -1)
+    {
+        min = costs[y + 1][x + 1];
+        ny = y + 1;
+        nx = x + 1;
+        d = SE;
+    }
+//        m->cells[y][x] = '*';
+//        break;//was supposed to print path but this is better for later
+//        y = ny;
+//        x = nx;
+//    }
 
     for (i = 0; i < m->eCount; i++)
     {
@@ -459,6 +462,9 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
 //        }
 //        printf("\n");
 //    }
+
+    if (getCost(e->c, m->swimmerCells[target.y][target.x]) == INT_MAX)
+        costs[target.y][target.x] = INT_MAX;
 
     //return direction
     int min = INT_MAX - 10;

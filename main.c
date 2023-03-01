@@ -4,6 +4,7 @@
 #include "entity/entity.h"
 #include <time.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main(int argc, char *argv[])
 {
@@ -18,5 +19,15 @@ int main(int argc, char *argv[])
     addEntity(m, HIKER);
     addEntity(m, RIVAL);
     addEntity(m, SWIMMER);
-    display(m);
+    int time = 0;
+    while (1)
+    {
+        display(m);
+        for (int i = 0; i < m->eCount; i++)
+        {
+            m->e[i].move(&(m->e[i]), m);
+            m->e[i].nextMoveTime = time + m->e[i].nextMoveCost;
+        }
+        usleep(1000000);
+    }
 }

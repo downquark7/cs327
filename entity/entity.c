@@ -34,7 +34,7 @@ void place(struct map *m, char entity)
 {
     char saved[m->eCount];
     int i;
-    for (i = 0; i < m->eCount; i++)
+    for (i = 0; i < m->eCount - 1; i++)
     {
         saved[i] = m->cells[m->e[i].p.y][m->e[i].p.x];
         m->cells[m->e[i].p.y][m->e[i].p.x] = m->e[i].c;
@@ -58,7 +58,7 @@ void place(struct map *m, char entity)
                      m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x] == 'M');
             break;
     }
-    for (i = 0; i < m->eCount; i++)
+    for (i = 0; i < m->eCount - 1; i++)
     {
         m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
     }
@@ -74,6 +74,11 @@ void getMoveNPC(struct entity *e, struct map *m)
 {
     //target PC
     getDirection(m->e[0].p, e, m);
+}
+
+void getMovePC(struct entity *e, struct map *m)
+{
+    e->nextMove = rand() % 10;
 }
 
 char getCell(enum direction d, struct p p, struct map *m)
@@ -107,41 +112,42 @@ void doMove(struct entity *e)
     {
         case N:
             e->p.y = e->p.y - 1;
-            return;
+            break;
         case S:
             e->p.y = e->p.y + 1;
-            return;
+            break;
         case E:
             e->p.x = e->p.x + 1;
-            return;
+            break;
         case W:
             e->p.x = e->p.x - 1;
         case H:
-            return;
+            break;
         case NW:
             e->p.y = e->p.y - 1;
             e->p.x = e->p.x - 1;
-            return;
+            break;
         case NE:
             e->p.y = e->p.y - 1;
-            return;
+            break;
         case SW:
             e->p.y = e->p.y + 1;
             e->p.x = e->p.x - 1;
-            return;
+            break;
         case SE:
             e->p.y = e->p.y + 1;
             e->p.x = e->p.x + 1;
-            return;
+            break;
     }
+    if (e->p.y < 1) e->p.y = 1;
+    if (e->p.x < 1) e->p.x = 1;
+    if (e->p.y > MAP_HEIGHT - 2) e->p.y = MAP_HEIGHT - 2;
+    if (e->p.x > MAP_WIDTH - 2) e->p.x = MAP_WIDTH - 2;
 }
 
 void moveNPC(struct entity *e, struct map *m)
 {
-    char targetCell = getCell(e->nextMove, e->p, m);
-    if (targetCell != ROAD || getCost(e->c, targetCell) > 100)
-        e->getMove(e, m);
-
+    e->getMove(e, m);
     doMove(e);
 }
 
@@ -159,6 +165,7 @@ void setGetMove(struct map *m, char entity)
     switch (entity)
     {
         case PC:
+            m->e[m->eCount - 1].getMove = getMovePC;
             return;
         case SWIMMER:
             m->e[m->eCount - 1].getMove = getMoveSwimmer;
