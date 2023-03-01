@@ -34,6 +34,10 @@ void placeBuildings(struct map *m)
                 m->cells[m->exits[1].p.y + 1][x + 1] = 'C';
                 m->cells[m->exits[1].p.y + 2][x] = 'C';
                 m->cells[m->exits[1].p.y + 2][x + 1] = 'C';
+                m->swimmerCells[m->exits[1].p.y + 1][x] = 'C';
+                m->swimmerCells[m->exits[1].p.y + 1][x + 1] = 'C';
+                m->swimmerCells[m->exits[1].p.y + 2][x] = 'C';
+                m->swimmerCells[m->exits[1].p.y + 2][x + 1] = 'C';
                 break;
             }
         }
@@ -52,6 +56,10 @@ void placeBuildings(struct map *m)
                 m->cells[m->exits[0].p.y - 1][x + 1] = 'M';
                 m->cells[m->exits[0].p.y - 2][x] = 'M';
                 m->cells[m->exits[0].p.y - 2][x + 1] = 'M';
+                m->swimmerCells[m->exits[0].p.y - 1][x] = 'M';
+                m->swimmerCells[m->exits[0].p.y - 1][x + 1] = 'M';
+                m->swimmerCells[m->exits[0].p.y - 2][x] = 'M';
+                m->swimmerCells[m->exits[0].p.y - 2][x + 1] = 'M';
                 break;
             }
         }

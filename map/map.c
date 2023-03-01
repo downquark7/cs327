@@ -41,6 +41,15 @@ void generate(struct map *m)
     srand(m->seed);
     clearMapEntities(m);
     generateTerrain(m);
+    copyToSwimmerCells(m);
     generateRoadsAndBorder(m);
     placeBuildings(m);
+}
+
+void copyToSwimmerCells(struct map *m)
+{
+    int y, x;
+    for (y = 0; y < MAP_HEIGHT; y++)
+        for (x = 0; x < MAP_WIDTH + 1; x++)
+            m->swimmerCells[y][x] = m->cells[y][x];
 }

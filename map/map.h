@@ -26,6 +26,7 @@ struct cell {
 
 struct map {
     char cells[MAP_HEIGHT][MAP_WIDTH + 1];
+    char swimmerCells[MAP_HEIGHT][MAP_WIDTH + 1];
     struct cell exits[4];
     struct p p;
     int seed;
@@ -36,6 +37,9 @@ struct map {
 
 void displayToPrintf(struct map *m);
 void generate(struct map *m);
+
 void display(struct map *m);
+
+void copyToSwimmerCells(struct map *m);
 
 #endif //CS327_MAP_H

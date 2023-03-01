@@ -21,10 +21,17 @@ struct entity
 {
     char c;
     enum direction nextMove;
+    int nextMoveCost;
+    int nextMoveTime;
     struct p p;
-    void (*move)(struct entity *e);
+
+    void (*getMove)(struct entity *e, struct map *m);
+
+    void (*move)(struct entity *e, struct map *m);
 };
 
 void clearMapEntities(struct map *m);
+
+void addEntity(struct map *m, char entity);
 
 #endif //CS327_ENTITY_H

@@ -7,7 +7,9 @@
 
 #include "../map/map.h"
 
-enum direction getDirection(struct p target, struct entity *e, struct map *m);
+void getDirection(struct p target, struct entity *e, struct map *m);
+
+void getDirectionSwimmer(struct p target, struct entity *e, struct map *m);
 
 int getCost(char entity, char terrain);
 
