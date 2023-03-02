@@ -113,15 +113,17 @@ void getMoveSentry(struct entity *e, struct map *m)
 
 void getMovePacer(struct entity *e, struct map *m)
 {
-    if (e->nextMove == H) e->nextMove = E;
     char targetCell = getCell(e->nextMove, e->p, m);
     struct p np = getP(e->nextMove, e->p);
-    for (int i = 0; i < m->eCount; i++)
-    {
-        if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
-            targetCell = PLACEHOLDER;
-    }
-    if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
+    if (np.y == e->p.y && np.x == e->p.y)
+        e->nextMove = H;
+    else
+        for (int i = 0; i < m->eCount; i++)
+        {
+            if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
+                targetCell = PLACEHOLDER;
+        }
+    if (e->nextMove == H || getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
     {
         if (e->nextMove == E)
             e->nextMove = W;
@@ -146,11 +148,14 @@ void getMoveWanderer(struct entity *e, struct map *m)
 {
     char targetCell = getCell(e->nextMove, e->p, m);
     struct p np = getP(e->nextMove, e->p);
-    for (int i = 0; i < m->eCount; i++)
-    {
-        if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
-            targetCell = PLACEHOLDER;
-    }
+    if (np.y == e->p.y && np.x == e->p.y)
+        e->nextMove = H;
+    else
+        for (int i = 0; i < m->eCount; i++)
+        {
+            if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
+                targetCell = PLACEHOLDER;
+        }
     if (e->nextMove == H || targetCell != getCell(H, e->p, m))
     {
         e->nextMove = rand() % 10;
@@ -182,11 +187,14 @@ void getMoveSwimmer(struct entity *e, struct map *m)
 
     char targetCell = getSwimmerCell(e->nextMove, e->p, m);
     struct p np = getP(e->nextMove, e->p);
-    for (int i = 0; i < m->eCount; i++)
-    {
-        if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
-            targetCell = PLACEHOLDER;
-    }
+    if (np.y == e->p.y && np.x == e->p.y)
+        e->nextMove = H;
+    else
+        for (int i = 0; i < m->eCount; i++)
+        {
+            if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
+                targetCell = PLACEHOLDER;
+        }
     if (e->nextMove == H || targetCell != WATER)
     {
         e->nextMove = rand() % 10;
@@ -213,11 +221,14 @@ void getMoveExplorer(struct entity *e, struct map *m)
 {
     char targetCell = getCell(e->nextMove, e->p, m);
     struct p np = getP(e->nextMove, e->p);
-    for (int i = 0; i < m->eCount; i++)
-    {
-        if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
-            targetCell = PLACEHOLDER;
-    }
+    if (np.y == e->p.y && np.x == e->p.y)
+        e->nextMove = H;
+    else
+        for (int i = 0; i < m->eCount; i++)
+        {
+            if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
+                targetCell = PLACEHOLDER;
+        }
     if (e->nextMove == H || getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
     {
         e->nextMove = rand() % 10;
@@ -233,7 +244,8 @@ void getMoveExplorer(struct entity *e, struct map *m)
                     targetCell = PLACEHOLDER;
             }
 
-        } while (e->nextMove != start && (e->nextMove == H || getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER)));
+        } while (e->nextMove != start &&
+                 (e->nextMove == H || getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER)));
     }
     if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
         e->nextMove = H;
@@ -242,7 +254,7 @@ void getMoveExplorer(struct entity *e, struct map *m)
 
 void getMovePC(struct entity *e, struct map *m)
 {
-    getMoveSentry(e, m);
+    getMoveExplorer(e, m);
 }
 
 void doMove(struct entity *e)
