@@ -6,28 +6,70 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <string.h>
 #include "data/heap.h"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "EndlessLoop"
 
 int main(int argc, char *argv[])
 {
-    while (1)
+    int testMode = 0;
+    int innerLoopIters = 0;
+    int num = 10;
+    for (int i = 1; i < argc; i++)
+    {
+        if (!strcmp(argv[i], "--test") && i + 1 < argc)
+        {
+            testMode = innerLoopIters = strtol(argv[i + 1], NULL, 10);
+        }
+        if (!strcmp(argv[i], "--numtrainers") && i + 1 < argc)
+        {
+            num = strtol(argv[i + 1], NULL, 10);
+            if (num < 0) num = 0;
+        }
+    }
+    do
     {
         int y = 0, x = 0;
         struct grid g;
         struct map *m;
-        initGrid(&g, time(NULL));
+        initGrid(&g, 1677729685);//time(NULL));
         printf("main seed: %d\n", g.seed);
         m = getMap(&g, y, x);
 
         srand(m->seed);
         addEntity(m, PC);
-        addEntity(m, HIKER);
-        addEntity(m, RIVAL);
-        addEntity(m, PACER);
-        addEntity(m, WANDERER);
-        addEntity(m, SENTRY);
-        addEntity(m, EXPLORER);
-        addEntity(m, SWIMMER);
+        if (num > 0)
+            addEntity(m, RIVAL);
+        if (num > 1)
+            addEntity(m, HIKER);
+
+        for (int i = 2; i < num; i++)
+            switch (rand() % 7)
+            {
+                case 0:
+                    addEntity(m, RIVAL);
+                    break;
+                case 1:
+                    addEntity(m, HIKER);
+                    break;
+                case 2:
+                    addEntity(m, PACER);
+                    break;
+                case 3:
+                    addEntity(m, WANDERER);
+                    break;
+                case 4:
+                    addEntity(m, SENTRY);
+                    break;
+                case 5:
+                    addEntity(m, EXPLORER);
+                    break;
+                case 6:
+                    addEntity(m, SWIMMER);
+                    break;
+            }
         display(m);
 
 
@@ -51,31 +93,44 @@ int main(int argc, char *argv[])
             root = insert(root, m->e[i].nextMoveTime, &(m->e[i]));
         }
 
-        int iters = 1000;
+        int iters = innerLoopIters;
 
-        while (iters--)
+        while (!testMode || iters--)
         {
             struct entity *e = (struct entity *) root->data;
-            gettimeofday(&tv, NULL);
-            time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
-            int wait = e->nextMoveTime - time;
-            if (e->nextMoveTime > time)
-                usleep(wait * 1000);
-            e->move(e, m);
             if (e->c == PC)
             {
+                gettimeofday(&tv, NULL);
+                time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
+                int wait = e->nextMoveTime - time;
+                if (e->nextMoveTime > time && !testMode)
+                    usleep(wait * 1000);
                 printf("\ntime: %d ms\n", e->nextMoveTime);
-                display(m);
+                if (!testMode)
+                    display(m);
             }
+            e->move(e, m);
             if (e->nextMove == H)
                 e->nextMoveCost = m->e[0].thisMoveCost;
             e->nextMoveTime += e->nextMoveCost * timescale;
             printf("%c%d ", e->c, e->thisMoveCost);
             root = deleteMin(root);
             root = insert(root, e->nextMoveTime, e);
+            if (testMode)
+            {
+                for (int i = 0; i < m->eCount; i++)
+                    for (int o = 0; o < m->eCount; o++)
+                        if (i != 0 && m->e[i].p.y == m->e[o].p.y && m->e[i].p.x == m->e[o].p.x)
+                        {
+                            display(m);
+                            abort();
+                        }
+            }
         }
         free(m->e);
         free(m);
         deleteAll(root);
-    }
+    } while (--testMode);
 }
+
+#pragma clang diagnostic pop

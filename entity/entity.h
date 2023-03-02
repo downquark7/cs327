@@ -39,6 +39,6 @@ struct entity
 
 void clearMapEntities(struct map *m);
 
-void addEntity(struct map *m, char entity);
+int addEntity(struct map *m, char entity);
 
 #endif //CS327_ENTITY_H
