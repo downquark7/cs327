@@ -1,4 +1,3 @@
-look at main.c and entity/costs.c and data/heap.c
-uses a* with distance heuristic that takes into account the difference between the height and width of characters compared to squares
-switch heuristic in costs.c to zeroDistance to use dijkstra's instead of a*
-heap is pairing heap
+delete Makefile and run ```cmake CMakeLists.txt``` if makefile does not work to make new makefile
+Makefile works in Ubuntu so there is no reason for it to not work
+

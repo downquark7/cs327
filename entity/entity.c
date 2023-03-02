@@ -323,6 +323,8 @@ char getCell(enum direction d, struct p p, struct map *m)
             return m->cells[p.y + 1][p.x - 1];
         case SE:
             return m->cells[p.y + 1][p.x + 1];
+        default:
+            return 0;
     }
 }
 
@@ -348,5 +350,7 @@ char getSwimmerCell(enum direction d, struct p p, struct map *m)
             return m->swimmerCells[p.y + 1][p.x - 1];
         case SE:
             return m->swimmerCells[p.y + 1][p.x + 1];
+        default:
+            return 0;
     }
 }
