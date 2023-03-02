@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
 
         node *root = NULL;
-        const int fps = 1;
+        const int fps = 4;
         const int timescale = 1000 / (fps * m->e[0].thisMoveCost);
         struct timeval tv;
         int startTime;
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
             if (m->e[i].nextMove == H)
                 m->e[i].thisMoveCost = m->e[0].thisMoveCost;
             //make the turn order more predictable for entities with same move cost with -i
-            m->e[i].nextMoveTime = 1000 + m->e[i].thisMoveCost * timescale - i;
+            m->e[i].nextMoveTime = 1000 + m->e[i].nextMoveCost * timescale - i;
             root = insert(root, m->e[i].nextMoveTime, &(m->e[i]));
         }
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
             if (e->nextMove == H)
                 e->nextMoveCost = m->e[0].thisMoveCost;
             e->nextMoveTime += e->nextMoveCost * timescale;
-            printf("%c%d ", e->c, e->thisMoveCost);
+            printf("%c%d[%d][%d] ", e->c, e->thisMoveCost, e->p.y, e->p.x);
             root = deleteMin(root);
             root = insert(root, e->nextMoveTime, e);
             if (testMode)
@@ -120,6 +120,8 @@ int main(int argc, char *argv[])
                         if (i != o && m->e[i].p.y == m->e[o].p.y && m->e[i].p.x == m->e[o].p.x)
                         {
                             display(m);
+                            printf("%c [%d][%d]\n", e->c, e->p.y, e->p.x);
+                            printf("%c %c [%d][%d]\n", m->e[i].c, m->e[o].c, m->e[i].p.y, m->e[o].p.x);
                             abort();
                         }
             }

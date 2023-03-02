@@ -25,6 +25,8 @@ struct p getP(enum direction d, struct p p);
 
 char getSwimmerCell(enum direction d, struct p p, struct map *m);
 
+int checkBounds(struct p p);
+
 int addEntity(struct map *m, char entity)
 {
     m->e = realloc(m->e, sizeof(struct entity) * ++m->eCount);
@@ -100,6 +102,15 @@ void setMoveCost(struct entity *e, struct map *m)
         e->thisMoveCost = m->e[0].thisMoveCost;
 }
 
+int checkBounds(struct p p)
+{
+    if (p.y < 1) return 1;
+    if (p.x < 1) return 1;
+    if (p.y > MAP_HEIGHT - 2) return 1;
+    if (p.x > MAP_WIDTH - 2) return 1;
+    return 0;
+}
+
 void getMoveNPC(struct entity *e, struct map *m)
 {
     //target PC
@@ -115,7 +126,7 @@ void getMovePacer(struct entity *e, struct map *m)
 {
     char targetCell = getCell(e->nextMove, e->p, m);
     struct p np = getP(e->nextMove, e->p);
-    if (np.y == e->p.y && np.x == e->p.y)
+    if (checkBounds(np))
         e->nextMove = H;
     else
         for (int i = 0; i < m->eCount; i++)
@@ -137,7 +148,7 @@ void getMovePacer(struct entity *e, struct map *m)
         if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
             targetCell = PLACEHOLDER;
     }
-    if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
+    if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER) || checkBounds(np))
     {
         e->nextMove = H;
     }
@@ -148,7 +159,7 @@ void getMoveWanderer(struct entity *e, struct map *m)
 {
     char targetCell = getCell(e->nextMove, e->p, m);
     struct p np = getP(e->nextMove, e->p);
-    if (np.y == e->p.y && np.x == e->p.y)
+    if (checkBounds(np))
         e->nextMove = H;
     else
         for (int i = 0; i < m->eCount; i++)
@@ -172,7 +183,7 @@ void getMoveWanderer(struct entity *e, struct map *m)
             }
         } while (e->nextMove != start && (e->nextMove == H || targetCell != getCell(H, e->p, m)));
     }
-    if (targetCell != getCell(H, e->p, m))
+    if (targetCell != getCell(H, e->p, m) || checkBounds(np))
         e->nextMove = H;
     setMoveCost(e, m);
 }
@@ -187,7 +198,7 @@ void getMoveSwimmer(struct entity *e, struct map *m)
 
     char targetCell = getSwimmerCell(e->nextMove, e->p, m);
     struct p np = getP(e->nextMove, e->p);
-    if (np.y == e->p.y && np.x == e->p.y)
+    if (checkBounds(np))
         e->nextMove = H;
     else
         for (int i = 0; i < m->eCount; i++)
@@ -211,7 +222,7 @@ void getMoveSwimmer(struct entity *e, struct map *m)
             }
 
         } while (e->nextMove != start && (e->nextMove == H || targetCell != WATER));
-        if (targetCell != WATER)
+        if (targetCell != WATER || checkBounds(np))
             e->nextMove = H;
     }
     setMoveCost(e, m);
@@ -221,7 +232,7 @@ void getMoveExplorer(struct entity *e, struct map *m)
 {
     char targetCell = getCell(e->nextMove, e->p, m);
     struct p np = getP(e->nextMove, e->p);
-    if (np.y == e->p.y && np.x == e->p.y)
+    if (checkBounds(np))
         e->nextMove = H;
     else
         for (int i = 0; i < m->eCount; i++)
@@ -245,16 +256,17 @@ void getMoveExplorer(struct entity *e, struct map *m)
             }
 
         } while (e->nextMove != start &&
-                 (e->nextMove == H || getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER)));
+                 (e->nextMove == H || getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER) ||
+                  checkBounds(np)));
     }
-    if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
+    if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER) || checkBounds(np))
         e->nextMove = H;
     setMoveCost(e, m);
 }
 
 void getMovePC(struct entity *e, struct map *m)
 {
-    getMoveExplorer(e, m);
+    //skip
 }
 
 void doMove(struct entity *e)
@@ -291,10 +303,26 @@ void doMove(struct entity *e)
             e->p.x = e->p.x + 1;
             break;
     }
-    if (e->p.y < 1) e->p.y = 1;
-    if (e->p.x < 1) e->p.x = 1;
-    if (e->p.y > MAP_HEIGHT - 2) e->p.y = MAP_HEIGHT - 2;
-    if (e->p.x > MAP_WIDTH - 2) e->p.x = MAP_WIDTH - 2;
+    if (e->p.y < 1)
+    {
+        printf("\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        abort();
+    }
+    if (e->p.x < 1)
+    {
+        printf("\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        abort();
+    }
+    if (e->p.y > MAP_HEIGHT - 2)
+    {
+        printf("\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        abort();
+    }
+    if (e->p.x > MAP_WIDTH - 2)
+    {
+        printf("\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        abort();
+    }
 }
 
 void moveNPC(struct entity *e, struct map *m)
@@ -305,17 +333,7 @@ void moveNPC(struct entity *e, struct map *m)
 
 void movePC(struct entity *e, struct map *m)
 {
-    char targetCell = getCell(e->nextMove, e->p, m);
-    struct p np = getP(e->nextMove, e->p);
-    for (int i = 0; i < m->eCount; i++)
-    {
-        if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
-            targetCell = PLACEHOLDER;
-    }
-    if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
-        e->nextMove = H;
-
-    doMove(e);
+    //skip
 }
 
 void setGetMove(struct map *m, char entity)
@@ -323,7 +341,7 @@ void setGetMove(struct map *m, char entity)
     switch (entity)
     {
         case PC:
-            m->e[m->eCount - 1].getMove = getMovePC;
+            m->e[m->eCount - 1].getMove = getMoveExplorer;
             return;
         case PACER:
             m->e[m->eCount - 1].getMove = getMovePacer;
@@ -351,7 +369,7 @@ void setMove(struct map *m, char entity)
     switch (entity)
     {
         case PC:
-            m->e[m->eCount - 1].move = movePC;
+            m->e[m->eCount - 1].move = moveNPC;
             return;
         default:
             m->e[m->eCount - 1].move = moveNPC;
@@ -393,10 +411,6 @@ struct p getP(enum direction d, struct p p)
             p.x = p.x + 1;
             break;
     }
-    if (p.y < 1) p.y = 1;
-    if (p.x < 1) p.x = 1;
-    if (p.y > MAP_HEIGHT - 2) p.y = MAP_HEIGHT - 2;
-    if (p.x > MAP_WIDTH - 2) p.x = MAP_WIDTH - 2;
     return p;
 }
 

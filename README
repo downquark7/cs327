@@ -2,7 +2,7 @@ delete Makefile and run ```cmake CMakeLists.txt``` if makefile does not work to 
 Makefile works in Ubuntu so there is no reason for it to not work
 
 look in main.c entity/entity.h entity/entity.c
-int fps in main.c is 1, can be increased to 4
+int fps in main.c is 4, can be increased or decreased
 
 --numtrainers will never crash when a reasonable amount of memory is available
 the only bug I know of is I don't know what the timer will do after 600 hours of runtime

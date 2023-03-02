@@ -50,7 +50,6 @@ int heuristic(int x1, int y1, int x2, int y2)
 
 void getDirection(struct p target, struct entity *e, struct map *m)
 {
-    char cellAtE = m->cells[e->p.y][e->p.x];
     char saved[m->eCount];
     for (int i = 0; i < m->eCount; i++)
     {
@@ -76,7 +75,8 @@ void getDirection(struct p target, struct entity *e, struct map *m)
         struct p *min = (struct p *) (root->data);
 
         //cost = -1 if not visited
-        if (costs[min->y][min->x] == -1)
+        if (costs[min->y][min->x] == -1 && min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 &&
+            min->y < MAP_HEIGHT - 1)
         {
             costs[min->y][min->x] = root->key;
 
@@ -86,7 +86,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             }
 
             if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                costs[min->y - 1][min->x - 1] < 0 &&
+                costs[min->y - 1][min->x - 1] == -1 &&
                 (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
@@ -98,7 +98,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             }
 
             if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                costs[min->y - 1][min->x] < 0 &&
+                costs[min->y - 1][min->x] == -1 &&
                 (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x])) > 0 &&
                 cost != INT_MAX)
             {
@@ -110,7 +110,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             }
 
             if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                costs[min->y - 1][min->x + 1] < 0 &&
+                costs[min->y - 1][min->x + 1] == -1 &&
                 (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
@@ -122,7 +122,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             }
 
             if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                costs[min->y][min->x - 1] < 0 &&
+                costs[min->y][min->x - 1] == -1 &&
                 (cost = root->key + getCost(e->c, m->cells[min->y][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
@@ -134,7 +134,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             }
 
             if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                costs[min->y][min->x + 1] < 0 &&
+                costs[min->y][min->x + 1] == -1 &&
                 (cost = root->key + getCost(e->c, m->cells[min->y][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
@@ -146,7 +146,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             }
 
             if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                costs[min->y + 1][min->x - 1] < 0 &&
+                costs[min->y + 1][min->x - 1] == -1 &&
                 (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
@@ -158,7 +158,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             }
 
             if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                costs[min->y + 1][min->x] < 0 &&
+                costs[min->y + 1][min->x] == -1 &&
                 (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x])) > 0 &&
                 cost != INT_MAX)
             {
@@ -170,7 +170,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             }
 
             if (min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 && min->y < MAP_HEIGHT - 1 &&
-                costs[min->y + 1][min->x + 1] < 0 &&
+                costs[min->y + 1][min->x + 1] == -1 &&
                 (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
@@ -187,25 +187,38 @@ void getDirection(struct p target, struct entity *e, struct map *m)
     deleteAllData(root);
 
     //print all costs
-//    if (e->c == RIVAL)
-//        for (y = 0; y < MAP_HEIGHT; y++)
+//    printf("\n     ");
+//    for (x = 0; x < MAP_WIDTH; x++)
+//        printf("%4d ", x);
+//    printf("\n");
+//    for (y = 0; y < MAP_HEIGHT; y++)
+//    {
+//        printf("%4d ", y);
+//        for (x = 0; x < MAP_WIDTH; x++)
 //        {
-//            for (x = 0; x < MAP_WIDTH; x++)
-//            {
-//                if (costs[y][x] == -1)
-//                    printf("     ");
-//                else
-//                    printf("%4d ", costs[y][x]);
-//            }
-//            printf("\n");
+//            if (costs[y][x] == -1)
+//                printf("   - ");
+//            else
+//                printf("%4d ", costs[y][x]);
 //        }
+//        printf("%4d ", y);
+//        printf("\n");
+//    }
+//    printf("     ");
+//    for (x = 0; x < MAP_WIDTH; x++)
+//        printf("%4d ", x);
+//    printf("\n");
 
-    if (getCost(e->c, m->cells[target.y][target.x]) == INT_MAX)
-        costs[target.y][target.x] = INT_MAX;
     for (int i = 0; i < m->eCount; i++)
     {
-        costs[m->e[i].p.y][m->e[i].p.x] = INT_MAX;
+        m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
     }
+
+    if (getCost(e->c, m->cells[target.y][target.x]) >= getCost(e->c, PLACEHOLDER))
+        costs[target.y][target.x] = INT_MAX;
+
+    for (int i = 0; i < m->eCount; i++)
+        costs[m->e[i].p.y][m->e[i].p.x] = INT_MAX;
 
     //return direction
     int min = INT_MAX - 10;
@@ -272,74 +285,8 @@ void getDirection(struct p target, struct entity *e, struct map *m)
         d = SE;
     }
     e->nextMove = d;
-    e->thisMoveCost = getCost(e->c, m->cells[ny][nx]);
-    char cellAtNewE = m->cells[ny][nx];
-    m->cells[ny][nx] = PLACEHOLDER;
-    m->cells[e->p.y][e->p.x] = cellAtE;
-    y = ny;
-    x = nx;
-    if (costs[y - 1][x - 1] < min && costs[y - 1][x - 1] != -1)
-    {
-        min = costs[y - 1][x - 1];
-        ny = y - 1;
-        nx = x - 1;
-        d = NW;
-    }
-    if (costs[y - 1][x] < min && costs[y - 1][x] != -1)
-    {
-        min = costs[y - 1][x];
-        ny = y - 1;
-        nx = x;
-        d = N;
-    }
-    if (costs[y - 1][x + 1] < min && costs[y - 1][x + 1] != -1)
-    {
-        min = costs[y - 1][x + 1];
-        ny = y - 1;
-        nx = x + 1;
-        d = NE;
-    }
-    if (costs[y][x - 1] < min && costs[y][x - 1] != -1)
-    {
-        min = costs[y][x - 1];
-        ny = y;
-        nx = x - 1;
-        d = W;
-    }
-    if (costs[y][x + 1] < min && costs[y][x + 1] != -1)
-    {
-        min = costs[y][x + 1];
-        ny = y;
-        nx = x + 1;
-        d = E;
-    }
-    if (costs[y + 1][x - 1] < min && costs[y + 1][x - 1] != -1)
-    {
-        min = costs[y + 1][x - 1];
-        ny = y + 1;
-        nx = x - 1;
-        d = SW;
-    }
-    if (costs[y + 1][x] < min && costs[y + 1][x] != -1)
-    {
-        min = costs[y + 1][x];
-        ny = y + 1;
-        nx = x;
-        d = S;
-    }
-    if (costs[y + 1][x + 1] < min && costs[y + 1][x + 1] != -1)
-    {
-        min = costs[y + 1][x + 1];
-        ny = y + 1;
-        nx = x + 1;
-        d = SE;
-    }
-    m->cells[y][x] = cellAtNewE;
+    e->thisMoveCost = getCost(e->c, m->cells[y][x]);
     e->nextMoveCost = getCost(e->c, m->cells[ny][nx]);
-    for (int i = 0; i < m->eCount; i++)
-    {
-        m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
-    }
 }
 
 void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
@@ -370,7 +317,8 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
         struct p *min = (struct p *) (root->data);
 
         //cost = -1 if not visited
-        if (costs[min->y][min->x] == -1)
+        if (costs[min->y][min->x] == -1 && min->x >= 1 && min->x < MAP_WIDTH - 1 && min->y >= 1 &&
+            min->y < MAP_HEIGHT - 1)
         {
             costs[min->y][min->x] = root->key;
 
