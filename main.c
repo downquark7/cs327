@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <string.h>
+#include <time.h>
 #include "data/heap.h"
 
 #pragma clang diagnostic push
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
         int y = 0, x = 0;
         struct grid g;
         struct map *m;
-        initGrid(&g, 1677729685);//time(NULL));
+        initGrid(&g, time(NULL));
         printf("main seed: %d\n", g.seed);
         m = getMap(&g, y, x);
 
