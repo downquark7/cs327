@@ -78,7 +78,7 @@ int place(struct map *m, char entity)
     {
         m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
     }
-    return !tries;
+    return tries <= 0;
 }
 
 void setMoveCost(struct entity *e, struct map *m)

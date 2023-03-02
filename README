@@ -6,27 +6,6 @@ int fps in main.c is 1, can be increased to 4
 
 --numtrainers will never crash when a reasonable amount of memory is available
 the only bug I know of is I don't know what the timer will do after 600 hours of runtime
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%^^^^^^^^^^^^^^^^^^^^^^^......................:::::#::::::::::::::::...........%
-%^^h^^^^h^^^^^^h^^^^^h^^sppewewpewresrhppehpshwrrrspewswpeehsrhrprpwwphrsswspe.%
-%^^^^^^^h^^^^h^^^h^^^h^ersewpprwepwe.weepheswrwerhssrrweswwpsserpshrwwrepsprsr.%
-%^^h^h^h^h^^^h^^h^hhh^errhpehrwprepppwrewehpwpssphpressrsperewspwreehswerrerrp.%
-%^hhh^^^^^^^^^^^h^^^^ppsssserepswesppesrrwreeweheswrrresswseee:wehweesphrhwhsp.%
-%^hhhhhh^^^hhhh^hp.hhrwswerespwrhpewhesrspwsppehreprprphesrewerppwsrprsrwrsees.%
-%^h^^^^hh^^^^^hepprhweprpsewswppewresspprprrewwwsepphsrsherrsperhepsppwrwspwrh.%
-%^^^^^^^^^hesrehprwrhpweprpshhwsperewswrwwewreseererppsepephespppwppwpswsssrrw.%
-%^^^h^reehrhrrpesewrhwwpw.phwrwrehpresresrpreprsssrhhrspwessspprpprprwhwperhre:%
-%.hwhwwwrwpeerreerppprhssesrssehswpphesprphpwspe:epsrpwerserepwpwMMeerpeprepe~~%
-%.sewhhprpswesepehsprprprrprw~mmmm~m~mmm~mmmm~spprpp%h%%spsrrseeeMMpshsswwp~mm~%
-##eprhewwwewseseeepsspwphwpehhprrrphswrwssphpprrwswsspepwsherwhwpwwsrewe~m~~mm~%
-%.rhepprr%%hhprhererrwwwwemm~mm~%%%~~~m~m~m~~~mphwsh^^^^^^~mw~mm~m~rm~~~~~mm~~~%
-%~~mm~m~~m~mmmm~mmrweeersmm~~mmmmm~~~~~m~mmm~seh^h^^^^m~mmm~e~m~~mms~m~m~~~m~~~%
-%~~m~~~m~~m~m~mm~mmm~~~mrrr~mmmmmmmm~~~~rrrwhwhh^^^^^^h^~m~ms~~~m~~perp@swwrhp##
-%~~~~~~m~~mmmm~mm~~~m~~~spwpehwesrpepwpeweewp^^^^^h^h^^^^h~memm~mmm~CCmmmmm~mm~%
-%~m~~m~mmm~mmmm~mm~~~~mmeerppreswrserssesrhws^^hh^h^^^^^h^^^s~mmmmmmCCm~mm~~~m~%
-%~~mmmmmmmm~~m~mmmm~mm~~rerwspwwrhpwhrphpspwr^^^^h^h^^^^^^^^w^^~m~~~h%h%%%%~mm~%
-%~~~~~~~~~~~~~~~~~~~~~~~......................^^^^^^^^^^^^^^#^^^^~%%%%%%%%%%%~~%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#%%%%%%%%%%%%%%%%%%%
 
 added test argument as --test number
 will just run number times of number iterations to check for random errors
