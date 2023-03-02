@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-node *createNode(int key, void *data)
+node *createNode(unsigned int key, void *data)
 {
     node *newNode = (node *) malloc(sizeof(node));
     newNode->key = key;
@@ -58,7 +58,7 @@ node *merge(node *first, node *second)
     }
 }
 
-node *insert(node *root, int key, void *data)
+node *insert(node *root, unsigned int key, void *data)
 {
     node *newNode = createNode(key, data);
     return merge(root, newNode);

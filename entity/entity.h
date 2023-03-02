@@ -6,12 +6,15 @@
 #define CS327_ENTITY_H
 
 #include "../map/map.h"
-#include <stdint.h>
 
 #define PC '@'
-#define HIKER 'H'
-#define RIVAL 'R'
-#define SWIMMER 'M'
+#define HIKER 'h'
+#define RIVAL 'r'
+#define PACER 'p'
+#define WANDERER 'w'
+#define SENTRY 's'
+#define EXPLORER 'e'
+#define SWIMMER 'm'
 #define PLACEHOLDER '`'
 
 enum direction

@@ -20,6 +20,7 @@ void fillBoarder(struct map *m)
                 y == 0 || y == (MAP_HEIGHT - 1))
                 m->cells[y][x] = ROCK;
 }
+
 int min(int a, int b)
 {
     return a < b ? a : b;

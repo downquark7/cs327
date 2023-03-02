@@ -7,14 +7,14 @@
 
 typedef struct node
 {
-    int key;
+    unsigned int key;
     struct node *child;
     struct node *sibling;
     struct node *prev;
     void *data;
 } node;
 
-node *createNode(int key, void *data);
+node *createNode(unsigned int key, void *data);
 
 node *merge(node *first, node *second);
 
@@ -22,7 +22,7 @@ node *mergePairs(node *first);
 
 node *merge(node *first, node *second);
 
-node *insert(node *root, int key, void *data);
+node *insert(node *root, unsigned int key, void *data);
 
 node *deleteMin(node *root);
 
