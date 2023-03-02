@@ -1,20 +1,21 @@
 #!/usr/bin/sh
-rm -rf nicely_evan.assignment-1.04/
-rm -rf nicely_evan.assignment-1.04.tar.gz
-rm -rf /tmp/nicely_evan.assignment-1.04/
-mkdir nicely_evan.assignment-1.04
-cp -rfv * nicely_evan.assignment-1.04/
-cd nicely_evan.assignment-1.04/
+SUBMIT_FILENAME="assignment-1.04"
+rm -rf $SUBMIT_FILENAME
+rm -rf $SUBMIT_FILENAME.tar.gz
+rm -rf /tmp/$SUBMIT_FILENAME/
+mkdir $SUBMIT_FILENAME
+cp -rfv ./* $SUBMIT_FILENAME/
+cd $SUBMIT_FILENAME/ || exit
 git --no-pager log > CHANGELOG
 rm -rfv cmake-build-debug/
 rm -rfv knightsTour/
 rm -rfv Testing/
 rm -rfv .*
-rm -rfv *.tar.gz
+rm -rfv ./*.tar.gz
 make clean
 cd ..
-tar -czvf nicely_evan.assignment-1.04.tar.gz nicely_evan.assignment-1.04
-tar -xzf nicely_evan.assignment-1.04.tar.gz -C /tmp
-cd /tmp/nicely_evan.assignment-1.04
+tar -czvf $SUBMIT_FILENAME.tar.gz $SUBMIT_FILENAME
+tar -xzf $SUBMIT_FILENAME.tar.gz -C /tmp
+cd /tmp/$SUBMIT_FILENAME || exit
 make
 ./main
