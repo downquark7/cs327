@@ -9,9 +9,6 @@
 #include <time.h>
 #include "data/heap.h"
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "EndlessLoop"
-
 int main(int argc, char *argv[])
 {
     int testMode = 0;
@@ -132,5 +129,3 @@ int main(int argc, char *argv[])
         deleteAll(root);
     } while (--testMode);
 }
-
-#pragma clang diagnostic pop
