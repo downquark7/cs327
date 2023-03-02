@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
             {
                 for (int i = 0; i < m->eCount; i++)
                     for (int o = 0; o < m->eCount; o++)
-                        if (i != 0 && m->e[i].p.y == m->e[o].p.y && m->e[i].p.x == m->e[o].p.x)
+                        if (i != o && m->e[i].p.y == m->e[o].p.y && m->e[i].p.x == m->e[o].p.x)
                         {
                             display(m);
                             abort();
