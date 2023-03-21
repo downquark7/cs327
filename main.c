@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <ncurses.h>
 #include "map/map.h"
 #include "map/grid.h"
 #include "entity/entity.h"
@@ -11,9 +11,16 @@
 
 int main(int argc, char *argv[])
 {
+    initscr();
+    raw();
+    noecho();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+
     int testMode = 0;
     int innerLoopIters = 0;
     int num = 10;
+
     for (int i = 1; i < argc; i++)
     {
         if (!strcmp(argv[i], "--test") && i + 1 < argc)
@@ -28,47 +35,16 @@ int main(int argc, char *argv[])
     }
     do
     {
+
         int y = 0, x = 0;
         struct grid g;
         struct map *m;
         initGrid(&g, time(NULL));
-        printf("main seed: %d\n", g.seed);
+        mvprintw(0, 0, "main seed: %d\n", g.seed);
         m = getMap(&g, y, x);
 
-        srand(m->seed);
-        addEntity(m, PC);
-        if (num > 0)
-            addEntity(m, RIVAL);
-        if (num > 1)
-            addEntity(m, HIKER);
-
-        for (int i = 2; i < num; i++)
-            switch (rand() % 7)
-            {
-                case 0:
-                    addEntity(m, RIVAL);
-                    break;
-                case 1:
-                    addEntity(m, HIKER);
-                    break;
-                case 2:
-                    addEntity(m, PACER);
-                    break;
-                case 3:
-                    addEntity(m, WANDERER);
-                    break;
-                case 4:
-                    addEntity(m, SENTRY);
-                    break;
-                case 5:
-                    addEntity(m, EXPLORER);
-                    break;
-                case 6:
-                    addEntity(m, SWIMMER);
-                    break;
-            }
+        addEntities(num, m);
         display(m);
-
 
         node *root = NULL;
         const int fps = 4;
@@ -102,29 +78,15 @@ int main(int argc, char *argv[])
                 int wait = e->nextMoveTime - time;
                 if (e->nextMoveTime > time && !testMode)
                     usleep(wait * 1000);
-                printf("\ntime: %d ms\n", e->nextMoveTime);
                 if (!testMode)
                     display(m);
             }
-            e->move(e, m);
+            e->emove(e, m);
             if (e->nextMove == H)
                 e->nextMoveCost = m->e[0].thisMoveCost;
             e->nextMoveTime += e->nextMoveCost * timescale;
-            printf("%c%d[%d][%d] ", e->c, e->thisMoveCost, e->p.y, e->p.x);
             root = deleteMin(root);
             root = insert(root, e->nextMoveTime, e);
-            if (testMode)
-            {
-                for (int i = 0; i < m->eCount; i++)
-                    for (int o = 0; o < m->eCount; o++)
-                        if (i != o && m->e[i].p.y == m->e[o].p.y && m->e[i].p.x == m->e[o].p.x)
-                        {
-                            display(m);
-                            printf("%c [%d][%d]\n", e->c, e->p.y, e->p.x);
-                            printf("%c %c [%d][%d]\n", m->e[i].c, m->e[o].c, m->e[i].p.y, m->e[o].p.x);
-                            abort();
-                        }
-            }
         }
         free(m->e);
         free(m);

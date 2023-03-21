@@ -32,7 +32,7 @@ struct entity
 
     void (*getMove)(struct entity *e, struct map *m);
 
-    void (*move)(struct entity *e, struct map *m);
+    void (*emove)(struct entity *e, struct map *m);
 
     struct p p;
 };
@@ -40,5 +40,7 @@ struct entity
 void clearMapEntities(struct map *m);
 
 int addEntity(struct map *m, char entity);
+
+void addEntities(int num, struct map *m);
 
 #endif //CS327_ENTITY_H

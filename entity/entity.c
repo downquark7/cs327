@@ -2,10 +2,10 @@
 // Created by downq on 2/20/2023.
 //
 
+#include <ncurses.h>
+#include <stdlib.h>
 #include "entity.h"
 #include "costs.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 void clearMapEntities(struct map *m)
 {
@@ -26,6 +26,42 @@ struct p getP(enum direction d, struct p p);
 char getSwimmerCell(enum direction d, struct p p, struct map *m);
 
 int checkBounds(struct p p);
+
+void addEntities(int num, struct map *m)
+{
+    srand(m->seed);
+    addEntity(m, PC);
+    if (num > 0)
+        addEntity(m, RIVAL);
+    if (num > 1)
+        addEntity(m, HIKER);
+
+    for (int i = 2; i < num; i++)
+        switch (rand() % 7)
+        {
+            case 0:
+                addEntity(m, RIVAL);
+                break;
+            case 1:
+                addEntity(m, HIKER);
+                break;
+            case 2:
+                addEntity(m, PACER);
+                break;
+            case 3:
+                addEntity(m, WANDERER);
+                break;
+            case 4:
+                addEntity(m, SENTRY);
+                break;
+            case 5:
+                addEntity(m, EXPLORER);
+                break;
+            case 6:
+                addEntity(m, SWIMMER);
+                break;
+        }
+}
 
 int addEntity(struct map *m, char entity)
 {
@@ -305,22 +341,22 @@ void doMove(struct entity *e)
     }
     if (e->p.y < 1)
     {
-        printf("\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
         abort();
     }
     if (e->p.x < 1)
     {
-        printf("\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
         abort();
     }
     if (e->p.y > MAP_HEIGHT - 2)
     {
-        printf("\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
         abort();
     }
     if (e->p.x > MAP_WIDTH - 2)
     {
-        printf("\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
         abort();
     }
 }
@@ -369,10 +405,10 @@ void setMove(struct map *m, char entity)
     switch (entity)
     {
         case PC:
-            m->e[m->eCount - 1].move = moveNPC;
+            m->e[m->eCount - 1].emove = moveNPC;
             return;
         default:
-            m->e[m->eCount - 1].move = moveNPC;
+            m->e[m->eCount - 1].emove = moveNPC;
             return;
     }
 }

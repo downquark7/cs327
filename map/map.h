@@ -35,11 +35,9 @@ struct map {
     int eCount;
 };
 
-void displayToPrintf(struct map *m);
 void generate(struct map *m);
 
 void display(struct map *m);
 
-void copyToSwimmerCells(struct map *m);
 
 #endif //CS327_MAP_H

@@ -3,8 +3,6 @@
 //
 
 #include "heap.h"
-
-#include <stdio.h>
 #include <stdlib.h>
 
 node *createNode(unsigned int key, void *data)
@@ -88,7 +86,7 @@ void traverse(node *root)
     {
         return;
     }
-    printf("%d ", root->key);
+//    printf("%d ", root->key);
     traverse(root->child);
     traverse(root->sibling);
 }

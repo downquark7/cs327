@@ -8,7 +8,7 @@ TERM = "S2023"
 CFLAGS = -Wall -Werror -ggdb -funroll-loops -DTERM=$(TERM)
 CXXFLAGS = -Wall -Werror -ggdb -funroll-loops -DTERM=$(TERM)
 
-LDFLAGS = -lm
+LDFLAGS = -lm -lncurses
 
 BIN = main $(patsubst %.c,%,$(wildcard */*.c))
 OBJS = main.o $(patsubst %.c,%.o,$(wildcard */*.c))

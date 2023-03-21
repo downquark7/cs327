@@ -1,17 +1,19 @@
 //
 // Created by downq on 1/30/2023.
 //
+#include <ncurses.h>
 #include "map.h"
 #include "terrain.h"
 #include "roads_and_border.h"
 #include "buildings.h"
 #include "../entity/entity.h"
-#include <stdio.h>
 #include <stdlib.h>
 
-void displayToPrintf(struct map *m)
+void copyToSwimmerCells(struct map *m);
+
+void displayToNcurses(struct map *m)
 {
-    printf("y:%d x:%d seed: %d\n", m->p.y, m->p.x, m->seed);
+    mvprintw(1, 0, "y:%d x:%d seed: %d\n", m->p.y, m->p.x, m->seed);
 
     char saved[m->eCount];
     int i;
@@ -23,17 +25,18 @@ void displayToPrintf(struct map *m)
 
     int y;
     for (y = 0; y < MAP_HEIGHT; y++)
-        printf("%s\n", m->cells[y]);
+        mvaddstr(y + 3, 0, m->cells[y]);
 
     for (i = 0; i < m->eCount; i++)
     {
         m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
     }
+    refresh();
 }
 
 void display(struct map *m)
 {
-    displayToPrintf(m);
+    displayToNcurses(m);
 }
 
 void generate(struct map *m)
