@@ -205,11 +205,11 @@ void getMoveWanderer(struct entity *e, struct map *m)
         }
     if (e->nextMove == H || targetCell != getCell(H, e->p, m))
     {
-        e->nextMove = rand() % 10;
+        e->nextMove = rand() % H;
         int start = e->nextMove;
         do
         {
-            e->nextMove = (e->nextMove + 1) % 10;
+            e->nextMove = (e->nextMove + 1) % H;
             targetCell = getCell(e->nextMove, e->p, m);
             np = getP(e->nextMove, e->p);
             for (int i = 0; i < m->eCount; i++)
@@ -244,11 +244,11 @@ void getMoveSwimmer(struct entity *e, struct map *m)
         }
     if (e->nextMove == H || targetCell != WATER)
     {
-        e->nextMove = rand() % 10;
+        e->nextMove = rand() % H;
         int start = e->nextMove;
         do
         {
-            e->nextMove = (e->nextMove + 1) % 10;
+            e->nextMove = (e->nextMove + 1) % H;
             targetCell = getSwimmerCell(e->nextMove, e->p, m);
             np = getP(e->nextMove, e->p);
             for (int i = 0; i < m->eCount; i++)
@@ -278,11 +278,11 @@ void getMoveExplorer(struct entity *e, struct map *m)
         }
     if (e->nextMove == H || getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
     {
-        e->nextMove = rand() % 10;
+        e->nextMove = rand() % H;
         int start = e->nextMove;
         do
         {
-            e->nextMove = (e->nextMove + 1) % 10;
+            e->nextMove = (e->nextMove + 1) % H;
             targetCell = getCell(e->nextMove, e->p, m);
             np = getP(e->nextMove, e->p);
             for (int i = 0; i < m->eCount; i++)
