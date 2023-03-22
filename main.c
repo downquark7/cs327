@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <string.h>
-#include <time.h>
 #include "data/heap.h"
 
 int testMode = 0;
@@ -50,7 +49,7 @@ int main(int argc, char *argv[])
 
         node *root = NULL;
         const int fps = 4;
-        const int timescale = 1000 / (fps * m->e[0].thisMoveCost);
+        const int timescale = 1000 / (fps * 10);
         struct timeval tv;
         int startTime;
         int time;
@@ -62,9 +61,9 @@ int main(int argc, char *argv[])
         {
             m->e[i].getMove(&(m->e[i]), m);
             if (m->e[i].nextMove == H)
-                m->e[i].thisMoveCost = m->e[0].thisMoveCost;
+                m->e[i].thisMoveCost = 10;
             //make the turn order more predictable for entities with same move cost with -i
-            m->e[i].nextMoveTime = 200 + m->e[i].nextMoveCost * timescale - i;
+            m->e[i].nextMoveTime = 100 + m->e[i].nextMoveCost * timescale - i;
             root = insert(root, m->e[i].nextMoveTime, &(m->e[i]));
         }
         display(m);
@@ -80,8 +79,8 @@ int main(int argc, char *argv[])
             if (e->nextMoveTime > time)
                 usleep(wait * 1000);
             e->emove(e, m);
-            if (e->nextMove == H)
-                e->nextMoveCost = m->e[0].thisMoveCost;
+            if (e->nextMoveCost >= 100)
+                e->nextMoveCost = 10;
             e->nextMoveTime += e->nextMoveCost * timescale;
             root = deleteMin(root);
             root = insert(root, e->nextMoveTime, e);

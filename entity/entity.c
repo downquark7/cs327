@@ -132,10 +132,10 @@ void setMoveCost(struct entity *e, struct map *m)
     }
 
     if (e->nextMoveCost >= getCost(e->c, PLACEHOLDER))
-        e->nextMoveCost = m->e[0].thisMoveCost;
+        e->nextMoveCost = 10;
 
     if (e->thisMoveCost >= getCost(e->c, PLACEHOLDER))
-        e->thisMoveCost = m->e[0].thisMoveCost;
+        e->thisMoveCost = 10;
 }
 
 int checkBounds(struct p p)
@@ -315,6 +315,7 @@ void doMove(struct entity *e)
             break;
         case W:
             e->p.x = e->p.x - 1;
+            break;
         case NW:
             e->p.y = e->p.y - 1;
             e->p.x = e->p.x - 1;
@@ -448,10 +449,9 @@ void movePC(struct entity *e, struct map *m)
                 }
             }
             if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER) || checkBounds(np))
-            {
                 e->nextMove = H;
-            }
-            setMoveCost(e, m);
+            else
+                setMoveCost(e, m);
         }
     }
     mvaddch(e->p.y + 1, e->p.x, m->cells[e->p.y][e->p.x]);
@@ -515,6 +515,7 @@ struct p getP(enum direction d, struct p p)
             break;
         case W:
             p.x = p.x - 1;
+            break;
         case NW:
             p.y = p.y - 1;
             p.x = p.x - 1;
