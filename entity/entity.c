@@ -300,11 +300,6 @@ void getMoveExplorer(struct entity *e, struct map *m)
     setMoveCost(e, m);
 }
 
-void getMovePC(struct entity *e, struct map *m)
-{
-    //skip
-}
-
 void doMove(struct entity *e)
 {
     switch (e->nextMove)
@@ -320,8 +315,6 @@ void doMove(struct entity *e)
             break;
         case W:
             e->p.x = e->p.x - 1;
-        case H:
-            break;
         case NW:
             e->p.y = e->p.y - 1;
             e->p.x = e->p.x - 1;
@@ -342,34 +335,128 @@ void doMove(struct entity *e)
     if (e->p.y < 1)
     {
         mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        refresh();
         abort();
     }
     if (e->p.x < 1)
     {
         mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        refresh();
         abort();
     }
     if (e->p.y > MAP_HEIGHT - 2)
     {
         mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        refresh();
         abort();
     }
     if (e->p.x > MAP_WIDTH - 2)
     {
         mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+        refresh();
         abort();
     }
 }
 
 void moveNPC(struct entity *e, struct map *m)
 {
+    refresh();
+    mvaddch(e->p.y + 1, e->p.x, m->cells[e->p.y][e->p.x]);
     e->getMove(e, m);
     doMove(e);
+    mvaddch(e->p.y + 1, e->p.x, e->c);
 }
+
+extern int testMode;
 
 void movePC(struct entity *e, struct map *m)
 {
-    //skip
+    refresh();
+    e->nextMove = H;
+    while (e->nextMove == H)
+    {
+        if (testMode)
+            e->nextMove = rand() % (REST + 1);
+        else
+            switch (getch())
+            {
+                case '7':
+                    e->nextMove = NW;
+                    break;
+                case 'y':
+                    e->nextMove = NW;
+                    break;
+                case '8':
+                    e->nextMove = N;
+                    break;
+                case 'k':
+                    e->nextMove = N;
+                    break;
+                case '9':
+                    e->nextMove = NE;
+                    break;
+                case 'u':
+                    e->nextMove = NE;
+                    break;
+                case '6':
+                    e->nextMove = E;
+                    break;
+                case 'l':
+                    e->nextMove = E;
+                    break;
+                case '3':
+                    e->nextMove = SE;
+                    break;
+                case 'n':
+                    e->nextMove = SE;
+                    break;
+                case '2':
+                    e->nextMove = S;
+                    break;
+                case 'j':
+                    e->nextMove = S;
+                    break;
+                case '1':
+                    e->nextMove = SW;
+                    break;
+                case 'b':
+                    e->nextMove = SW;
+                    break;
+                case '4':
+                    e->nextMove = W;
+                    break;
+                case 'h':
+                    e->nextMove = W;
+                    break;
+                case '5':
+                    e->nextMove = REST;
+                    break;
+                case ' ':
+                    e->nextMove = REST;
+                    break;
+            }
+        if (e->nextMove != H)
+        {
+            char targetCell = getCell(e->nextMove, e->p, m);
+            struct p np = getP(e->nextMove, e->p);
+            if (e->nextMove != H && e->nextMove != REST)
+            {
+                for (int i = 0; i < m->eCount; i++)
+                {
+                    if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
+                        targetCell = PLACEHOLDER;
+                }
+            }
+            if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER) || checkBounds(np))
+            {
+                e->nextMove = H;
+            }
+            setMoveCost(e, m);
+        }
+    }
+    mvaddch(e->p.y + 1, e->p.x, m->cells[e->p.y][e->p.x]);
+    doMove(e);
+    mvaddch(e->p.y + 1, e->p.x, e->c);
 }
 
 void setGetMove(struct map *m, char entity)
@@ -377,7 +464,7 @@ void setGetMove(struct map *m, char entity)
     switch (entity)
     {
         case PC:
-            m->e[m->eCount - 1].getMove = getMoveExplorer;
+            m->e[m->eCount - 1].getMove = getMoveSentry;
             return;
         case PACER:
             m->e[m->eCount - 1].getMove = getMovePacer;
@@ -405,7 +492,7 @@ void setMove(struct map *m, char entity)
     switch (entity)
     {
         case PC:
-            m->e[m->eCount - 1].emove = moveNPC;
+            m->e[m->eCount - 1].emove = movePC;
             return;
         default:
             m->e[m->eCount - 1].emove = moveNPC;
@@ -428,8 +515,6 @@ struct p getP(enum direction d, struct p p)
             break;
         case W:
             p.x = p.x - 1;
-        case H:
-            break;
         case NW:
             p.y = p.y - 1;
             p.x = p.x - 1;
@@ -463,8 +548,6 @@ char getCell(enum direction d, struct p p, struct map *m)
             return m->cells[p.y][p.x + 1];
         case W:
             return m->cells[p.y][p.x - 1];
-        case H:
-            return m->cells[p.y][p.x];
         case NW:
             return m->cells[p.y - 1][p.x - 1];
         case NE:
@@ -474,7 +557,7 @@ char getCell(enum direction d, struct p p, struct map *m)
         case SE:
             return m->cells[p.y + 1][p.x + 1];
         default:
-            return 0;
+            return m->cells[p.y][p.x];
     }
 }
 

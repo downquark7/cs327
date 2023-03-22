@@ -9,15 +9,10 @@
 #include <time.h>
 #include "data/heap.h"
 
+int testMode = 0;
+
 int main(int argc, char *argv[])
 {
-    initscr();
-    raw();
-    noecho();
-    curs_set(0);
-    keypad(stdscr, TRUE);
-
-    int testMode = 0;
     int innerLoopIters = 0;
     int num = 10;
 
@@ -32,15 +27,22 @@ int main(int argc, char *argv[])
             num = strtol(argv[i + 1], NULL, 10);
             if (num < 0) num = 0;
         }
+        if (!strcmp(argv[i], "--norun"))
+        {
+            return 0;
+        }
     }
     do
     {
-
+        initscr();
+        raw();
+        noecho();
+        curs_set(0);
+        keypad(stdscr, TRUE);
         int y = 0, x = 0;
         struct grid g;
         struct map *m;
-        initGrid(&g, time(NULL));
-        mvprintw(0, 0, "main seed: %d\n", g.seed);
+        initGrid(&g, 1679455949);//time(NULL));
         m = getMap(&g, y, x);
 
         addEntities(num, m);
@@ -62,25 +64,21 @@ int main(int argc, char *argv[])
             if (m->e[i].nextMove == H)
                 m->e[i].thisMoveCost = m->e[0].thisMoveCost;
             //make the turn order more predictable for entities with same move cost with -i
-            m->e[i].nextMoveTime = 1000 + m->e[i].nextMoveCost * timescale - i;
+            m->e[i].nextMoveTime = 200 + m->e[i].nextMoveCost * timescale - i;
             root = insert(root, m->e[i].nextMoveTime, &(m->e[i]));
         }
+        display(m);
 
         int iters = innerLoopIters;
 
         while (!testMode || iters--)
         {
             struct entity *e = (struct entity *) root->data;
-            if (e->c == PC)
-            {
-                gettimeofday(&tv, NULL);
-                time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
-                int wait = e->nextMoveTime - time;
-                if (e->nextMoveTime > time && !testMode)
-                    usleep(wait * 1000);
-                if (!testMode)
-                    display(m);
-            }
+            gettimeofday(&tv, NULL);
+            time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
+            int wait = e->nextMoveTime - time;
+            if (e->nextMoveTime > time)
+                usleep(wait * 1000);
             e->emove(e, m);
             if (e->nextMove == H)
                 e->nextMoveCost = m->e[0].thisMoveCost;
@@ -91,5 +89,6 @@ int main(int argc, char *argv[])
         free(m->e);
         free(m);
         deleteAll(root);
+        endwin();
     } while (--testMode);
 }

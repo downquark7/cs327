@@ -11,32 +11,27 @@
 
 void copyToSwimmerCells(struct map *m);
 
-void displayToNcurses(struct map *m)
+void displayEntities(struct map *m)
 {
-    mvprintw(1, 0, "y:%d x:%d seed: %d\n", m->p.y, m->p.x, m->seed);
-
-    char saved[m->eCount];
     int i;
     for (i = 0; i < m->eCount; i++)
-    {
-        saved[i] = m->cells[m->e[i].p.y][m->e[i].p.x];
-        m->cells[m->e[i].p.y][m->e[i].p.x] = m->e[i].c;
-    }
+        mvaddch(m->e[i].p.y + 1, m->e[i].p.x, m->e[i].c);
+}
+
+void displayToNcurses(struct map *m)
+{
+    mvprintw(0, 0, "y:%d x:%d seed: %d\n", m->p.y, m->p.x, m->seed);
 
     int y;
     for (y = 0; y < MAP_HEIGHT; y++)
-        mvaddstr(y + 3, 0, m->cells[y]);
-
-    for (i = 0; i < m->eCount; i++)
-    {
-        m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
-    }
-    refresh();
+        mvaddstr(y + 1, 0, m->cells[y]);
 }
 
 void display(struct map *m)
 {
     displayToNcurses(m);
+    displayEntities(m);
+    refresh();
 }
 
 void generate(struct map *m)
