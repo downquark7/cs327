@@ -7,6 +7,7 @@
 #include <sys/time.h>
 #include <string.h>
 #include "data/heap.h"
+#include <time.h>
 
 int testMode = 0;
 
@@ -41,14 +42,14 @@ int main(int argc, char *argv[])
         int y = 0, x = 0;
         struct grid g;
         struct map *m;
-        initGrid(&g, 1679455949);//time(NULL));
+        initGrid(&g, time(NULL));
         m = getMap(&g, y, x);
 
         addEntities(num, m);
         display(m);
 
         node *root = NULL;
-        const int fps = 4;
+        const int fps = testMode ? 100 : 4;
         const int timescale = 1000 / (fps * 10);
         struct timeval tv;
         int startTime;
@@ -60,8 +61,8 @@ int main(int argc, char *argv[])
         for (int i = 0; i < m->eCount; i++)
         {
             m->e[i].getMove(&(m->e[i]), m);
-            if (m->e[i].nextMove == H)
-                m->e[i].thisMoveCost = 10;
+            if (m->e[i].nextMoveCost >= 100)
+                m->e[i].nextMoveCost = 10;
             //make the turn order more predictable for entities with same move cost with -i
             m->e[i].nextMoveTime = 100 + m->e[i].nextMoveCost * timescale - i;
             root = insert(root, m->e[i].nextMoveTime, &(m->e[i]));
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
             gettimeofday(&tv, NULL);
             time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
             int wait = e->nextMoveTime - time;
-            if (e->nextMoveTime > time)
+            if (e->c != PC && e->nextMoveTime > time)
                 usleep(wait * 1000);
             e->emove(e, m);
             if (e->nextMoveCost >= 100)
