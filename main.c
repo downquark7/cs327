@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
             gettimeofday(&tv, NULL);
             time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
             int wait = e->nextMoveTime - time;
-            if (e->c != PC && e->nextMoveTime > time)
+            if (testMode && e->nextMoveTime > time)
                 usleep(wait * 1000);
             e->emove(e, m);
             if (e->nextMoveCost >= 100)

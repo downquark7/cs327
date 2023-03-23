@@ -3,10 +3,8 @@ CXX = g++
 ECHO = echo
 RM = rm -f
 
-TERM = "S2023"
-
-CFLAGS = -Wall -Werror -ggdb -funroll-loops -DTERM=$(TERM)
-CXXFLAGS = -Wall -Werror -ggdb -funroll-loops -DTERM=$(TERM)
+CFLAGS = -Wall -Werror -ggdb -funroll-loops
+CXXFLAGS = -Wall -Werror -ggdb -funroll-loops
 
 LDFLAGS = -lm -lncurses
 
@@ -42,3 +40,9 @@ clobber: clean
 etags:
 	@$(ECHO) Updating TAGS
 	@etags *.[ch]
+
+run: main
+	./main
+
+test: main
+	./main --test 1000

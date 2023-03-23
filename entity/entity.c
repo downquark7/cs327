@@ -109,7 +109,8 @@ int place(struct map *m, char entity)
                      (getCost(entity, m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x]) >=
                       getCost(entity, PLACEHOLDER) ||
                       m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x] == 'C' ||
-                      m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x] == 'M'));
+                      m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x] == 'M' ||
+                      m->cells[m->e[m->eCount - 1].p.y][m->e[m->eCount - 1].p.x] == ROAD));
             break;
     }
     for (i = 0; i < m->eCount - 1; i++)
@@ -332,6 +333,8 @@ void doMove(struct entity *e)
             e->p.y = e->p.y + 1;
             e->p.x = e->p.x + 1;
             break;
+        default:
+            break;
     }
     if (e->p.y < 1)
     {
@@ -531,6 +534,8 @@ struct p getP(enum direction d, struct p p)
         case SE:
             p.y = p.y + 1;
             p.x = p.x + 1;
+            break;
+        default:
             break;
     }
     return p;
