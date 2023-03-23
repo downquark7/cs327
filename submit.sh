@@ -16,5 +16,4 @@ cd ..
 tar -czvf $SUBMIT_FILENAME.tar.gz $SUBMIT_FILENAME
 tar -xzf $SUBMIT_FILENAME.tar.gz -C /tmp
 cd /tmp/$SUBMIT_FILENAME || exit
-make
-./main
+make test
