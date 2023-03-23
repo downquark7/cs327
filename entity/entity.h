@@ -26,7 +26,6 @@ struct entity
 {
     char c;
     enum direction nextMove;
-    int thisMoveCost;
     int nextMoveCost;
     int nextMoveTime;
 
@@ -42,5 +41,7 @@ void clearMapEntities(struct map *m);
 int addEntity(struct map *m, char entity);
 
 void addEntities(int num, struct map *m);
+
+void defeated(struct entity *e, struct map *m);
 
 #endif //CS327_ENTITY_H

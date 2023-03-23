@@ -284,7 +284,6 @@ void getDirection(struct p target, struct entity *e, struct map *m)
         d = SE;
     }
     e->nextMove = d;
-    e->thisMoveCost = getCost(e->c, m->cells[y][x]);
     e->nextMoveCost = getCost(e->c, m->cells[ny][nx]);
 }
 
@@ -500,7 +499,6 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
         d = SE;
     }
     e->nextMove = d;
-    e->thisMoveCost = getCost(e->c, m->swimmerCells[ny][nx]);
     char cellAtNewE = m->swimmerCells[ny][nx];
     m->swimmerCells[ny][nx] = PLACEHOLDER;
     m->swimmerCells[e->p.y][e->p.x] = cellAtE;

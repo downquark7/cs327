@@ -8,6 +8,12 @@
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
+int buildingTest()
+{
+    int characters[] = {KEY_DOWN, KEY_UP, 27, ' ', 'q', KEY_ENTER};
+    return characters[rand() % sizeof(characters)];
+}
+
 int enterBuilding(char cell)
 {
     switch (cell)
@@ -22,7 +28,7 @@ int enterBuilding(char cell)
     clear();
     char *choices[] = {"Choice 1", "Choice 2", "Choice 3", "Choice 4", "Exit"};
     ITEM **my_items;
-    int c = 0
+    int c = 0;
     MENU *my_menu;
     int n_choices, i;
 
@@ -36,8 +42,9 @@ int enterBuilding(char cell)
     my_menu = new_menu((ITEM **) my_items);
     menu_opts_off(my_menu, O_ONEVALUE);
     post_menu(my_menu);
+    extern int testMode;
 
-    while (c != 27 && (c = getch()))
+    while (c != 27 && (c = testMode ? buildingTest() : getch()))
     {
         switch (c)
         {
@@ -59,8 +66,8 @@ int enterBuilding(char cell)
         }
     }
 
-    free_item(my_items[0]);
-    free_item(my_items[1]);
+    for (i = 0; i < n_choices; ++i)
+        free_item(my_items[i]);
     free_menu(my_menu);
     return 0;
 }

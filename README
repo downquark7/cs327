@@ -1,11 +1,10 @@
+esc, q, space, enter should all close trainer menu
+space and enter select items on the M and C building placeholder and if exit is selected it closes
+can also close building interface placeholder with q or esc
+defeated npcs won't move
+
 delete Makefile and run ```cmake CMakeLists.txt``` if makefile does not work to make new makefile
 Makefile works in Ubuntu so there is no reason for it to not work
-
-look in main.c entity/entity.h entity/entity.c
-int fps in main.c is 4, can be increased or decreased
-
 --numtrainers will never crash when a reasonable amount of memory is available
-the only bug I know of is I don't know what the timer will do after 600 hours of runtime
-
 added test argument as --test number
-will just run number times of number iterations to check for random errors
+will just run number times of number iterations with random moves to check for random errors

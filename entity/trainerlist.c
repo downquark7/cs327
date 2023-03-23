@@ -5,9 +5,15 @@
 #include "trainerlist.h"
 #include <menu.h>
 #include <stdlib.h>
-#include "../entity/entity.h"
+#include "entity.h"
 
 void distanceToString(char *output, struct p p1, struct p p2);
+
+int trainerlistTest()
+{
+    int characters[] = {KEY_DOWN, KEY_UP, 27, ' ', 'q', KEY_ENTER};
+    return characters[rand() % sizeof(characters)];
+}
 
 void enterList(struct map *m)
 {
@@ -33,10 +39,11 @@ void enterList(struct map *m)
 
     my_menu = new_menu((ITEM **) my_items);
     post_menu(my_menu);
+    extern int testMode;
 
-    while ((c = getch()))
+    while (c != 27 && (c = getch()))
     {
-        switch (c)
+        switch (testMode ? trainerlistTest() : getch())
         {
             case KEY_DOWN:
                 menu_driver(my_menu, REQ_DOWN_ITEM);
@@ -48,12 +55,13 @@ void enterList(struct map *m)
             case 'q':
             case ' ':
             case KEY_ENTER:
-                return;
+                c = 27;
+                break;
         }
     }
 
-    free_item(my_items[0]);
-    free_item(my_items[1]);
+    for (i = 0; i < num_trainers + 1; ++i)
+        free_item(my_items[i]);
     free_menu(my_menu);
     free(string);
 }

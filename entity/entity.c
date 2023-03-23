@@ -5,9 +5,10 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include "entity.h"
+#include "battle.h"
 #include "costs.h"
-#include "../data/building.h"
-#include "../data/trainerlist.h"
+#include "building.h"
+#include "trainerlist.h"
 
 void clearMapEntities(struct map *m)
 {
@@ -70,7 +71,6 @@ int addEntity(struct map *m, char entity)
     m->e = realloc(m->e, sizeof(struct entity) * ++m->eCount);
     m->e[m->eCount - 1].nextMove = H;
     m->e[m->eCount - 1].c = entity;
-    m->e[m->eCount - 1].thisMoveCost = 10;
     m->e[m->eCount - 1].nextMoveCost = 10;
     m->e[m->eCount - 1].nextMoveTime = 0;
     setGetMove(m, entity);
@@ -127,18 +127,13 @@ void setMoveCost(struct entity *e, struct map *m)
     if (e->c == SWIMMER)
     {
         e->nextMoveCost = getCost(e->c, getSwimmerCell(e->nextMove, e->p, m));
-        e->thisMoveCost = getCost(e->c, getSwimmerCell(H, e->p, m));
     } else
     {
         e->nextMoveCost = getCost(e->c, getCell(e->nextMove, e->p, m));
-        e->thisMoveCost = getCost(e->c, getCell(H, e->p, m));
     }
 
     if (e->nextMoveCost >= getCost(e->c, PLACEHOLDER))
         e->nextMoveCost = 10;
-
-    if (e->thisMoveCost >= getCost(e->c, PLACEHOLDER))
-        e->thisMoveCost = 10;
 }
 
 int checkBounds(struct p p)
@@ -364,16 +359,47 @@ void doMove(struct entity *e)
     }
 }
 
+extern int testMode;
+
 void moveNPC(struct entity *e, struct map *m)
 {
-    refresh();
-    mvaddch(e->p.y + 1, e->p.x, m->cells[e->p.y][e->p.x]);
-    e->getMove(e, m);
-    doMove(e);
-    mvaddch(e->p.y + 1, e->p.x, e->c);
+    int didBattle = 0;
+    if ((e->p.y - m->e[0].p.y) * (e->p.y - m->e[0].p.y) + (e->p.x - m->e[0].p.x) * (e->p.x - m->e[0].p.x) < 3)
+    {
+        enterBattle(e, m);
+        clear();
+        display(m);
+        refresh();
+        didBattle = 1;
+    }
+    if (!didBattle)
+    {
+        mvaddch(e->p.y + 1, e->p.x, m->cells[e->p.y][e->p.x]);
+        e->getMove(e, m);
+        doMove(e);
+        mvaddch(e->p.y + 1, e->p.x, e->c);
+        if ((e->p.y - m->e[0].p.y) * (e->p.y - m->e[0].p.y) + (e->p.x - m->e[0].p.x) * (e->p.x - m->e[0].p.x) < 3)
+        {
+            enterBattle(e, m);
+            clear();
+            display(m);
+            refresh();
+        }
+    }
 }
 
-extern int testMode;
+void defeated(struct entity *e, struct map *m)
+{
+    e->nextMoveCost = e->nextMoveCost = 1000;
+    e->nextMove = H;
+}
+
+char getRandomInput()
+{
+    char characters[] = {'y', '8', 'k', '9', 'u', '6', 'l', '3', 'n', '2', 'j', '1', 'b', '4', 'h', '5', ' ', '.', 'q',
+                         '>', 't'};
+    return characters[rand() * sizeof(characters)];
+}
 
 void movePC(struct entity *e, struct map *m)
 {
@@ -381,64 +407,61 @@ void movePC(struct entity *e, struct map *m)
     e->nextMove = H;
     while (e->nextMove == H)
     {
-        if (testMode)
-            e->nextMove = rand() % (REST + 1);
-        else
-            switch (getch())
-            {
-                case '7':
-                case 'y':
-                    e->nextMove = NW;
-                    break;
-                case '8':
-                case 'k':
-                    e->nextMove = N;
-                    break;
-                case '9':
-                case 'u':
-                    e->nextMove = NE;
-                    break;
-                case '6':
-                case 'l':
-                    e->nextMove = E;
-                    break;
-                case '3':
-                case 'n':
-                    e->nextMove = SE;
-                    break;
-                case '2':
-                case 'j':
-                    e->nextMove = S;
-                    break;
-                case '1':
-                case 'b':
-                    e->nextMove = SW;
-                    break;
-                case '4':
-                case 'h':
-                    e->nextMove = W;
-                    break;
-                case '5':
-                case ' ':
-                case '.':
-                    e->nextMove = REST;
-                    break;
-                case 'q':
-                    e->nextMove = QUIT;
-                    endwin();
-                    exit(0);
-                case '>':
-                    if (!enterBuilding(getCell(H, e->p, m)))
-                    {
-                        display(m);
-                        e->nextMove = ENTER;
-                    }
-                    break;
-                case 't':
-                    enterList(m);
+        switch (testMode ? getRandomInput() : getch())
+        {
+            case '7':
+            case 'y':
+                e->nextMove = NW;
+                break;
+            case '8':
+            case 'k':
+                e->nextMove = N;
+                break;
+            case '9':
+            case 'u':
+                e->nextMove = NE;
+                break;
+            case '6':
+            case 'l':
+                e->nextMove = E;
+                break;
+            case '3':
+            case 'n':
+                e->nextMove = SE;
+                break;
+            case '2':
+            case 'j':
+                e->nextMove = S;
+                break;
+            case '1':
+            case 'b':
+                e->nextMove = SW;
+                break;
+            case '4':
+            case 'h':
+                e->nextMove = W;
+                break;
+            case '5':
+            case ' ':
+            case '.':
+                e->nextMove = REST;
+                break;
+            case 'q':
+                e->nextMove = QUIT;
+                endwin();
+                exit(0);
+            case '>':
+                if (!enterBuilding(getCell(H, e->p, m)))
+                {
                     display(m);
-                    break;
-            }
+                    e->nextMove = ENTER;
+                }
+                break;
+            case 't':
+                enterList(m);
+                display(m);
+                break;
+        }
         if (e->nextMove < H || e->nextMove == REST)
         {
             char targetCell = getCell(e->nextMove, e->p, m);
@@ -453,10 +476,9 @@ void movePC(struct entity *e, struct map *m)
             }
             if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER) || checkBounds(np))
                 e->nextMove = H;
-            else
-                setMoveCost(e, m);
         }
     }
+    setMoveCost(e, m);
     mvaddch(e->p.y + 1, e->p.x, m->cells[e->p.y][e->p.x]);
     doMove(e);
     mvaddch(e->p.y + 1, e->p.x, e->c);

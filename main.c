@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
         display(m);
 
         node *root = NULL;
-        const int fps = testMode ? 100 : 4;
+        const int fps = 100;
         const int timescale = 1000 / (fps * 10);
         struct timeval tv;
         int startTime;
@@ -60,11 +60,7 @@ int main(int argc, char *argv[])
         //set initial
         for (int i = 0; i < m->eCount; i++)
         {
-            m->e[i].getMove(&(m->e[i]), m);
-            if (m->e[i].nextMoveCost >= 100)
-                m->e[i].nextMoveCost = 10;
-            //make the turn order more predictable for entities with same move cost with -i
-            m->e[i].nextMoveTime = 100 + m->e[i].nextMoveCost * timescale - i;
+            m->e[i].nextMoveTime = i;
             root = insert(root, m->e[i].nextMoveTime, &(m->e[i]));
         }
         display(m);
@@ -78,10 +74,11 @@ int main(int argc, char *argv[])
             time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
             int wait = e->nextMoveTime - time;
             if (testMode && e->nextMoveTime > time)
+            {
+                refresh();
                 usleep(wait * 1000);
+            }
             e->emove(e, m);
-            if (e->nextMoveCost >= 100)
-                e->nextMoveCost = 10;
             e->nextMoveTime += e->nextMoveCost * timescale;
             root = deleteMin(root);
             root = insert(root, e->nextMoveTime, e);
