@@ -11,15 +11,18 @@ void distanceToString(char *output, struct p p1, struct p p2);
 
 int trainerlistTest()
 {
+    refresh();
     int characters[] = {KEY_DOWN, KEY_UP, 27, ' ', 'q', KEY_ENTER};
-    return characters[rand() % sizeof(characters)];
+    return characters[rand() % 6];
 }
+
+extern int testMode;
 
 void enterList(struct map *m)
 {
     clear();
     ITEM **my_items;
-    int c;
+    int c = 1;
     MENU *my_menu;
     int num_trainers, i;
     num_trainers = m->eCount - 1;
@@ -39,11 +42,10 @@ void enterList(struct map *m)
 
     my_menu = new_menu((ITEM **) my_items);
     post_menu(my_menu);
-    extern int testMode;
 
-    while (c != 27 && (c = getch()))
+    while (c != 27 && (c = testMode ? trainerlistTest() : getch()))
     {
-        switch (testMode ? trainerlistTest() : getch())
+        switch (c)
         {
             case KEY_DOWN:
                 menu_driver(my_menu, REQ_DOWN_ITEM);

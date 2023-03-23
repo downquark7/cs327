@@ -390,15 +390,16 @@ void moveNPC(struct entity *e, struct map *m)
 
 void defeated(struct entity *e, struct map *m)
 {
-    e->nextMoveCost = e->nextMoveCost = 1000;
+    e->nextMoveCost = 1000;
     e->nextMove = H;
 }
 
 char getRandomInput()
 {
-    char characters[] = {'y', '8', 'k', '9', 'u', '6', 'l', '3', 'n', '2', 'j', '1', 'b', '4', 'h', '5', ' ', '.', 'q',
+    refresh();
+    char characters[] = {'y', '8', 'k', '9', 'u', '6', 'l', '3', 'n', '2', 'j', '1', 'b', '4', 'h', '5', ' ', '.',
                          '>', 't'};
-    return characters[rand() * sizeof(characters)];
+    return characters[rand() % sizeof(characters)];
 }
 
 void movePC(struct entity *e, struct map *m)
@@ -454,11 +455,11 @@ void movePC(struct entity *e, struct map *m)
                 if (!enterBuilding(getCell(H, e->p, m)))
                 {
                     display(m);
-                    e->nextMove = ENTER;
                 }
                 break;
             case 't':
                 enterList(m);
+                clear();
                 display(m);
                 break;
         }

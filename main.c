@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 {
     int innerLoopIters = 0;
     int num = 10;
+    int wait = 0;
 
     for (int i = 1; i < argc; i++)
     {
@@ -31,6 +32,10 @@ int main(int argc, char *argv[])
         {
             return 0;
         }
+        if (!strcmp(argv[i], "--wait"))
+        {
+            wait = 1;
+        }
     }
     do
     {
@@ -39,6 +44,13 @@ int main(int argc, char *argv[])
         noecho();
         curs_set(0);
         keypad(stdscr, TRUE);
+        if (wait)
+        {
+            getch();
+            getch();
+            getch();
+            wait = 0;
+        }
         int y = 0, x = 0;
         struct grid g;
         struct map *m;
@@ -73,10 +85,11 @@ int main(int argc, char *argv[])
             gettimeofday(&tv, NULL);
             time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
             int wait = e->nextMoveTime - time;
-            if (testMode && e->nextMoveTime > time)
+            if (testMode)
             {
                 refresh();
-                usleep(wait * 1000);
+                if (e->nextMoveTime > time)
+                    usleep(wait * 1000);
             }
             e->emove(e, m);
             e->nextMoveTime += e->nextMoveCost * timescale;

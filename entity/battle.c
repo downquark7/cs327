@@ -11,15 +11,17 @@
 int battleTest()
 {
     int characters[] = {KEY_DOWN, KEY_UP, 27, ' ', 'q', KEY_ENTER};
-    return characters[rand() % sizeof(characters)];
+    return characters[rand() % 6];
 }
+
+extern int testMode;
 
 int enterBattle(struct entity *e, struct map *m)
 {
     clear();
     char *choices[] = {"battle opt 1", "battle opt 2", "battle opt 3", "battle opt 4", "Exit"};
     ITEM **my_items;
-    int c = 0;
+    int c = 2;
     MENU *my_menu;
     int n_choices, i;
 
@@ -32,9 +34,8 @@ int enterBattle(struct entity *e, struct map *m)
 
     my_menu = new_menu((ITEM **) my_items);
     post_menu(my_menu);
-    extern int testMode;
 
-    while (c != 27 && (c = testMode ? battleTest() : getch()))
+    while (c != 27 && (c = (testMode ? battleTest() : getch())))
     {
         switch (c)
         {
@@ -53,7 +54,7 @@ int enterBattle(struct entity *e, struct map *m)
         }
     }
 
-    for (i = 0; i < n_choices; ++i)
+    for (i = 0; i < n_choices + 1; ++i)
         free_item(my_items[i]);
     free_menu(my_menu);
     e->emove = defeated;

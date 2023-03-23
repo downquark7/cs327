@@ -10,8 +10,9 @@
 
 int buildingTest()
 {
+    refresh();
     int characters[] = {KEY_DOWN, KEY_UP, 27, ' ', 'q', KEY_ENTER};
-    return characters[rand() % sizeof(characters)];
+    return characters[rand() % 6];
 }
 
 int enterBuilding(char cell)
@@ -66,7 +67,7 @@ int enterBuilding(char cell)
         }
     }
 
-    for (i = 0; i < n_choices; ++i)
+    for (i = 0; i < n_choices + 1; ++i)
         free_item(my_items[i]);
     free_menu(my_menu);
     return 0;
