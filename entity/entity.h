@@ -19,7 +19,7 @@
 
 enum direction
 {
-    N, S, E, W, NW, NE, SW, SE, H, REST
+    N, S, E, W, NW, NE, SW, SE, H, REST, QUIT, ENTER, LIST
 };
 
 struct entity

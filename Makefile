@@ -6,7 +6,7 @@ RM = rm -f
 CFLAGS = -Wall -Werror -ggdb -funroll-loops
 CXXFLAGS = -Wall -Werror -ggdb -funroll-loops
 
-LDFLAGS = -lm -lncurses
+LDFLAGS = -lm -lncurses -lmenu
 
 BIN = main $(patsubst %.c,%,$(wildcard */*.c))
 OBJS = build-dir/main.o $(patsubst %.c,build-dir/%.o,$(wildcard */*.c))

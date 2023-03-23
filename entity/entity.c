@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include "entity.h"
 #include "costs.h"
+#include "../data/building.h"
+#include "../data/trainerlist.h"
 
 void clearMapEntities(struct map *m)
 {
@@ -385,61 +387,59 @@ void movePC(struct entity *e, struct map *m)
             switch (getch())
             {
                 case '7':
-                    e->nextMove = NW;
-                    break;
                 case 'y':
                     e->nextMove = NW;
                     break;
                 case '8':
-                    e->nextMove = N;
-                    break;
                 case 'k':
                     e->nextMove = N;
                     break;
                 case '9':
-                    e->nextMove = NE;
-                    break;
                 case 'u':
                     e->nextMove = NE;
                     break;
                 case '6':
-                    e->nextMove = E;
-                    break;
                 case 'l':
                     e->nextMove = E;
                     break;
                 case '3':
-                    e->nextMove = SE;
-                    break;
                 case 'n':
                     e->nextMove = SE;
                     break;
                 case '2':
-                    e->nextMove = S;
-                    break;
                 case 'j':
                     e->nextMove = S;
                     break;
                 case '1':
-                    e->nextMove = SW;
-                    break;
                 case 'b':
                     e->nextMove = SW;
                     break;
                 case '4':
-                    e->nextMove = W;
-                    break;
                 case 'h':
                     e->nextMove = W;
                     break;
                 case '5':
+                case ' ':
+                case '.':
                     e->nextMove = REST;
                     break;
-                case ' ':
-                    e->nextMove = REST;
+                case 'q':
+                    e->nextMove = QUIT;
+                    endwin();
+                    exit(0);
+                case '>':
+                    if (!enterBuilding(getCell(H, e->p, m)))
+                    {
+                        display(m);
+                        e->nextMove = ENTER;
+                    }
+                    break;
+                case 't':
+                    enterList(m);
+                    display(m);
                     break;
             }
-        if (e->nextMove != H)
+        if (e->nextMove < H || e->nextMove == REST)
         {
             char targetCell = getCell(e->nextMove, e->p, m);
             struct p np = getP(e->nextMove, e->p);
