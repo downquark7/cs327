@@ -9,28 +9,34 @@ CXXFLAGS = -Wall -Werror -ggdb -funroll-loops
 LDFLAGS = -lm -lncurses
 
 BIN = main $(patsubst %.c,%,$(wildcard */*.c))
-OBJS = main.o $(patsubst %.c,%.o,$(wildcard */*.c))
+OBJS = build-dir/main.o $(patsubst %.c,build-dir/%.o,$(wildcard */*.c))
 
 all: $(BIN) etags
 
 $(BIN): $(OBJS)
 	@$(ECHO) Linking $@
+ifneq ($(@D),.)
+	@mkdir -p $(@D)
+endif
 	@$(CC) $^ -o $@ $(LDFLAGS)
 
 -include $(OBJS:.o=.d)
 
-%.o: %.c
+build-dir/%.o: %.c
 	@$(ECHO) Compiling $<
-	@$(CC) $(CFLAGS) -MMD -MF $*.d -c $< -o $@
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -MMD -c $< -o $@
 
-%.o: %.cpp
+build-dir/%.o: %.cpp
 	@$(ECHO) Compiling $<
-	@$(CXX) $(CXXFLAGS) -MMD -MF $*.d -c $< -o $@
+	@mkdir -p $(@D)
+	@$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
 
 .PHONY: all clean clobber etags
 
 clean:
 	@$(ECHO) Removing all generated files
+	@$(RM)r build-dir
 	@$(RM) *.o $(BIN) *.d TAGS core vgcore.* gmon.out
 
 clobber: clean
@@ -39,6 +45,7 @@ clobber: clean
 
 etags:
 	@$(ECHO) Updating TAGS
+	@mkdir -p $(@D)
 	@etags *.[ch]
 
 run: main
