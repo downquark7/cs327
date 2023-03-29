@@ -18,14 +18,9 @@ $(BIN): $(OBJS)
 ifneq ($(@D),.)
 	@mkdir -p $(@D)
 endif
-	@$(CC) $^ -o $@ $(LDFLAGS)
+	@$(CXX) $^ -o $@ $(LDFLAGS)
 
 -include $(OBJS:.o=.d)
-
-build-dir/%.o: %.c
-	@$(ECHO) Compiling $<
-	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -MMD -c $< -o $@
 
 build-dir/%.o: %.cpp
 	@$(ECHO) Compiling $<

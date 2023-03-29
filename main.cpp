@@ -92,6 +92,10 @@ int main(int argc, char *argv[])
                     usleep(wait * 1000);
             }
             e->emove(e, m);
+            if (e == &(m->e[0]) && checkBounds(e->p))
+            {
+
+            }
             e->nextMoveTime += e->nextMoveCost * timescale;
             root = deleteMin(root);
             root = insert(root, e->nextMoveTime, e);

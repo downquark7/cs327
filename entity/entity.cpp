@@ -28,8 +28,6 @@ struct p getP(enum direction d, struct p p);
 
 char getSwimmerCell(enum direction d, struct p p, struct map *m);
 
-int checkBounds(struct p p);
-
 void addEntities(int num, struct map *m)
 {
     srand(m->seed);
@@ -475,7 +473,7 @@ void movePC(struct entity *e, struct map *m)
                         targetCell = PLACEHOLDER;
                 }
             }
-            if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER) || checkBounds(np))
+            if (getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
                 e->nextMove = H;
         }
     }

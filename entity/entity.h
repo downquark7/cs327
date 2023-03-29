@@ -44,4 +44,6 @@ void addEntities(int num, struct map *m);
 
 void defeated(struct entity *e, struct map *m);
 
+int checkBounds(struct p p);
+
 #endif //CS327_ENTITY_H
