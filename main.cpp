@@ -2,12 +2,12 @@
 #include "map/map.h"
 #include "map/grid.h"
 #include "entity/entity.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <unistd.h>
 #include <sys/time.h>
-#include <string.h>
+#include <cstring>
 #include "data/heap.h"
-#include <time.h>
+#include <ctime>
 
 int testMode = 0;
 
@@ -15,26 +15,26 @@ int main(int argc, char *argv[])
 {
     int innerLoopIters = 0;
     int num = 10;
-    int wait = 0;
+    int waitForDebug = 0;
 
     for (int i = 1; i < argc; i++)
     {
         if (!strcmp(argv[i], "--test") && i + 1 < argc)
         {
-            testMode = innerLoopIters = strtol(argv[i + 1], NULL, 10);
+            testMode = innerLoopIters = strtol(argv[i + 1], nullptr, 10);
         }
         if (!strcmp(argv[i], "--numtrainers") && i + 1 < argc)
         {
-            num = strtol(argv[i + 1], NULL, 10);
+            num = strtol(argv[i + 1], nullptr, 10);
             if (num < 0) num = 0;
         }
         if (!strcmp(argv[i], "--norun"))
         {
             return 0;
         }
-        if (!strcmp(argv[i], "--wait"))
+        if (!strcmp(argv[i], "--waitForDebug"))
         {
-            wait = 1;
+            waitForDebug = 1;
         }
     }
     do
@@ -44,29 +44,29 @@ int main(int argc, char *argv[])
         noecho();
         curs_set(0);
         keypad(stdscr, TRUE);
-        if (wait)
+        if (waitForDebug)
         {
             getch();
             getch();
             getch();
-            wait = 0;
+            waitForDebug = 0;
         }
         int y = 0, x = 0;
-        struct grid g;
+        struct grid g{};
         struct map *m;
-        initGrid(&g, time(NULL));
+        initGrid(&g, time(nullptr));
         m = getMap(&g, y, x);
 
         addEntities(num, m);
         display(m);
 
-        node *root = NULL;
+        node *root = nullptr;
         const int fps = 100;
         const int timescale = 1000 / (fps * 10);
         struct timeval tv;
         int startTime;
         int time;
-        gettimeofday(&tv, NULL);
+        gettimeofday(&tv, nullptr);
         startTime = (1000 * tv.tv_sec) + (tv.tv_usec / 1000);
 
         //set initial
@@ -81,8 +81,8 @@ int main(int argc, char *argv[])
 
         while (!testMode || iters--)
         {
-            struct entity *e = (struct entity *) root->data;
-            gettimeofday(&tv, NULL);
+            auto *e = (struct entity *) root->data;
+            gettimeofday(&tv, nullptr);
             time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
             int wait = e->nextMoveTime - time;
             if (testMode)

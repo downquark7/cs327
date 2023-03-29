@@ -63,7 +63,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
             costs[y][x] = -1;
 
     int cost;
-    struct p *p = malloc(sizeof(struct p));
+    struct p *p = static_cast<struct p *>(malloc(sizeof(struct p)));
     p->y = target.y;
     p->x = target.x;
     node *root = NULL;
@@ -89,7 +89,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y - 1;
                 p->x = min->x - 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -101,7 +101,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y - 1;
                 p->x = min->x;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -113,7 +113,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->cells[min->y - 1][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y - 1;
                 p->x = min->x + 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -125,7 +125,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->cells[min->y][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y;
                 p->x = min->x - 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -137,7 +137,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->cells[min->y][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y;
                 p->x = min->x + 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -149,7 +149,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y + 1;
                 p->x = min->x - 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -161,7 +161,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y + 1;
                 p->x = min->x;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -173,7 +173,7 @@ void getDirection(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->cells[min->y + 1][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y + 1;
                 p->x = min->x + 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -304,7 +304,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
             costs[y][x] = -1;
 
     int cost;
-    struct p *p = malloc(sizeof(struct p));
+    struct p *p = static_cast<struct p *>(malloc(sizeof(struct p)));
     p->y = target.y;
     p->x = target.x;
     node *root = NULL;
@@ -330,7 +330,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y - 1;
                 p->x = min->x - 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -342,7 +342,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y - 1;
                 p->x = min->x;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -354,7 +354,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->swimmerCells[min->y - 1][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y - 1;
                 p->x = min->x + 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -366,7 +366,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->swimmerCells[min->y][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y;
                 p->x = min->x - 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -378,7 +378,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->swimmerCells[min->y][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y;
                 p->x = min->x + 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -390,7 +390,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x - 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y + 1;
                 p->x = min->x - 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -402,7 +402,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y + 1;
                 p->x = min->x;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);
@@ -414,7 +414,7 @@ void getDirectionSwimmer(struct p target, struct entity *e, struct map *m)
                 (cost = root->key + getCost(e->c, m->swimmerCells[min->y + 1][min->x + 1])) > 0 &&
                 cost != INT_MAX)
             {
-                p = malloc(sizeof(struct p));
+                p = static_cast<struct p *>(malloc(sizeof(struct p)));
                 p->y = min->y + 1;
                 p->x = min->x + 1;
                 cost += heuristic(p->x, p->y, e->p.x, e->p.y);

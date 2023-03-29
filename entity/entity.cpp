@@ -68,7 +68,7 @@ void addEntities(int num, struct map *m)
 
 int addEntity(struct map *m, char entity)
 {
-    m->e = realloc(m->e, sizeof(struct entity) * ++m->eCount);
+    m->e = static_cast<struct entity *>(realloc(m->e, sizeof(struct entity) * ++m->eCount));
     m->e[m->eCount - 1].nextMove = H;
     m->e[m->eCount - 1].c = entity;
     m->e[m->eCount - 1].nextMoveCost = 10;
@@ -77,7 +77,7 @@ int addEntity(struct map *m, char entity)
     setMove(m, entity);
     if (place(m, entity))
     {
-        m->e = realloc(m->e, sizeof(struct entity) * --m->eCount);
+        m->e = static_cast<struct entity *>(realloc(m->e, sizeof(struct entity) * --m->eCount));
         return 1;
     }
     return 0;
@@ -203,11 +203,11 @@ void getMoveWanderer(struct entity *e, struct map *m)
         }
     if (e->nextMove == H || targetCell != getCell(H, e->p, m))
     {
-        e->nextMove = rand() % H;
+        e->nextMove = static_cast<direction>(rand() % H);
         int start = e->nextMove;
         do
         {
-            e->nextMove = (e->nextMove + 1) % H;
+            e->nextMove = static_cast<direction>((e->nextMove + 1) % H);
             targetCell = getCell(e->nextMove, e->p, m);
             np = getP(e->nextMove, e->p);
             for (int i = 0; i < m->eCount; i++)
@@ -242,11 +242,11 @@ void getMoveSwimmer(struct entity *e, struct map *m)
         }
     if (e->nextMove == H || targetCell != WATER)
     {
-        e->nextMove = rand() % H;
+        e->nextMove = static_cast<direction>(rand() % H);
         int start = e->nextMove;
         do
         {
-            e->nextMove = (e->nextMove + 1) % H;
+            e->nextMove = static_cast<direction>((e->nextMove + 1) % H);
             targetCell = getSwimmerCell(e->nextMove, e->p, m);
             np = getP(e->nextMove, e->p);
             for (int i = 0; i < m->eCount; i++)
@@ -276,11 +276,11 @@ void getMoveExplorer(struct entity *e, struct map *m)
         }
     if (e->nextMove == H || getCost(e->c, targetCell) >= getCost(e->c, PLACEHOLDER))
     {
-        e->nextMove = rand() % H;
+        e->nextMove = static_cast<direction>(rand() % H);
         int start = e->nextMove;
         do
         {
-            e->nextMove = (e->nextMove + 1) % H;
+            e->nextMove = static_cast<direction>((e->nextMove + 1) % H);
             targetCell = getCell(e->nextMove, e->p, m);
             np = getP(e->nextMove, e->p);
             for (int i = 0; i < m->eCount; i++)

@@ -1,3 +1,3 @@
 project(cs327)
-add_executable(main main.c data/heap.c entity/costs.c entity/costs.h entity/entity.c map/buildings.c map/buildings.h map/grid.c map/map.c map/roads_and_border.c map/roads_and_border.h map/terrain.c map/terrain.h entity/building.c entity/building.h entity/trainerlist.c entity/trainerlist.h entity/battle.c entity/battle.h)
+add_executable(main main.cpp data/heap.cpp entity/costs.cpp entity/costs.h entity/entity.cpp map/buildings.cpp map/buildings.h map/grid.cpp map/map.cpp map/roads_and_border.cpp map/roads_and_border.h map/terrain.cpp map/terrain.h entity/building.cpp entity/building.h entity/trainerlist.cpp entity/trainerlist.h entity/battle.cpp entity/battle.h)
 target_link_libraries(main ncurses m menu)

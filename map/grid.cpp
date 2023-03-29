@@ -29,7 +29,7 @@ struct map *getMap(struct grid *g, int y, int x)
         return g->maps[y][x];
     y = y - (GRID_HEIGHT / 2);
     x = x - (GRID_HEIGHT / 2);
-    m = malloc(sizeof(struct map));
+    m = static_cast<map *>(malloc(sizeof(struct map)));
     g->maps[y][x] = m;
     m->g = g;
     m->p.y = y;

@@ -8,8 +8,8 @@ CXXFLAGS = -Wall -Werror -ggdb -funroll-loops
 
 LDFLAGS = -lm -lncurses -lmenu
 
-BIN = main $(patsubst %.c,%,$(wildcard */*.c))
-OBJS = build-dir/main.o $(patsubst %.c,build-dir/%.o,$(wildcard */*.c))
+BIN = main $(patsubst %.cpp,%,$(wildcard */*.cpp))
+OBJS = build-dir/main.o $(patsubst %.cpp,build-dir/%.o,$(wildcard */*.cpp))
 
 all: $(BIN) etags
 

@@ -27,7 +27,7 @@ void enterList(struct map *m)
     int num_trainers, i;
     num_trainers = m->eCount - 1;
     my_items = (ITEM **) calloc(num_trainers + 1, sizeof(ITEM *));
-    char *string = malloc(num_trainers * 23);
+    char *string = static_cast<char *>(malloc(num_trainers * 23));
     char *pointer = string;
 
     for (i = 0; i < num_trainers; ++i)
