@@ -64,6 +64,65 @@ void addEntities(int num, struct map *m)
         }
 }
 
+void addEntities(int num, struct map *m, struct entity *e)
+{
+    srand(m->seed);
+    addEntity(m, e);
+    if (num > 0)
+        addEntity(m, RIVAL);
+    if (num > 1)
+        addEntity(m, HIKER);
+
+    for (int i = 2; i < num; i++)
+        switch (rand() % 7)
+        {
+            case 0:
+                addEntity(m, RIVAL);
+                break;
+            case 1:
+                addEntity(m, HIKER);
+                break;
+            case 2:
+                addEntity(m, PACER);
+                break;
+            case 3:
+                addEntity(m, WANDERER);
+                break;
+            case 4:
+                addEntity(m, SENTRY);
+                break;
+            case 5:
+                addEntity(m, EXPLORER);
+                break;
+            case 6:
+                addEntity(m, SWIMMER);
+                break;
+        }
+}
+
+int addEntity(struct map *m, struct entity *e)
+{
+    m->e = static_cast<struct entity *>(realloc(m->e, sizeof(struct entity) * ++m->eCount));
+    m->e[m->eCount - 1].nextMove = H;
+    m->e[m->eCount - 1].nextMoveCost = 10;
+    m->e[m->eCount - 1].emove = e->emove;
+    m->e[m->eCount - 1].c = e->c;
+    m->e[m->eCount - 1].p.x = e->p.x;
+    m->e[m->eCount - 1].p.y = e->p.y;
+    return 0;
+}
+
+int copyPC(struct map *m, struct entity *e)
+{
+    m->e[0].nextMove = H;
+    m->e[0].nextMoveCost = 10;
+    m->e[0].emove = e->emove;
+    m->e[0].c = e->c;
+    m->e[0].p.x = e->p.x;
+    m->e[0].p.y = e->p.y;
+    return 0;
+}
+
 int addEntity(struct map *m, char entity)
 {
     m->e = static_cast<struct entity *>(realloc(m->e, sizeof(struct entity) * ++m->eCount));
@@ -331,29 +390,32 @@ void doMove(struct entity *e)
         default:
             break;
     }
-    if (e->p.y < 1)
+    if (e->c != PC)
     {
-        mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
-        refresh();
-        abort();
-    }
-    if (e->p.x < 1)
-    {
-        mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
-        refresh();
-        abort();
-    }
-    if (e->p.y > MAP_HEIGHT - 2)
-    {
-        mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
-        refresh();
-        abort();
-    }
-    if (e->p.x > MAP_WIDTH - 2)
-    {
-        mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
-        refresh();
-        abort();
+        if (e->p.y < 1)
+        {
+            mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+            refresh();
+            abort();
+        }
+        if (e->p.x < 1)
+        {
+            mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+            refresh();
+            abort();
+        }
+        if (e->p.y > MAP_HEIGHT - 2)
+        {
+            mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+            refresh();
+            abort();
+        }
+        if (e->p.x > MAP_WIDTH - 2)
+        {
+            mvprintw(4, 0, "\n%c[%d][%d]\n", e->c, e->p.y, e->p.x);
+            refresh();
+            abort();
+        }
     }
 }
 
@@ -388,8 +450,47 @@ void moveNPC(struct entity *e, struct map *m)
 
 void defeated(struct entity *e, struct map *m)
 {
-    e->nextMoveCost = 1000;
-    e->nextMove = H;
+    if (getCell(H, e->p, m) == ROAD || getCell(H, e->p, m) == 'C' || getCell(H, e->p, m) == 'M')
+    {
+        mvaddch(e->p.y + 1, e->p.x, m->cells[e->p.y][e->p.x]);
+        if (e->c != SWIMMER)
+            getMoveExplorer(e, m);
+        else
+        {
+            char targetCell = getSwimmerCell(e->nextMove, e->p, m);
+            struct p np = getP(e->nextMove, e->p);
+            if (checkBounds(np))
+                e->nextMove = H;
+            else
+                for (int i = 0; i < m->eCount; i++)
+                {
+                    if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
+                        targetCell = PLACEHOLDER;
+                }
+            if (e->nextMove == H || targetCell != WATER)
+            {
+                e->nextMove = static_cast<direction>(rand() % H);
+                int start = e->nextMove;
+                do
+                {
+                    e->nextMove = static_cast<direction>((e->nextMove + 1) % H);
+                    targetCell = getSwimmerCell(e->nextMove, e->p, m);
+                    np = getP(e->nextMove, e->p);
+                    for (int i = 0; i < m->eCount; i++)
+                    {
+                        if (e != &(m->e[i]) && np.y == m->e[i].p.y && np.x == m->e[i].p.x)
+                            targetCell = PLACEHOLDER;
+                    }
+
+                } while (e->nextMove != start && (e->nextMove == H || targetCell != WATER));
+                if (targetCell != WATER || checkBounds(np))
+                    e->nextMove = H;
+            }
+            setMoveCost(e, m);
+        }
+        doMove(e);
+        mvaddch(e->p.y + 1, e->p.x, e->c);
+    } else e->nextMoveCost = 1000;
 }
 
 char getRandomInput()
@@ -460,6 +561,10 @@ void movePC(struct entity *e, struct map *m)
                 clear();
                 display(m);
                 break;
+            case 'f':
+                e->nextMove = FLY;
+                e->nextMoveCost = 0;
+                return;
         }
         if (e->nextMove < H || e->nextMove == REST)
         {

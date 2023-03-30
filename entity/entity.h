@@ -19,7 +19,7 @@
 
 enum direction
 {
-    N, S, E, W, NW, NE, SW, SE, H, REST, QUIT, ENTER, LIST
+    N, S, E, W, NW, NE, SW, SE, H, REST, QUIT, FLY
 };
 
 struct entity
@@ -40,7 +40,13 @@ void clearMapEntities(struct map *m);
 
 int addEntity(struct map *m, char entity);
 
+int addEntity(struct map *m, struct entity *e);
+
+int copyPC(struct map *m, struct entity *e);
+
 void addEntities(int num, struct map *m);
+
+void addEntities(int num, struct map *m, struct entity *e);
 
 void defeated(struct entity *e, struct map *m);
 

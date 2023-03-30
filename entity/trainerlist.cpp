@@ -62,9 +62,11 @@ void enterList(struct map *m)
         }
     }
 
+    unpost_menu(my_menu);
+    free_menu(my_menu);
     for (i = 0; i < num_trainers + 1; ++i)
         free_item(my_items[i]);
-    free_menu(my_menu);
+    free(my_items);
     free(string);
 }
 

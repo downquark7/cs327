@@ -5,6 +5,8 @@
 #ifndef CS327_MAP_H
 #define CS327_MAP_H
 
+#include "../data/heap.h"
+
 #define MAP_WIDTH 80
 #define MAP_HEIGHT 21
 #define ROCK '%'
@@ -33,6 +35,7 @@ struct map {
     struct grid *g;
     struct entity *e;
     int eCount;
+    node *root;
 };
 
 void generate(struct map *m);

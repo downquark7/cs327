@@ -27,16 +27,23 @@ struct map *getMap(struct grid *g, int y, int x)
     if (y >= GRID_HEIGHT) y = GRID_HEIGHT - 1;
     if (g->maps[y][x] != NULL)
         return g->maps[y][x];
-    y = y - (GRID_HEIGHT / 2);
-    x = x - (GRID_HEIGHT / 2);
     m = static_cast<map *>(malloc(sizeof(struct map)));
     g->maps[y][x] = m;
+    y = y - (GRID_HEIGHT / 2);
+    x = x - (GRID_HEIGHT / 2);
     m->g = g;
     m->p.y = y;
     m->p.x = x;
     m->seed = g->seed + x + y + x * x + y * y;
+    m->root = nullptr;
     setMapExits(m);
     generate(m);
+    y = y + (GRID_HEIGHT / 2);
+    x = x + (GRID_HEIGHT / 2);
+    if (x == 0) m->cells[m->exits[0].p.y][0] = ROCK;
+    if (y == 0) m->cells[0][m->exits[2].p.x] = ROCK;
+    if (x == GRID_WIDTH - 1) m->cells[m->exits[1].p.y][MAP_WIDTH - 1] = ROCK;
+    if (y == GRID_HEIGHT - 1) m->cells[MAP_HEIGHT - 1][m->exits[3].p.x] = ROCK;
     return m;
 }
 

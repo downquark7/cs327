@@ -53,10 +53,11 @@ int enterBattle(struct entity *e, struct map *m)
                 break;
         }
     }
-
+    unpost_menu(my_menu);
+    free_menu(my_menu);
     for (i = 0; i < n_choices + 1; ++i)
         free_item(my_items[i]);
-    free_menu(my_menu);
+    free(my_items);
     e->emove = defeated;
     return 0;
 }

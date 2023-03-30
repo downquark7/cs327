@@ -8,6 +8,7 @@
 #include <cstring>
 #include "data/heap.h"
 #include <ctime>
+#include <iostream>
 
 int testMode = 0;
 
@@ -56,11 +57,10 @@ int main(int argc, char *argv[])
         struct map *m;
         initGrid(&g, time(nullptr));
         m = getMap(&g, y, x);
-
         addEntities(num, m);
         display(m);
 
-        node *root = nullptr;
+        m->root = nullptr;
         const int fps = 100;
         const int timescale = 1000 / (fps * 10);
         struct timeval tv;
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
         for (int i = 0; i < m->eCount; i++)
         {
             m->e[i].nextMoveTime = i;
-            root = insert(root, m->e[i].nextMoveTime, &(m->e[i]));
+            m->root = insert(m->root, m->e[i].nextMoveTime, &(m->e[i]));
         }
         display(m);
 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
 
         while (!testMode || iters--)
         {
-            auto *e = (struct entity *) root->data;
+            auto *e = (struct entity *) m->root->data;
             gettimeofday(&tv, nullptr);
             time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
             int wait = e->nextMoveTime - time;
@@ -92,17 +92,87 @@ int main(int argc, char *argv[])
                     usleep(wait * 1000);
             }
             e->emove(e, m);
-            if (e == &(m->e[0]) && checkBounds(e->p))
-            {
-
-            }
             e->nextMoveTime += e->nextMoveCost * timescale;
-            root = deleteMin(root);
-            root = insert(root, e->nextMoveTime, e);
+            m->root = deleteMin(m->root);
+            m->root = insert(m->root, e->nextMoveTime, e);
+            if (e->nextMove == FLY)
+            {
+                e->nextMove = H;
+                endwin();
+                std::cout << "enter: yval xval\n";
+                std::cin >> y >> x;
+                initscr();
+                raw();
+                noecho();
+                curs_set(0);
+                keypad(stdscr, TRUE);
+                m = getMap(&g, y, x);
+                y = m->p.y;
+                x = m->p.x;
+                if (m->eCount == 0)
+                {
+                    addEntities(num, m, e);
+                    for (int i = 0; i < m->eCount; i++)
+                    {
+                        m->e[i].nextMoveTime = i;
+                        m->root = insert(m->root, m->e[i].nextMoveTime, &(m->e[i]));
+                    }
+                } else copyPC(m, e);
+                char saved[m->eCount];
+                for (int i = 1; i < m->eCount; i++)
+                {
+                    saved[i] = m->cells[m->e[i].p.y][m->e[i].p.x];
+                    m->cells[m->e[i].p.y][m->e[i].p.x] = m->e[i].c;
+                }
+                while (m->cells[m->e[0].p.y][m->e[0].p.x] != ROAD)
+                {
+                    m->e[0].p.y = (rand() % (MAP_HEIGHT - 4)) + 2;
+                    m->e[0].p.x = (rand() % (MAP_WIDTH - 4)) + 2;
+                }
+                for (int i = 1; i < m->eCount; i++)
+                {
+                    m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
+                }
+                display(m);
+            }
+            if ((e == &(m->e[0]) && checkBounds(e->p)))
+            {
+                if (e->p.x == 0)
+                {
+                    e->p.x = MAP_WIDTH - 2;
+                    x--;
+                }
+                if (e->p.y == 0)
+                {
+                    e->p.y = MAP_HEIGHT - 2;
+                    y--;
+                }
+                if (e->p.x == MAP_WIDTH - 1)
+                {
+                    e->p.x = 1;
+                    x++;
+                }
+                if (e->p.y == MAP_HEIGHT - 1)
+                {
+                    e->p.y = 1;
+                    y++;
+                }
+                m = getMap(&g, y, x);
+                if (m->eCount == 0)
+                {
+                    addEntities(num, m, e);
+                    for (int i = 0; i < m->eCount; i++)
+                    {
+                        m->e[i].nextMoveTime = i;
+                        m->root = insert(m->root, m->e[i].nextMoveTime, &(m->e[i]));
+                    }
+                } else copyPC(m, e);
+                display(m);
+            }
         }
         free(m->e);
+        deleteAll(m->root);
         free(m);
-        deleteAll(root);
         endwin();
     } while (--testMode);
 }

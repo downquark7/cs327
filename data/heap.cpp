@@ -31,11 +31,11 @@ node *mergePairs(node *first)
 
 node *merge(node *first, node *second)
 {
-    if (first == NULL)
+    if (first == nullptr)
     {
         return second;
     }
-    if (second == NULL)
+    if (second == nullptr)
     {
         return first;
     }
@@ -106,5 +106,5 @@ void deleteAll(node *root)
 {
     if (root == NULL)
         return;
-    while (NULL != (root = deleteMin(root)));
+    while (nullptr != (root = deleteMin(root)));
 }
