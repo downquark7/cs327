@@ -1,5 +1,5 @@
 #!/usr/bin/sh
-SUBMIT_FILENAME="nicely_evan.assignment-1.05"
+SUBMIT_FILENAME="nicely_evan.assignment-1.06"
 rm -rf $SUBMIT_FILENAME
 rm -rf $SUBMIT_FILENAME.tar.gz
 rm -rf /tmp/$SUBMIT_FILENAME/
@@ -8,6 +8,7 @@ cp -rfv ./* $SUBMIT_FILENAME/
 cd $SUBMIT_FILENAME/ || exit
 git --no-pager log > CHANGELOG
 rm -rfv cmake-build-debug/
+rm -rfv $SUBMIT_FILENAME
 rm -rfv Testing/
 rm -rfv .*
 rm -rfv ./*.tar.gz
@@ -16,4 +17,4 @@ cd ..
 tar -czvf $SUBMIT_FILENAME.tar.gz $SUBMIT_FILENAME
 tar -xzf $SUBMIT_FILENAME.tar.gz -C /tmp
 cd /tmp/$SUBMIT_FILENAME || exit
-make test
+make run
