@@ -1,5 +1,5 @@
 #!/usr/bin/sh
-SUBMIT_FILENAME="nicely_evan.assignment-1.06"
+SUBMIT_FILENAME="nicely_evan.assignment-1.07"
 rm -rf $SUBMIT_FILENAME
 rm -rf $SUBMIT_FILENAME.tar.gz
 rm -rf /tmp/$SUBMIT_FILENAME/
@@ -11,6 +11,7 @@ rm -rfv cmake-build-debug/
 rm -rfv $SUBMIT_FILENAME
 rm -rfv Testing/
 rm -rfv .*
+rm -rfv *.csv
 rm -rfv ./*.tar.gz
 make clean
 cd ..
