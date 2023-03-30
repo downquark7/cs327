@@ -1,10 +1,8 @@
-esc, q, space, enter should all close trainer menu
-space and enter select items on the M and C building placeholder and if exit is selected it closes
-can also close building interface placeholder with q or esc
-defeated npcs won't move
+defeated npcs will move until not on a road
+f will request 2 numbers seperated by a space to fly to map
+doesn't really use inheritance I spent so much time getting function pointers to work I want to use them for now
 
-delete Makefile and run ```cmake CMakeLists.txt``` if makefile does not work to make new makefile
-Makefile works in Ubuntu so there is no reason for it to not work
 --numtrainers will never crash when a reasonable amount of memory is available
 added test argument as --test number
 will just run number times of number iterations with random moves to check for random errors
+--waitForDebug will wait for a couple character presses so a debugger can be attached
