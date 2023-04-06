@@ -296,7 +296,7 @@ void csv::get_stats()
     while (getline(file, line))
     {
         struct stats data;
-        regex pattern("(-?\\d*),(-?\\d*),([^-]*),(-?\\d*),(-?\\d*)");
+        regex pattern("(-?\\d*),(-?\\d*),([^,]*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
