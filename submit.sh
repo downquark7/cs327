@@ -12,6 +12,7 @@ rm -rfv $SUBMIT_FILENAME
 rm -rfv Testing/
 rm -rfv .*
 rm -rfv *.csv
+rm -rfv *.txt
 rm -rfv ./*.tar.gz
 make clean
 cd ..
