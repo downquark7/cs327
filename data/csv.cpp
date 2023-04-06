@@ -82,7 +82,7 @@ void csv::get_moves()
     {
         struct moves data;
         regex pattern(
-                "(\\d*),(\\w*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*)");
+                "(\\d*),([^,]*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
