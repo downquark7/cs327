@@ -56,7 +56,7 @@ void csv::get_experience()
     while (getline(file, line))
     {
         struct experience data;
-        regex pattern("(\\d*),(\\d*),(\\d*)");
+        regex pattern("(-?\\d*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
@@ -82,7 +82,7 @@ void csv::get_moves()
     {
         struct moves data;
         regex pattern(
-                "(\\d*),([^,]*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*)");
+                "(-?\\d*),([\\w-]*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
@@ -127,7 +127,7 @@ void csv::get_pokemon()
     while (getline(file, line))
     {
         struct pokemon data;
-        regex pattern("(\\d*),(.*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*)");
+        regex pattern("(-?\\d*),(.*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
@@ -159,7 +159,7 @@ void csv::get_pokemon_moves()
     while (getline(file, line))
     {
         struct pokemon_moves data;
-        regex pattern("(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*)");
+        regex pattern("(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
@@ -190,7 +190,7 @@ void csv::get_pokemon_species()
     {
         struct pokemon_species data;
         regex pattern(
-                "(\\d*),(.*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*),(\\d*)");
+                "(-?\\d*),([^,]*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
@@ -244,7 +244,7 @@ void csv::get_pokemon_stats()
     while (getline(file, line))
     {
         struct pokemon_stats data;
-        regex pattern("(\\d*),(\\d*),(\\d*),(\\d*)");
+        regex pattern("(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
@@ -271,7 +271,7 @@ void csv::get_pokemon_types()
     while (getline(file, line))
     {
         struct pokemon_types data;
-        regex pattern("(\\d*),(\\d*),(\\d*)");
+        regex pattern("(-?\\d*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
@@ -296,21 +296,21 @@ void csv::get_stats()
     while (getline(file, line))
     {
         struct stats data;
-        regex pattern("(\\d*),(\\w*),(\\d*),(\\d*)");
+        regex pattern("(-?\\d*),(-?\\d*),([^-]*),(-?\\d*),(-?\\d*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
             data.id = stoi(match[1]);
-            data.identifier = match[2];
-            data.damage_class_id = stoi(match[3]);
-            data.is_battle_only = false; // default value
-            data.game_index = 0; // default value
+            data.damage_class_id = stoi(match[2]);
+            data.identifier = match[3];
+            data.is_battle_only = stoi(match[4]);
+            data.game_index = stoi(match[5]);
             stats_vector.push_back(data);
         }
     }
     file.close();
 #ifdef DEBUG
-    cout << "id,identifier,damage_class_id,is_battle_only,game_index\n";
+    cout << "id,damage_class_id,identifier,is_battle_only,game_index\n";
     for (const auto &data: stats_vector)
         cout << parse(data.id) << ',' << parse(data.identifier) << ',' << parse(data.damage_class_id) << ','
              << parse(data.is_battle_only) << ','
@@ -325,7 +325,7 @@ void csv::get_type_names()
     while (getline(file, line))
     {
         struct type_names data;
-        regex pattern("(\\d*),(\\d*),(\\w*)");
+        regex pattern("(-?\\d*),(-?\\d*),([^-]*)");
         smatch match;
         if (regex_match(line, match, pattern))
         {
