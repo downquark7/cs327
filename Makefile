@@ -3,8 +3,8 @@ CXX = g++
 ECHO = echo
 RM = rm -f
 
-CFLAGS = -Wall -ggdb -funroll-loops
-CXXFLAGS = -Wall -ggdb -funroll-loops
+CFLAGS = -Wall -ggdb -O2
+CXXFLAGS = -Wall -ggdb -O2
 
 LDFLAGS = -lm -lncurses -lmenu
 
