@@ -312,7 +312,7 @@ void csv::get_stats()
 #ifdef DEBUG
     cout << "id,damage_class_id,identifier,is_battle_only,game_index\n";
     for (const auto &data: stats_vector)
-        cout << parse(data.id) << ',' << parse(data.identifier) << ',' << parse(data.damage_class_id) << ','
+        cout << parse(data.id) << ',' << parse(data.damage_class_id) << ',' << parse(data.identifier) << ','
              << parse(data.is_battle_only) << ','
              << parse(data.game_index) << '\n';
 #endif
