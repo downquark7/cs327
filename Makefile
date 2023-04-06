@@ -3,15 +3,15 @@ CXX = g++
 ECHO = echo
 RM = rm -f
 
-CFLAGS = -Wall -Werror -ggdb -funroll-loops
-CXXFLAGS = -Wall -Werror -ggdb -funroll-loops
+CFLAGS = -Wall -ggdb -funroll-loops
+CXXFLAGS = -Wall -ggdb -funroll-loops
 
 LDFLAGS = -lm -lncurses -lmenu
 
 BIN = main $(patsubst %.cpp,%,$(wildcard */*.cpp))
 OBJS = build-dir/main.o $(patsubst %.cpp,build-dir/%.o,$(wildcard */*.cpp))
 
-all: $(BIN) etags
+all: $(BIN)
 
 $(BIN): $(OBJS)
 	@$(ECHO) Linking $@
@@ -37,11 +37,6 @@ clean:
 clobber: clean
 	@$(ECHO) Removing backup files
 	@$(RM) *~ \#* *pgm
-
-etags:
-	@$(ECHO) Updating TAGS
-	@mkdir -p $(@D)
-	@etags *.[ch]
 
 run: main
 	./main
