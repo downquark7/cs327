@@ -9,8 +9,6 @@
 #include <regex>
 #include <climits>
 
-#define DEBUG
-
 using namespace std;
 
 int csv::stoi(const string &s)
