@@ -15,7 +15,7 @@ public:
     static void load();
 
     static std::thread async;
-    static std::thread async2;
+//    static std::thread async2;
 
     static void join();
 
@@ -25,8 +25,6 @@ public:
     };
     static std::vector<experience> experience_vector;
 
-    static void get_experience();
-
     struct moves
     {
         int id;
@@ -34,8 +32,6 @@ public:
         int generation_id, type_id, power, pp, accuracy, priority, target_id, damage_class_id, effect_id, effect_chance, contest_type_id, contest_effect_id, super_contest_effect_id;
     };
     static std::vector<moves> moves_vector;
-
-    static void get_moves();
 
     struct pokemon
     {
@@ -45,15 +41,12 @@ public:
     };
     static std::vector<pokemon> pokemon_vector;
 
-    static void get_pokemon();
-
     struct pokemon_moves
     {
         int pokemon_id, version_group_id, move_id, pokemon_move_method_id, level, order;
     };
     static std::vector<pokemon_moves> pokemon_moves_vector;
-
-    static void get_pokemon_moves();
+    static pokemon_moves get_pokemon_moves(int id);
 
     struct pokemon_species
     {
@@ -63,23 +56,18 @@ public:
     };
     static std::vector<pokemon_species> pokemon_species_vector;
 
-    static void get_pokemon_species();
-
     struct pokemon_stats
     {
         int pokemon_id, stat_id, base_stat, effort;
     };
     static std::vector<pokemon_stats> pokemon_stats_vector;
-
-    static void get_pokemon_stats();
+    static __gnu_cxx::__normal_iterator<pokemon_stats *, std::vector<pokemon_stats>> get_pokemon_stats(int id);
 
     struct pokemon_types
     {
         int pokemon_id, type_id, slot;
     };
     static std::vector<pokemon_types> pokemon_types_vector;
-
-    static void get_pokemon_types();
 
     struct stats
     {
@@ -89,8 +77,6 @@ public:
     };
     static std::vector<stats> stats_vector;
 
-    static void get_stats();
-
     struct type_names
     {
         int type_id, local_language_id;
@@ -98,11 +84,19 @@ public:
     };
     static std::vector<type_names> type_names_vector;
 
-    static void get_type_names();
-
-    static void get_all();
+    static void load_experience();
+    static void load_moves();
+    static void load_pokemon();
+    static void load_pokemon_moves();
+    static void load_pokemon_species();
+    static void load_pokemon_stats();
+    static void load_pokemon_types();
+    static void load_stats();
+    static void load_type_names();
 private:
     static int stoi(const std::string &s);
+    static void thread_load_pokemon_moves();
+    static void thread_load_everything_else();
 
 };
 
