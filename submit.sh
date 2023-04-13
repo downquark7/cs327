@@ -1,5 +1,5 @@
 #!/usr/bin/sh
-SUBMIT_FILENAME="nicely_evan.assignment-1.07"
+SUBMIT_FILENAME="nicely_evan.assignment-1.08"
 rm -rf $SUBMIT_FILENAME
 rm -rf $SUBMIT_FILENAME.tar.gz
 rm -rf /tmp/$SUBMIT_FILENAME/
