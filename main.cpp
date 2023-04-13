@@ -54,9 +54,9 @@ int main(int argc, char *argv[])
             data.get_stats();
         else if (arg == "type_names")
             data.get_type_names();
-        else
-            data.get_all();
     }
+    if (argc == 1)
+        data.get_all();
     return 0;
 
 //    do

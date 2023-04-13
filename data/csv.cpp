@@ -38,7 +38,7 @@ ifstream getFile(const char *filename)
     ifstream file(path + filename);
     if (!file.is_open())
     {
-        path = string(getenv("HOME")) + "./poke327/";
+        path = string(getenv("HOME")) + "/.poke327/pokedex/pokedex/data/csv/";
         file.open(path + filename);
     }
     if (!file.is_open())
@@ -53,11 +53,11 @@ void csv::get_experience()
 {
     ifstream file = getFile("experience.csv");
     string line;
+    regex pattern("(-?\\d*),(-?\\d*),(-?\\d*)");
+    smatch match;
     while (getline(file, line))
     {
         struct experience data;
-        regex pattern("(-?\\d*),(-?\\d*),(-?\\d*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.growth_rate_id = stoi(match[1]);
@@ -78,12 +78,12 @@ void csv::get_moves()
 {
     ifstream file = getFile("moves.csv");
     string line;
+    regex pattern(
+            "(-?\\d*),([\\w-]*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
+    smatch match;
     while (getline(file, line))
     {
         struct moves data;
-        regex pattern(
-                "(-?\\d*),([\\w-]*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.id = stoi(match[1]);
@@ -124,11 +124,11 @@ void csv::get_pokemon()
 {
     ifstream file = getFile("pokemon.csv");
     string line;
+    regex pattern("(-?\\d*),(.*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
+    smatch match;
     while (getline(file, line))
     {
         struct pokemon data;
-        regex pattern("(-?\\d*),(.*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.id = stoi(match[1]);
@@ -156,11 +156,11 @@ void csv::get_pokemon_moves()
 {
     ifstream file = getFile("pokemon_moves.csv");
     string line;
+    regex pattern("(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
+    smatch match;
     while (getline(file, line))
     {
         struct pokemon_moves data;
-        regex pattern("(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.pokemon_id = stoi(match[1]);
@@ -186,12 +186,12 @@ void csv::get_pokemon_species()
 {
     ifstream file = getFile("pokemon_species.csv");
     string line;
+    regex pattern(
+            "(-?\\d*),([^,]*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
+    smatch match;
     while (getline(file, line))
     {
         struct pokemon_species data;
-        regex pattern(
-                "(-?\\d*),([^,]*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.id = stoi(match[1]);
@@ -241,11 +241,11 @@ void csv::get_pokemon_stats()
 {
     ifstream file = getFile("pokemon_stats.csv");
     string line;
+    regex pattern("(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
+    smatch match;
     while (getline(file, line))
     {
         struct pokemon_stats data;
-        regex pattern("(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.pokemon_id = stoi(match[1]);
@@ -268,11 +268,11 @@ void csv::get_pokemon_types()
 {
     ifstream file = getFile("pokemon_types.csv");
     string line;
+    regex pattern("(-?\\d*),(-?\\d*),(-?\\d*)");
+    smatch match;
     while (getline(file, line))
     {
         struct pokemon_types data;
-        regex pattern("(-?\\d*),(-?\\d*),(-?\\d*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.pokemon_id = stoi(match[1]);
@@ -293,11 +293,11 @@ void csv::get_stats()
 {
     ifstream file = getFile("stats.csv");
     string line;
+    regex pattern("(-?\\d*),(-?\\d*),([^,]*),(-?\\d*),(-?\\d*)");
+    smatch match;
     while (getline(file, line))
     {
         struct stats data;
-        regex pattern("(-?\\d*),(-?\\d*),([^,]*),(-?\\d*),(-?\\d*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.id = stoi(match[1]);
@@ -322,11 +322,11 @@ void csv::get_type_names()
 {
     ifstream file = getFile("type_names.csv");
     string line;
+    regex pattern("(-?\\d*),(-?\\d*),([^-]*)");
+    smatch match;
     while (getline(file, line))
     {
         struct type_names data;
-        regex pattern("(-?\\d*),(-?\\d*),([^-]*)");
-        smatch match;
         if (regex_match(line, match, pattern))
         {
             data.type_id = stoi(match[1]);
