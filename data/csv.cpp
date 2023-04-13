@@ -21,6 +21,7 @@ std::vector<csv::pokemon_stats> csv::pokemon_stats_vector;
 std::vector<csv::pokemon_types> csv::pokemon_types_vector;
 std::vector<csv::stats> csv::stats_vector;
 std::vector<csv::type_names> csv::type_names_vector;
+std::thread csv::async;
 
 int csv::stoi(const string &s) {
     if (s.empty())
@@ -328,20 +329,26 @@ void thread_get_pokemon_moves() {
     csv::get_pokemon_moves();
 }
 
-csv::csv() {
-    std::thread t4(thread_get_pokemon_moves);
+void thread_get_everything_else() {
+    csv::get_experience();
+    csv::get_moves();
+    csv::get_pokemon();
+    csv::get_pokemon_species();
+    csv::get_pokemon_stats();
+    csv::get_pokemon_types();
+    csv::get_stats();
+    csv::get_type_names();
+}
 
-    get_experience();
-    get_moves();
-    get_pokemon();
-//    get_pokemon_moves();
-    get_pokemon_species();
-    get_pokemon_stats();
-    get_pokemon_types();
-    get_stats();
-    get_type_names();
 
-//    t4.join();
+void csv::load() {
+    async = std::thread(thread_get_pokemon_moves);
+    async2 = std::thread(thread_get_everything_else);
+}
+
+void csv::join() {
+    async.join();
+    async2.join();
 }
 
 

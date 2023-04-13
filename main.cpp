@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     int innerLoopIters = 0;
     int num = 10;
     int waitForDebug = 0;
-    csv data;
+    csv::load();
 
     for (int i = 1; i < argc; i++)
     {
@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
             if (num < 0) num = 0;
         } else if (arg == "--norun")
         {
+            csv::join();
             return 0;
         } else if (arg == "--waitForDebug")
         {
@@ -77,6 +78,7 @@ int main(int argc, char *argv[])
             m->root = insert(m->root, m->e[i].nextMoveTime, &(m->e[i]));
         }
         display(m);
+        csv::join();
 
         int iters = innerLoopIters;
 

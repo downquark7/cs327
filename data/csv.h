@@ -7,13 +7,17 @@
 
 #include <vector>
 #include <string>
+#include <thread>
 
 class csv
 {
 public:
-    csv();
+    static void load();
 
-    csv(int i);
+    static std::thread async;
+    static std::thread async2;
+
+    static void join();
 
     struct experience
     {
