@@ -38,8 +38,6 @@ int main(int argc, char *argv[])
             waitForDebug = 1;
         }
     }
-    data.get_all();
-
 
     do
     {
