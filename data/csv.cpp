@@ -22,6 +22,7 @@ std::vector<csv::pokemon_types> csv::pokemon_types_vector;
 std::vector<csv::stats> csv::stats_vector;
 std::vector<csv::type_names> csv::type_names_vector;
 std::thread csv::async;
+std::thread csv::async2;
 
 int csv::stoi(const string &s) {
     if (s.empty())
