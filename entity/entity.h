@@ -17,6 +17,7 @@
 #define EXPLORER 'e'
 #define SWIMMER 'm'
 #define PLACEHOLDER '`'
+#define WILD '7'
 
 enum direction
 {
@@ -43,7 +44,7 @@ void clearMapEntities(struct map *m);
 
 int addEntity(struct map *m, char entity);
 
-int addEntity(struct map *m, struct entity *e);
+int transferEntity(struct map *m, struct entity *e);
 
 int copyPC(struct map *m, struct entity *e);
 

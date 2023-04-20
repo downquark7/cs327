@@ -67,7 +67,7 @@ void addEntities(int num, struct map *m)
 void addEntities(int num, struct map *m, struct entity *e)
 {
     srand(m->seed);
-    addEntity(m, e);
+    transferEntity(m, e);
     if (num > 0)
         addEntity(m, RIVAL);
     if (num > 1)
@@ -100,7 +100,7 @@ void addEntities(int num, struct map *m, struct entity *e)
         }
 }
 
-int addEntity(struct map *m, struct entity *e)
+int transferEntity(struct map *m, struct entity *e)
 {
     m->e = static_cast<struct entity *>(realloc(m->e, sizeof(struct entity) * ++m->eCount));
     m->e[m->eCount - 1].nextMove = H;
@@ -110,19 +110,7 @@ int addEntity(struct map *m, struct entity *e)
     m->e[m->eCount - 1].p.x = e->p.x;
     m->e[m->eCount - 1].p.y = e->p.y;
     for (int i = 0; i < 6; i++)
-        m->e[m->eCount - 1].party[i] = (struct pokemon *) nullptr;
-    if (m->eCount > 1)
-    {
-        int dist = abs(m->p.y) + abs(m->p.x);
-        int level = dist < 3 ? 1 : dist > 200 ? (rand() % (100 - ((dist - 200) / 2) + 1)) + ((dist - 200) / 2) :
-                                   (rand() % (dist / 2)) + 1;
-        int i = 0;
-        while (i < 6 && (i == 0 || rand() % 100 < 60))
-        {
-            m->e[m->eCount - 1].party[i] = new pokemon(level);
-            i++;
-        }
-    }
+        m->e[0].party[i] = (struct pokemon *) e->party[i];
     return 0;
 }
 
@@ -152,6 +140,20 @@ int addEntity(struct map *m, char entity)
     {
         m->e = static_cast<struct entity *>(realloc(m->e, sizeof(struct entity) * --m->eCount));
         return 1;
+    }
+    for (int i = 0; i < 6; i++)
+        m->e[m->eCount - 1].party[i] = (struct pokemon *) nullptr;
+    if (m->eCount > 1)
+    {
+        int dist = abs(m->p.y) + abs(m->p.x);
+        int level = dist < 3 ? 1 : dist > 200 ? (rand() % (100 - ((dist - 200) / 2) + 1)) + ((dist - 200) / 2) :
+                                   (rand() % (dist / 2)) + 1;
+        int i = 0;
+        while (i < 6 && (i == 0 || rand() % 100 < 60))
+        {
+            m->e[m->eCount - 1].party[i] = new pokemon(level);
+            i++;
+        }
     }
     return 0;
 }
@@ -521,6 +523,7 @@ void movePC(struct entity *e, struct map *m)
     if (getCell(H, e->p, m) == TALL_GRASS && rand() % 10 == 0)
     {
         struct entity encounter;
+        encounter.c = WILD;
         encounter.party[1] = nullptr;
         int dist = abs(m->p.y) + abs(m->p.x);
         int level = dist < 3 ? 1 : dist > 200 ? (rand() % (100 - ((dist - 200) / 2) + 1)) + ((dist - 200) / 2) :

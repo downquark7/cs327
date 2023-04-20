@@ -16,10 +16,20 @@ int battleTest()
 
 extern int testMode;
 
+std::string getEntityName(struct entity *e)
+{
+    switch(e->c)
+    {
+        case WILD: return "a wild ";
+        default: return "a trainer with ";
+    }
+}
+
 int enterBattle(struct entity *e, struct map *m)
 {
     clear();
-    const char *choices[] = {"battle opt 1", "battle opt 2", "battle opt 3", "battle opt 4", "Exit"};
+    std::string title = getEntityName(e) + e->party[0]->identifier + " approaches your " + m->e[0].party[0]->identifier;
+    const char *choices[] = {title.c_str(), "battle opt 2", "battle opt 3", "battle opt 4", "Exit"};
     ITEM **my_items;
     int c = 2;
     MENU *my_menu;
@@ -29,7 +39,7 @@ int enterBattle(struct entity *e, struct map *m)
     my_items = (ITEM **) calloc(n_choices + 1, sizeof(ITEM *));
 
     for (i = 0; i < n_choices; ++i)
-        my_items[i] = new_item(choices[i], choices[i]);
+        my_items[i] = new_item(choices[i], nullptr);
     my_items[n_choices] = (ITEM *) NULL;
 
     my_menu = new_menu((ITEM **) my_items);
