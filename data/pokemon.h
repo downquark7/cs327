@@ -29,6 +29,7 @@ public:
     int base_stats[6];
     int ivs[6];
     int stats[6]; //hp, attack, defence, special-attack, special-defence, speed, accuracy, evasion
+    int currenthp;
     bool shiny;
     bool gender;
 

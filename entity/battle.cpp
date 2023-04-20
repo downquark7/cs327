@@ -4,7 +4,6 @@
 
 #include "battle.h"
 #include <menu.h>
-#include <stdlib.h>
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
@@ -29,13 +28,14 @@ int enterBattle(struct entity *e, struct map *m)
 {
     clear();
     std::string title = getEntityName(e) + e->party[0]->identifier + " approaches your " + m->e[0].party[0]->identifier;
-    const char *choices[] = {title.c_str(), "battle opt 2", "battle opt 3", "battle opt 4", "Exit"};
+    std::string options = {m->e[0].party[0]->moves.begin()->name};
+    const char *choices[] = {"battle opt 3", "battle opt 4", "Exit"};
     ITEM **my_items;
     int c = 2;
     MENU *my_menu;
     int n_choices, i;
-
     n_choices = ARRAY_SIZE(choices);
+    mvprintw(n_choices + 1, 0, "%s", title.c_str());
     my_items = (ITEM **) calloc(n_choices + 1, sizeof(ITEM *));
 
     for (i = 0; i < n_choices; ++i)
@@ -44,6 +44,7 @@ int enterBattle(struct entity *e, struct map *m)
 
     my_menu = new_menu((ITEM **) my_items);
     post_menu(my_menu);
+    mvwin(menu_win(my_menu), 5, 0);
 
     while (c != 27 && (c = (testMode ? battleTest() : getch())))
     {

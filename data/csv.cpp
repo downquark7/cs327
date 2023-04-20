@@ -17,55 +17,65 @@ using namespace std;
 std::vector<experience> csv::experience_vector;
 std::vector<moves> csv::moves_vector;
 std::vector<pokemon_struct> csv::pokemon_vector;
-std::vector<pokemon_moves> csv::pokemon_moves_vector;
+std::vector<pokemon_moves_struct> csv::pokemon_moves_vector;
 std::vector<pokemon_species> csv::pokemon_species_vector;
 std::vector<pokemon_stats> csv::pokemon_stats_vector;
 std::vector<pokemon_types> csv::pokemon_types_vector;
 std::vector<stats> csv::stats_vector;
 std::vector<type_names> csv::type_names_vector;
 std::vector<types> csv::types_vector;
+std::vector<move_names> csv::move_names_vector;
 std::thread csv::async;
 bool csv::isLoaded;
 //std::thread csv::async2;
 
-int csv::stoi(const string &s) {
+int csv::stoi(const string &s)
+{
     if (s.empty())
         return INT_MAX;
     return std::stoi(s);
 }
 
-string parse(int i) {
+string parse(int i)
+{
     if (i == INT_MAX)
         return "";
     return to_string(i);
 }
 
-string parse(const string &s) {
+string parse(const string &s)
+{
     return s;
 }
 
-ifstream getFile(const char *filename) {
+ifstream getFile(const char *filename)
+{
     string path = "/share/cs327/pokedex/pokedex/data/csv/";
     ifstream file(path + filename);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         path = string(getenv("HOME")) + "/.poke327/pokedex/pokedex/data/csv/";
         file.open(path + filename);
     }
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cout << "Could not find file " << filename << "... exiting\n";
         abort();
     }
     return file;
 }
 
-void csv::load_experience() {
+void csv::load_experience()
+{
     ifstream file = getFile("experience.csv");
     string line;
     regex pattern("(-?\\d*),(-?\\d*),(-?\\d*)", std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct experience data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.growth_rate_id = stoi(match[1]);
             data.level = stoi(match[2]);
             data.experience = stoi(match[3]);
@@ -81,16 +91,19 @@ void csv::load_experience() {
 #endif
 }
 
-void csv::load_moves() {
+void csv::load_moves()
+{
     ifstream file = getFile("moves.csv");
     string line;
     regex pattern(
             "(-?\\d*),([\\w-]*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)",
             std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct moves data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.id = stoi(match[1]);
             data.identifier = match[2];
             data.generation_id = stoi(match[3]);
@@ -126,15 +139,18 @@ void csv::load_moves() {
 #endif
 }
 
-void csv::load_pokemon() {
+void csv::load_pokemon()
+{
     ifstream file = getFile("pokemon.csv");
     string line;
     regex pattern("(-?\\d*),(.*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)",
                   std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct pokemon_struct data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.id = stoi(match[1]);
             data.identifier = match[2];
             data.species_id = stoi(match[3]);
@@ -157,15 +173,18 @@ void csv::load_pokemon() {
 #endif
 }
 
-void csv::load_pokemon_moves() {
+void csv::load_pokemon_moves()
+{
     ifstream file = getFile("pokemon_moves.csv");
     string line;
     regex pattern("(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)",
                   std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
-        struct pokemon_moves data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+    while (getline(file, line))
+    {
+        struct pokemon_moves_struct data;
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.pokemon_id = stoi(match[1]);
             data.version_group_id = stoi(match[2]);
             data.move_id = stoi(match[3]);
@@ -186,16 +205,19 @@ void csv::load_pokemon_moves() {
 #endif
 }
 
-void csv::load_pokemon_species() {
+void csv::load_pokemon_species()
+{
     ifstream file = getFile("pokemon_species.csv");
     string line;
     regex pattern(
             "(-?\\d*),([^,]*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)",
             std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct pokemon_species data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.id = stoi(match[1]);
             data.identifier = match[2];
             data.generation_id = stoi(match[3]);
@@ -240,15 +262,18 @@ void csv::load_pokemon_species() {
 #endif
 }
 
-void csv::load_pokemon_stats() {
+void csv::load_pokemon_stats()
+{
     ifstream file = getFile("pokemon_stats.csv");
     string line;
     regex pattern("(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)",
                   std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct pokemon_stats data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.pokemon_id = stoi(match[1]);
             data.stat_id = stoi(match[2]);
             data.base_stat = stoi(match[3]);
@@ -266,14 +291,17 @@ void csv::load_pokemon_stats() {
 #endif
 }
 
-void csv::load_pokemon_types() {
+void csv::load_pokemon_types()
+{
     ifstream file = getFile("pokemon_types.csv");
     string line;
     regex pattern("(-?\\d*),(-?\\d*),(-?\\d*)", std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct pokemon_types data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.pokemon_id = stoi(match[1]);
             data.type_id = stoi(match[2]);
             data.slot = stoi(match[3]);
@@ -289,15 +317,18 @@ void csv::load_pokemon_types() {
 #endif
 }
 
-void csv::load_stats() {
+void csv::load_stats()
+{
     ifstream file = getFile("stats.csv");
     string line;
     regex pattern("(-?\\d*),(-?\\d*),([^,]*),(-?\\d*),(-?\\d*)",
                   std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct stats data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.id = stoi(match[1]);
             data.damage_class_id = stoi(match[2]);
             data.identifier = match[3];
@@ -317,15 +348,18 @@ void csv::load_stats() {
 #endif
 }
 
-void csv::load_types() {
+void csv::load_types()
+{
     ifstream file = getFile("types.csv");
     string line;
     regex pattern("(-?\\d*),([^,]*),(-?\\d*),(-?\\d*)",
                   std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct types data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.id = stoi(match[1]);
             data.identifier = match[2];
             data.generation_id = stoi(match[3]);
@@ -344,14 +378,17 @@ void csv::load_types() {
 #endif
 }
 
-void csv::load_type_names() {
+void csv::load_type_names()
+{
     ifstream file = getFile("type_names.csv");
     string line;
     regex pattern("(-?\\d*),(-?\\d*),([^-]*)", std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         struct type_names data;
-        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
             data.type_id = stoi(match[1]);
             data.local_language_id = stoi(match[2]);
             data.name = match[3];
@@ -367,13 +404,16 @@ void csv::load_type_names() {
 #endif
 }
 
-void csv::thread_load_pokemon_moves() {
+void csv::thread_load_pokemon_moves()
+{
     csv::load_pokemon_moves();
 }
 
-void csv::thread_load_everything_else() {
+void csv::thread_load_everything_else()
+{
     csv::load_experience();
     csv::load_moves();
+    csv::load_move_names();
     csv::load_pokemon();
     csv::load_pokemon_species();
     csv::load_pokemon_stats();
@@ -385,47 +425,91 @@ void csv::thread_load_everything_else() {
 }
 
 
-void csv::load() {
+void csv::load()
+{
     isLoaded = false;
     async = std::thread(csv::thread_load_pokemon_moves);
     csv::thread_load_everything_else();
 //    async2 = std::thread(thread_load_everything_else);
 }
 
-void csv::join() {
+void csv::join()
+{
     if (!isLoaded)
         async.join();
     isLoaded = true;
 //    async2.join();
 }
 
-pokemon_moves csv::get_pokemon_moves(pokemon *pokemon) {
+pokemon_moves_struct csv::get_pokemon_moves(pokemon *pokemon)
+{
     csv::join();
     int id = pokemon->species_id;
     int level = pokemon->level;
     auto first = lower_bound(pokemon_moves_vector.begin(), pokemon_moves_vector.end(), id,
-                             [](const auto &a, const auto b) { return a.pokemon_id < b; });
+                             [](const auto &a, const auto b)
+                             { return a.pokemon_id < b; });
     id = first->pokemon_id;
     auto last = upper_bound(pokemon_moves_vector.begin(), pokemon_moves_vector.end(), id,
-                            [](const auto a, const auto &b) { return a < b.pokemon_id; });
-    vector<pokemon_moves> vector;
+                            [](const auto a, const auto &b)
+                            { return a < b.pokemon_id; });
+    vector<pokemon_moves_struct> vector;
     copy_if(first, last, back_inserter(vector),
-            [&level](const auto &a) { return a.pokemon_move_method_id == 1 && a.level <= level; });
+            [&level](const auto &a)
+            { return a.pokemon_move_method_id == 1 && a.level <= level; });
     random_device rd;
     default_random_engine engine(rd());
     uniform_int_distribution<> distribution(0, vector.size() - 1);
     return vector[distribution(engine)];
 }
 
-__gnu_cxx::__normal_iterator<pokemon_stats *, vector<pokemon_stats>> csv::get_pokemon_stats(int id) {
+__gnu_cxx::__normal_iterator<pokemon_stats *, vector<pokemon_stats>> csv::get_pokemon_stats(int id)
+{
     return lower_bound(pokemon_stats_vector.begin(), pokemon_stats_vector.end(), id,
-                       [](const auto &a, const auto b) { return a.pokemon_id < b; });
+                       [](const auto &a, const auto b)
+                       { return a.pokemon_id < b; });
 }
 
-pokemon_struct csv::get_pokemon() {
+std::string get_move_names(int id)
+{
+    auto start = lower_bound(csv::move_names_vector.begin(), csv::move_names_vector.end(), id, [](const auto &a, const auto b)
+    { return a.move_id < b; });
+    while (start->local_language_id != 9) start++;
+    return start->name;
+}
+
+pokemon_struct csv::get_pokemon()
+{
     random_device rd;
     default_random_engine engine(rd());
     uniform_int_distribution<> distribution(0, pokemon_vector.size() - 1);
     return pokemon_vector[distribution(engine)];
+}
+
+void csv::load_move_names()
+{
+    ifstream file = getFile("move_names.csv");
+    string line;
+    regex pattern("(-?\\d*),(-?\\d*),(.+)",
+                  std::regex_constants::ECMAScript | std::regex_constants::optimize);
+    smatch match;
+    while (getline(file, line))
+    {
+        struct move_names data;
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous))
+        {
+            data.move_id = stoi(match[1]);
+            data.local_language_id = stoi(match[2]);
+            data.name = match[3];
+            move_names_vector.push_back(data);
+        }
+    }
+    file.close();
+    move_names_vector.shrink_to_fit();
+#ifdef DEBUG
+    cout << "move_id,local_language_id,name\n";
+    for (const auto &data: move_names_vector)
+        cout << parse(data.move_id) << ',' << parse(data.local_language_id) << ',' << parse(data.name) << '\n';
+#endif
 }
 

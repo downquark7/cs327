@@ -28,6 +28,8 @@ pokemon::pokemon(pokemon_struct a) {
     for (int i = 0; i < 6; i++)
         ivs[i] = distribution(engine);
 
+    calc();
+    currenthp = stats[0];
     std::uniform_int_distribution<> coinflip(0, 1);
     std::uniform_int_distribution<> shinydist(1, 8192);
 
