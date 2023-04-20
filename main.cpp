@@ -16,13 +16,10 @@ int testMode = 0;
 int main(int argc, char *argv[]) {
     srand(time(nullptr));
     csv::load();
-//    for (int i = 0; i < 1; i++)
-//        std::cout << a.pokemon_id << ", " << a.move_id << std::endl;
 
     int innerLoopIters = 0;
     int num = 10;
     int waitForDebug = 0;
-    csv::load();
 
     for (int i = 1; i < argc; i++)
     {

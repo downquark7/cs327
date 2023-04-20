@@ -8,8 +8,7 @@
 #include <vector>
 #include <string>
 #include "csv.h"
-
-class csv;
+#include "structs.h"
 
 class pokemon {
 public:
@@ -31,7 +30,7 @@ public:
     bool shiny;
     bool gender;
 
-    std::vector<csv::pokemon_moves> moves;
+    std::vector<pokemon_moves> moves;
 
     void levelUp();
 
