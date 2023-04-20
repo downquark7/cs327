@@ -3,12 +3,12 @@
 //
 
 #include <ncurses.h>
-#include <stdlib.h>
 #include "entity.h"
 #include "battle.h"
 #include "costs.h"
 #include "building.h"
 #include "trainerlist.h"
+#include <random>
 
 void clearMapEntities(struct map *m)
 {
@@ -111,6 +111,18 @@ int addEntity(struct map *m, struct entity *e)
     m->e[m->eCount - 1].p.y = e->p.y;
     for (int i = 0; i < 6; i++)
         m->e[m->eCount - 1].party[i] = (struct pokemon *) nullptr;
+    if (m->eCount > 1)
+    {
+        int dist = abs(m->p.y) + abs(m->p.x);
+        int level = dist < 3 ? 1 : dist > 200 ? (rand() % (100 - ((dist - 200) / 2) + 1)) + ((dist - 200) / 2) :
+                                   (rand() % (dist / 2)) + 1;
+        int i = 0;
+        while (i < 6 && (i == 0 || rand() % 100 < 60))
+        {
+            m->e[m->eCount - 1].party[i] = new pokemon(level);
+            i++;
+        }
+    }
     return 0;
 }
 
