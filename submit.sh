@@ -1,6 +1,5 @@
 #!/usr/bin/sh
 SUBMIT_FILENAME="nicely_evan.assignment-1.09"
-rm -rf $SUBMIT_FILENAME
 rm -rf $SUBMIT_FILENAME.tar.gz
 rm -rf /tmp/$SUBMIT_FILENAME/
 mkdir $SUBMIT_FILENAME
@@ -17,6 +16,8 @@ rm -rfv ./*.tar.gz
 make clean
 cd ..
 tar -czvf $SUBMIT_FILENAME.tar.gz $SUBMIT_FILENAME
+rm -rf $SUBMIT_FILENAME
 tar -xzf $SUBMIT_FILENAME.tar.gz -C /tmp
 cd /tmp/$SUBMIT_FILENAME || exit
+TERM=rxvt
 make run

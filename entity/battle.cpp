@@ -27,15 +27,19 @@ std::string getEntityName(struct entity *e)
 int enterBattle(struct entity *e, struct map *m)
 {
     clear();
-    std::string title = getEntityName(e) + e->party[0]->identifier + " approaches your " + m->e[0].party[0]->identifier;
-    std::string options = {m->e[0].party[0]->moves.begin()->name};
-    const char *choices[] = {"battle opt 3", "battle opt 4", "Exit"};
+    std::string msg = getEntityName(e) + e->party[0]->identifier + " approaches your " + m->e[0].party[0]->identifier;
+    std::string options[] = {m->e[0].party[0]->moves.begin()->name, m->e[0].party[0]->moves.end()->name};
+    const char *choices[] = {options[0].c_str(), options[1].c_str()};
     ITEM **my_items;
     int c = 2;
     MENU *my_menu;
     int n_choices, i;
     n_choices = ARRAY_SIZE(choices);
-    mvprintw(n_choices + 1, 0, "%s", title.c_str());
+
+    move(n_choices + 1, 0);
+    clrtoeol();
+    mvprintw(n_choices + 1, 0, "%s", msg.c_str());
+
     my_items = (ITEM **) calloc(n_choices + 1, sizeof(ITEM *));
 
     for (i = 0; i < n_choices; ++i)
@@ -44,7 +48,6 @@ int enterBattle(struct entity *e, struct map *m)
 
     my_menu = new_menu((ITEM **) my_items);
     post_menu(my_menu);
-    mvwin(menu_win(my_menu), 5, 0);
 
     while (c != 27 && (c = (testMode ? battleTest() : getch())))
     {

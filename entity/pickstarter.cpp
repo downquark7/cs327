@@ -18,13 +18,14 @@ int starterTest()
 
 extern int testMode;
 
-void enterSelect(struct entity *e)
+pokemon_struct enterSelect()
 {
     clear();
     pokemon_struct array[] = {csv::get_pokemon(), csv::get_pokemon(), csv::get_pokemon()};
     const char *choices[] = {array[0].identifier.c_str(), array[1].identifier.c_str(), array[2].identifier.c_str()};
     ITEM **my_items;
     int c = 2;
+    int index = -1;
     MENU *my_menu;
     int n_choices, i;
 
@@ -52,7 +53,7 @@ void enterSelect(struct entity *e)
             case KEY_ENTER:
             case ' ':
                 c = 27;
-                e->party[0] = new pokemon(array[item_index(current_item(my_menu))]);
+                index = item_index(current_item(my_menu));
                 break;
         }
     }
@@ -61,4 +62,5 @@ void enterSelect(struct entity *e)
     for (i = 0; i < n_choices + 1; ++i)
         free_item(my_items[i]);
     free(my_items);
+    return array[index];
 }

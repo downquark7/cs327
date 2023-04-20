@@ -26,8 +26,9 @@ std::vector<type_names> csv::type_names_vector;
 std::vector<types> csv::types_vector;
 std::vector<move_names> csv::move_names_vector;
 std::thread csv::async;
+std::thread csv::async2;
 bool csv::isLoaded;
-//std::thread csv::async2;
+bool csv::isLoaded2;
 
 int csv::stoi(const string &s)
 {
@@ -428,6 +429,7 @@ void csv::thread_load_everything_else()
 void csv::load()
 {
     isLoaded = false;
+    isLoaded2 = false;
     async = std::thread(csv::thread_load_pokemon_moves);
     csv::thread_load_everything_else();
 //    async2 = std::thread(thread_load_everything_else);
@@ -439,6 +441,13 @@ void csv::join()
         async.join();
     isLoaded = true;
 //    async2.join();
+}
+
+void csv::join2()
+{
+    if (!isLoaded2)
+        async2.join();
+    isLoaded2 = true;
 }
 
 pokemon_moves_struct csv::get_pokemon_moves(pokemon *pokemon)

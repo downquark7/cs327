@@ -39,6 +39,7 @@ public:
 
     void calc();
 
+    void fill_moves();
 };
 
 

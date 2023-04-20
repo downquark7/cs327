@@ -29,7 +29,7 @@ pokemon::pokemon(pokemon_struct a) {
         ivs[i] = distribution(engine);
 
     calc();
-    currenthp = stats[0];
+
     std::uniform_int_distribution<> coinflip(0, 1);
     std::uniform_int_distribution<> shinydist(1, 8192);
 
@@ -46,6 +46,7 @@ void pokemon::calc() {
     for (int i = 1; i < 6; i++) {
         stats[i] = ((base_stats[i] + ivs[i]) * 2 * level) / 100 + 5;
     }
+    currenthp = stats[0];
 }
 
 void pokemon::levelUp() {

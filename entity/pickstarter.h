@@ -7,6 +7,6 @@
 
 #include "entity.h"
 
-void enterSelect(struct entity *e);
+pokemon_struct enterSelect();
 
 #endif //CS327_PICKSTARTER_H

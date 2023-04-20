@@ -24,12 +24,15 @@ private:
 
 public:
     static bool isLoaded;
+    static bool isLoaded2;
 
     static void load();
 
     static std::thread async;
+    static std::thread async2;
 
     static void join();
+    static void join2();
 
     static std::vector<experience> experience_vector;
     static std::vector<moves> moves_vector;
@@ -73,7 +76,6 @@ public:
     static void load_types();
 
     static void load_move_names();
-
 };
 
 std::string get_move_names(int id);
