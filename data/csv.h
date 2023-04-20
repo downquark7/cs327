@@ -19,6 +19,7 @@ private:
     static void thread_load_pokemon_moves();
     static void thread_load_everything_else();
 public:
+    static bool isLoaded;
     static void load();
     static std::thread async;
     static void join();

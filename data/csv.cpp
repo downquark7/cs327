@@ -25,6 +25,7 @@ std::vector<stats> csv::stats_vector;
 std::vector<type_names> csv::type_names_vector;
 std::vector<types> csv::types_vector;
 std::thread csv::async;
+bool csv::isLoaded;
 //std::thread csv::async2;
 
 int csv::stoi(const string &s) {
@@ -385,15 +386,19 @@ void csv::thread_load_everything_else() {
 
 
 void csv::load() {
+    isLoaded = false;
     async = std::thread(csv::thread_load_pokemon_moves);
     csv::thread_load_everything_else();
 //    async2 = std::thread(thread_load_everything_else);
 }
 
 void csv::join() {
-    async.join();
+    if (!isLoaded)
+        async.join();
+    isLoaded = true;
 //    async2.join();
 }
+
 pokemon_moves csv::get_pokemon_moves(pokemon *pokemon) {
     int id = pokemon->species_id;
     int level = pokemon->level;
@@ -403,7 +408,8 @@ pokemon_moves csv::get_pokemon_moves(pokemon *pokemon) {
     auto last = upper_bound(pokemon_moves_vector.begin(), pokemon_moves_vector.end(), id,
                             [](const auto a, const auto &b) { return a < b.pokemon_id; });
     vector<pokemon_moves> vector;
-    copy_if(first, last, back_inserter(vector), [&level](const auto &a) { return a.pokemon_move_method_id == 1 && a.level <= level; });
+    copy_if(first, last, back_inserter(vector),
+            [&level](const auto &a) { return a.pokemon_move_method_id == 1 && a.level <= level; });
     random_device rd;
     default_random_engine engine(rd());
     uniform_int_distribution<> distribution(0, vector.size() - 1);
