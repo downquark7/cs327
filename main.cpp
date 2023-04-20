@@ -10,6 +10,7 @@
 #include <ctime>
 #include <iostream>
 #include "data/csv.h"
+#include "entity/pickstarter.h"
 
 int testMode = 0;
 
@@ -21,35 +22,28 @@ int main(int argc, char *argv[]) {
     int num = 10;
     int waitForDebug = 0;
 
-    for (int i = 1; i < argc; i++)
-    {
+    for (int i = 1; i < argc; i++) {
         std::string arg = argv[i];
-        if (arg == "--test" && i + 1 < argc)
-        {
+        if (arg == "--test" && i + 1 < argc) {
             testMode = innerLoopIters = strtol(argv[i + 1], nullptr, 10);
-        } else if (arg == "--numtrainers" && i + 1 < argc)
-        {
+        } else if (arg == "--numtrainers" && i + 1 < argc) {
             num = strtol(argv[i + 1], nullptr, 10);
             if (num < 0) num = 0;
-        } else if (arg == "--norun")
-        {
+        } else if (arg == "--norun") {
             csv::join();
             return 0;
-        } else if (arg == "--waitForDebug")
-        {
+        } else if (arg == "--waitForDebug") {
             waitForDebug = 1;
         }
     }
 
-    do
-    {
+    do {
         initscr();
         raw();
         noecho();
         curs_set(0);
         keypad(stdscr, TRUE);
-        if (waitForDebug)
-        {
+        if (waitForDebug) {
             getch();
             getch();
             getch();
@@ -73,24 +67,21 @@ int main(int argc, char *argv[]) {
         startTime = (1000 * tv.tv_sec) + (tv.tv_usec / 1000);
 
         //set initial
-        for (int i = 0; i < m->eCount; i++)
-        {
+        for (int i = 0; i < m->eCount; i++) {
             m->e[i].nextMoveTime = i;
             m->root = insert(m->root, m->e[i].nextMoveTime, &(m->e[i]));
         }
+        enterSelect(&m->e[0]);
         display(m);
-        csv::join();
 
         int iters = innerLoopIters;
 
-        while (!testMode || iters--)
-        {
+        while (!testMode || iters--) {
             auto *e = (struct entity *) m->root->data;
             gettimeofday(&tv, nullptr);
             time = (1000 * tv.tv_sec) + (tv.tv_usec / 1000) - startTime;
             int wait = e->nextMoveTime - time;
-            if (testMode)
-            {
+            if (testMode) {
                 refresh();
                 if (e->nextMoveTime > time)
                     usleep(wait * 1000);
@@ -99,8 +90,7 @@ int main(int argc, char *argv[]) {
             e->nextMoveTime += e->nextMoveCost * timescale;
             m->root = deleteMin(m->root);
             m->root = insert(m->root, e->nextMoveTime, e);
-            if (e->nextMove == FLY)
-            {
+            if (e->nextMove == FLY) {
                 e->nextMove = H;
                 endwin();
                 std::cout << "enter: yval xval\n";
@@ -113,60 +103,48 @@ int main(int argc, char *argv[]) {
                 m = getMap(&g, y, x);
                 y = m->p.y;
                 x = m->p.x;
-                if (m->eCount == 0)
-                {
+                if (m->eCount == 0) {
                     addEntities(num, m, e);
-                    for (int i = 0; i < m->eCount; i++)
-                    {
+                    for (int i = 0; i < m->eCount; i++) {
                         m->e[i].nextMoveTime = i;
                         m->root = insert(m->root, m->e[i].nextMoveTime, &(m->e[i]));
                     }
                 } else copyPC(m, e);
                 char saved[m->eCount];
-                for (int i = 1; i < m->eCount; i++)
-                {
+                for (int i = 1; i < m->eCount; i++) {
                     saved[i] = m->cells[m->e[i].p.y][m->e[i].p.x];
                     m->cells[m->e[i].p.y][m->e[i].p.x] = m->e[i].c;
                 }
-                while (m->cells[m->e[0].p.y][m->e[0].p.x] != ROAD)
-                {
+                while (m->cells[m->e[0].p.y][m->e[0].p.x] != ROAD) {
                     m->e[0].p.y = (rand() % (MAP_HEIGHT - 4)) + 2;
                     m->e[0].p.x = (rand() % (MAP_WIDTH - 4)) + 2;
                 }
-                for (int i = 1; i < m->eCount; i++)
-                {
+                for (int i = 1; i < m->eCount; i++) {
                     m->cells[m->e[i].p.y][m->e[i].p.x] = saved[i];
                 }
                 display(m);
             }
-            if ((e == &(m->e[0]) && checkBounds(e->p)))
-            {
-                if (e->p.x == 0)
-                {
+            if ((e == &(m->e[0]) && checkBounds(e->p))) {
+                if (e->p.x == 0) {
                     e->p.x = MAP_WIDTH - 2;
                     x--;
                 }
-                if (e->p.y == 0)
-                {
+                if (e->p.y == 0) {
                     e->p.y = MAP_HEIGHT - 2;
                     y--;
                 }
-                if (e->p.x == MAP_WIDTH - 1)
-                {
+                if (e->p.x == MAP_WIDTH - 1) {
                     e->p.x = 1;
                     x++;
                 }
-                if (e->p.y == MAP_HEIGHT - 1)
-                {
+                if (e->p.y == MAP_HEIGHT - 1) {
                     e->p.y = 1;
                     y++;
                 }
                 m = getMap(&g, y, x);
-                if (m->eCount == 0)
-                {
+                if (m->eCount == 0) {
                     addEntities(num, m, e);
-                    for (int i = 0; i < m->eCount; i++)
-                    {
+                    for (int i = 0; i < m->eCount; i++) {
                         m->e[i].nextMoveTime = i;
                         m->root = insert(m->root, m->e[i].nextMoveTime, &(m->e[i]));
                     }

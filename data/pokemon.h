@@ -12,9 +12,11 @@
 
 class pokemon {
 public:
-    pokemon(int level);
+    explicit pokemon(int level);
 
     pokemon();
+
+    explicit pokemon(pokemon_struct pokemon);
 
     int id;
     std::string identifier;
@@ -23,7 +25,7 @@ public:
     int weight;
     int base_experience;
     int order;
-    int level;
+    int level = 1;
     int base_stats[6];
     int ivs[6];
     int stats[6]; //hp, attack, defence, special-attack, special-defence, speed, accuracy, evasion

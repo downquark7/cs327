@@ -400,6 +400,7 @@ void csv::join() {
 }
 
 pokemon_moves csv::get_pokemon_moves(pokemon *pokemon) {
+    csv::join();
     int id = pokemon->species_id;
     int level = pokemon->level;
     auto first = lower_bound(pokemon_moves_vector.begin(), pokemon_moves_vector.end(), id,

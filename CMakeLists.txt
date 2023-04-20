@@ -1,3 +1,3 @@
 project(cs327)
-add_executable(main main.cpp data/heap.cpp entity/costs.cpp entity/costs.h entity/entity.cpp map/buildings.cpp map/buildings.h map/grid.cpp map/map.cpp map/roads_and_border.cpp map/roads_and_border.h map/terrain.cpp map/terrain.h entity/building.cpp entity/building.h entity/trainerlist.cpp entity/trainerlist.h entity/battle.cpp entity/battle.h data/csv.cpp data/csv.cpp data/csv.h data/pokemon.cpp data/pokemon.h data/structs.h)
+add_executable(main main.cpp data/heap.cpp entity/costs.cpp entity/costs.h entity/entity.cpp map/buildings.cpp map/buildings.h map/grid.cpp map/map.cpp map/roads_and_border.cpp map/roads_and_border.h map/terrain.cpp map/terrain.h entity/building.cpp entity/building.h entity/trainerlist.cpp entity/trainerlist.h entity/battle.cpp entity/battle.h data/csv.cpp data/csv.cpp data/csv.h data/pokemon.cpp data/pokemon.h data/structs.h entity/pickstarter.cpp entity/pickstarter.h)
 target_link_libraries(main ncurses m menu)

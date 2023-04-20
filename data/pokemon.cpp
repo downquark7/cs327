@@ -5,15 +5,22 @@
 #include "pokemon.h"
 #include <random>
 
-pokemon::pokemon(int level) {
+pokemon::pokemon(int level) : pokemon::pokemon(csv::get_pokemon()) {
     pokemon::level = level;
-    auto a = csv::get_pokemon();
+}
+
+pokemon::pokemon() : pokemon::pokemon(1) {
+
+}
+
+pokemon::pokemon(pokemon_struct a) {
     id = a.id;
     species_id = a.species_id;
     identifier = a.identifier;
     std::random_device rd;
     std::default_random_engine engine(rd());
     std::uniform_int_distribution<> distribution(0, 15);
+
     auto iter = csv::get_pokemon_stats(id);
     for (int i = 0; i < 6; i++)
         base_stats[i] = iter++->base_stat;
@@ -30,8 +37,6 @@ pokemon::pokemon(int level) {
     moves.emplace_back(csv::get_pokemon_moves(this));
     moves.emplace_back(csv::get_pokemon_moves(this));
 }
-
-pokemon::pokemon() : pokemon::pokemon(1) {}
 
 void pokemon::calc() {
     //hp, attack, defence, special-attack, special-defence, speed
