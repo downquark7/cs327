@@ -5,7 +5,9 @@
 #ifndef CS327_ENTITY_H
 #define CS327_ENTITY_H
 
+#include <vector>
 #include "../map/map.h"
+#include "../data/pokemon.h"
 
 #define PC '@'
 #define HIKER 'h'
@@ -34,6 +36,8 @@ struct entity
     void (*emove)(struct entity *e, struct map *m);
 
     struct p p;
+
+    std::vector<pokemon> party;
 };
 
 void clearMapEntities(struct map *m);

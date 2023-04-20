@@ -5,7 +5,11 @@
 #ifndef CS327_POKEMON_H
 #define CS327_POKEMON_H
 
+#include <vector>
 #include <string>
+#include "csv.h"
+
+class csv;
 
 class pokemon {
 public:
@@ -15,22 +19,24 @@ public:
 
     int id;
     std::string identifier;
+    int species_id;
     int height;
     int weight;
     int base_experience;
     int order;
     int level;
     int base_stats[6];
+    int ivs[6];
     int stats[6]; //hp, attack, defence, special-attack, special-defence, speed, accuracy, evasion
     bool shiny;
     bool gender;
 
-    int move_id[2];
-    int move_count = 0;
+    std::vector<csv::pokemon_moves> moves;
 
     void levelUp();
 
     void calc();
+
 };
 
 

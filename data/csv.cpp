@@ -16,13 +16,14 @@ using namespace std;
 
 std::vector<csv::experience> csv::experience_vector;
 std::vector<csv::moves> csv::moves_vector;
-std::vector<csv::pokemon> csv::pokemon_vector;
+std::vector<csv::pokemon_struct> csv::pokemon_vector;
 std::vector<csv::pokemon_moves> csv::pokemon_moves_vector;
 std::vector<csv::pokemon_species> csv::pokemon_species_vector;
 std::vector<csv::pokemon_stats> csv::pokemon_stats_vector;
 std::vector<csv::pokemon_types> csv::pokemon_types_vector;
 std::vector<csv::stats> csv::stats_vector;
 std::vector<csv::type_names> csv::type_names_vector;
+std::vector<csv::types> csv::types_vector;
 std::thread csv::async;
 //std::thread csv::async2;
 
@@ -125,13 +126,13 @@ void csv::load_moves() {
 }
 
 void csv::load_pokemon() {
-    ifstream file = getFile("pokemon.csv");
+    ifstream file = getFile("pokemon_struct.csv");
     string line;
     regex pattern("(-?\\d*),(.*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*),(-?\\d*)",
                   std::regex_constants::ECMAScript | std::regex_constants::optimize);
     smatch match;
     while (getline(file, line)) {
-        struct pokemon data;
+        struct pokemon_struct data;
         if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
             data.id = stoi(match[1]);
             data.identifier = match[2];
@@ -315,6 +316,33 @@ void csv::load_stats() {
 #endif
 }
 
+void csv::load_types() {
+    ifstream file = getFile("types.csv");
+    string line;
+    regex pattern("(-?\\d*),([^,]*),(-?\\d*),(-?\\d*)",
+                  std::regex_constants::ECMAScript | std::regex_constants::optimize);
+    smatch match;
+    while (getline(file, line)) {
+        struct types data;
+        if (regex_match(line, match, pattern, std::regex_constants::match_continuous)) {
+            data.id = stoi(match[1]);
+            data.identifier = match[2];
+            data.generation_id = stoi(match[3]);
+            data.damage_class_id = stoi(match[4]);
+            types_vector.push_back(data);
+        }
+    }
+    file.close();
+    types_vector.shrink_to_fit();
+#ifdef DEBUG
+    cout << "id,identifier,generation_id,damage_class_id\n";
+    for (const auto &data: stats_vector)
+        cout << parse(data.id) << ',' << parse(data.damage_class_id) << ',' << parse(data.identifier) << ','
+             << parse(data.is_battle_only) << ','
+             << parse(data.game_index) << '\n';
+#endif
+}
+
 void csv::load_type_names() {
     ifstream file = getFile("type_names.csv");
     string line;
@@ -351,6 +379,8 @@ void csv::thread_load_everything_else() {
     csv::load_pokemon_types();
     csv::load_stats();
     csv::load_type_names();
+    csv::load_types();
+    csv::load_type_names();
 }
 
 
@@ -364,15 +394,16 @@ void csv::join() {
     async.join();
 //    async2.join();
 }
-
-csv::pokemon_moves csv::get_pokemon_moves(int id) {
+csv::pokemon_moves csv::get_pokemon_moves(pokemon *pokemon) {
+    int id = pokemon->species_id;
+    int level = pokemon->level;
     auto first = lower_bound(pokemon_moves_vector.begin(), pokemon_moves_vector.end(), id,
                              [](const auto &a, const auto b) { return a.pokemon_id < b; });
     id = first->pokemon_id;
     auto last = upper_bound(pokemon_moves_vector.begin(), pokemon_moves_vector.end(), id,
                             [](const auto a, const auto &b) { return a < b.pokemon_id; });
     vector<pokemon_moves> vector;
-    copy_if(first, last, back_inserter(vector), [](const auto &a) { return a.pokemon_move_method_id == 1; });
+    copy_if(first, last, back_inserter(vector), [&level](const auto &a) { return a.pokemon_move_method_id == 1 && a.level <= level; });
     random_device rd;
     default_random_engine engine(rd());
     uniform_int_distribution<> distribution(0, vector.size() - 1);
@@ -382,5 +413,12 @@ csv::pokemon_moves csv::get_pokemon_moves(int id) {
 __gnu_cxx::__normal_iterator<csv::pokemon_stats *, vector<csv::pokemon_stats>> csv::get_pokemon_stats(int id) {
     return lower_bound(pokemon_stats_vector.begin(), pokemon_stats_vector.end(), id,
                        [](const auto &a, const auto b) { return a.pokemon_id < b; });
+}
+
+csv::pokemon_struct csv::get_pokemon() {
+    random_device rd;
+    default_random_engine engine(rd());
+    uniform_int_distribution<> distribution(0, pokemon_vector.size() - 1);
+    return pokemon_vector[distribution(engine)];
 }
 
