@@ -4,16 +4,20 @@
 
 #include "pokemon.h"
 #include <random>
+#include <future>
 
-pokemon::pokemon(int level) : pokemon::pokemon(csv::get_pokemon()) {
+pokemon::pokemon(int level) : pokemon::pokemon(csv::get_pokemon())
+{
     pokemon::level = level;
 }
 
-pokemon::pokemon() : pokemon::pokemon(1) {
+pokemon::pokemon() : pokemon::pokemon(1)
+{
 
 }
 
-pokemon::pokemon(pokemon_struct a) {
+pokemon::pokemon(pokemon_struct a)
+{
     id = a.id;
     species_id = a.species_id;
     identifier = a.identifier;
@@ -36,20 +40,22 @@ pokemon::pokemon(pokemon_struct a) {
     gender = coinflip(engine);
     shiny = shinydist(engine) == 1;
 
-    moves.emplace_back(csv::get_pokemon_moves(this));
-    moves.emplace_back(csv::get_pokemon_moves(this));
+    moves_future = std::async(std::launch::deferred, csv::get_pokemon_moves, this);
 }
 
-void pokemon::calc() {
+void pokemon::calc()
+{
     //hp, attack, defence, special-attack, special-defence, speed
     stats[0] = ((base_stats[0] + ivs[0]) * 2 * level) / 100 + level + 10;
-    for (int i = 1; i < 6; i++) {
+    for (int i = 1; i < 6; i++)
+    {
         stats[i] = ((base_stats[i] + ivs[i]) * 2 * level) / 100 + 5;
     }
     currenthp = stats[0];
 }
 
-void pokemon::levelUp() {
+void pokemon::levelUp()
+{
     level++;
     calc();
 }

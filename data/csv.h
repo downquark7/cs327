@@ -9,7 +9,7 @@
 #include "structs.h"
 #include <vector>
 #include <string>
-#include <thread>
+#include <future>
 
 class pokemon;
 
@@ -18,21 +18,8 @@ class csv
 private:
     static int stoi(const std::string &s);
 
-    static void thread_load_pokemon_moves();
-
-    static void thread_load_everything_else();
-
 public:
-    static bool isLoaded;
-    static bool isLoaded2;
-
     static void load();
-
-    static std::thread async;
-    static std::thread async2;
-
-    static void join();
-    static void join2();
 
     static std::vector<experience> experience_vector;
     static std::vector<moves> moves_vector;
@@ -42,7 +29,7 @@ public:
 
     static std::vector<pokemon_moves_struct> pokemon_moves_vector;
 
-    static pokemon_moves_struct get_pokemon_moves(pokemon *pokemon);
+    static std::vector<pokemon_moves> get_pokemon_moves(pokemon *pokemon);
 
     static std::vector<pokemon_species> pokemon_species_vector;
     static std::vector<pokemon_stats> pokemon_stats_vector;

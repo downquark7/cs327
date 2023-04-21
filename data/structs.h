@@ -27,6 +27,7 @@ struct pokemon_struct
     int species_id, height, weight, base_experience, order, is_default;
     int level = 1;
 };
+
 struct pokemon_moves_struct
 {
     int pokemon_id, version_group_id, move_id, pokemon_move_method_id, level, order;
@@ -42,7 +43,7 @@ struct pokemon_moves : pokemon_moves_struct
 {
     explicit pokemon_moves(pokemon_moves_struct aStruct) : pokemon_moves_struct()
     {
-        name = get_move_names(move_id);
+        name = get_move_names(aStruct.move_id);
     }
 
     std::string name;

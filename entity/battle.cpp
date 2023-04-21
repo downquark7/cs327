@@ -28,7 +28,7 @@ int enterBattle(struct entity *e, struct map *m)
 {
     clear();
     std::string msg = getEntityName(e) + e->party[0]->identifier + " approaches your " + m->e[0].party[0]->identifier;
-    std::string options[] = {m->e[0].party[0]->moves.begin()->name, m->e[0].party[0]->moves.end()->name};
+    std::string options[] = {m->e[0].party[0]->moves_future.get().begin()->name, m->e[0].party[0]->moves_future.get().end()->name};
     const char *choices[] = {options[0].c_str(), options[1].c_str()};
     ITEM **my_items;
     int c = 2;

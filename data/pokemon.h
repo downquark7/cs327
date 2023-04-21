@@ -9,6 +9,7 @@
 #include <string>
 #include "csv.h"
 #include "structs.h"
+#include <future>
 
 class pokemon {
 public:
@@ -33,13 +34,11 @@ public:
     bool shiny;
     bool gender;
 
-    std::vector<pokemon_moves> moves;
+    std::shared_future<std::vector<pokemon_moves>> moves_future;
 
     void levelUp();
 
     void calc();
-
-    void fill_moves();
 };
 
 

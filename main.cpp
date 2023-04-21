@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
             if (num < 0) num = 0;
         } else if (arg == "--norun")
         {
-            csv::join();
             return 0;
         } else if (arg == "--waitForDebug")
         {
@@ -69,6 +68,7 @@ int main(int argc, char *argv[])
         addEntities(num, m);
 
         m->e[0].party[0] = new pokemon(starter.get());
+        display(m);
 
         m->root = nullptr;
         const int fps = 100;
