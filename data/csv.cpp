@@ -11,8 +11,6 @@
 #include <valarray>
 #include <random>
 
-#define DEBUG
-
 using namespace std;
 
 std::vector<std::string> split(const std::string &s)

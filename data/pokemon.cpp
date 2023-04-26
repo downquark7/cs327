@@ -4,7 +4,6 @@
 
 #include "pokemon.h"
 #include <random>
-#include <future>
 
 pokemon::pokemon(int level) : pokemon::pokemon(csv::get_pokemon())
 {
