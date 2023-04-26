@@ -40,7 +40,8 @@ pokemon::pokemon(pokemon_struct a)
     gender = coinflip(engine);
     shiny = shinydist(engine) == 1;
 
-    moves_future = std::async(std::launch::deferred, csv::get_pokemon_moves, this);
+//    moves_future = std::async(std::launch::deferred, csv::get_pokemon_moves, this);
+    moves = csv::get_pokemon_moves(this);
 }
 
 void pokemon::calc()

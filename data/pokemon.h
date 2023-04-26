@@ -34,7 +34,7 @@ public:
     bool shiny;
     bool gender;
 
-    std::shared_future<std::vector<pokemon_moves>> moves_future;
+    std::vector<pokemon_moves> moves;
 
     void levelUp();
 
