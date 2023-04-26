@@ -11,8 +11,6 @@
 #include <valarray>
 #include <random>
 
-#define DEBUG
-
 using namespace std;
 
 std::vector<std::string> split(const std::string &s)
@@ -190,55 +188,24 @@ void csv::load_pokemon()
 
 void csv::load_pokemon_moves()
 {
-    vector<future<vector<pokemon_moves_struct>>> futures;
-    const int chunk_size = 528238 / 1;
     ifstream file = getFile("pokemon_moves.csv");
     string line;
     getline(file, line);
-    bool eof = false;
-    while (!eof)
+    while (getline(file, line))
     {
-        {
-            string list[chunk_size];
-            int i = 0;
-            while (!eof && i++ < chunk_size)
-            {
-                if (!getline(file, line)) eof = true;
-                else
-                    list[i] = line;
-            }
-
-//            for (auto line: list)
-//                cout << line << endl;
-//
-//            cout << "thread" << endl;
-
-            futures.emplace_back(async([&list]
-                                       {
-                                           vector<pokemon_moves_struct> chunk;
-                                           for (auto s: list)
-                                           {
-                                               auto match = split(s);
-                                               if (match.empty())
-                                                   break;
-                                               pokemon_moves_struct data;
-                                               data.pokemon_id = stoi(match[1]);
-                                               data.version_group_id = stoi(match[2]);
-                                               data.move_id = stoi(match[3]);
-                                               data.pokemon_move_method_id = stoi(match[4]);
-                                               data.level = stoi(match[5]);
-                                               data.order = stoi(match[6]);
-                                               chunk.push_back(data);
-                                           }
-                                           return chunk;
-                                       }));
-        }
+        pokemon_moves_struct data;
+        auto match = split(line);
+        if (match.empty())
+            break;
+        data.pokemon_id = stoi(match[1]);
+        data.version_group_id = stoi(match[2]);
+        data.move_id = stoi(match[3]);
+        data.pokemon_move_method_id = stoi(match[4]);
+        data.level = stoi(match[5]);
+        data.order = stoi(match[6]);
+        pokemon_moves_vector.push_back(data);
     }
-    for (auto &f: futures)
-    {
-        auto chunk = f.get();
-        pokemon_moves_vector.insert(pokemon_moves_vector.end(), chunk.begin(), chunk.end());
-    }
+    file.close();
     pokemon_moves_vector.shrink_to_fit();
 #ifdef DEBUG
     cout << "pokemon_id,version_group_id,move_id,pokemon_move_method_id,level,order\n";
