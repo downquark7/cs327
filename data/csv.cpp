@@ -11,12 +11,14 @@
 #include <valarray>
 #include <random>
 
+#define DEBUG
+
 using namespace std;
 
 std::vector<std::string> split(const std::string &s)
 {
     std::vector<std::string> result;
-    result.reserve(21);
+    result.reserve(22);
     result.emplace_back("");
     std::stringstream ss(s);
     std::string substr;
@@ -24,6 +26,7 @@ std::vector<std::string> split(const std::string &s)
     {
         result.push_back(substr);
     }
+    result.emplace_back("");
     return result;
 }
 

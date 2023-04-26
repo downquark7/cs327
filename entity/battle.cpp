@@ -5,8 +5,6 @@
 #include "battle.h"
 #include <menu.h>
 
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-
 int battleTest()
 {
     int characters[] = {KEY_DOWN, KEY_UP, 27, ' ', 'q', KEY_ENTER};
@@ -36,7 +34,7 @@ int enterBattle(struct entity *e, struct map *m)
     int c = 2;
     MENU *my_menu;
     int n_choices, i;
-    n_choices = ARRAY_SIZE(choices);
+    n_choices = 2;
 
     move(n_choices + 1, 0);
     clrtoeol();
